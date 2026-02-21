@@ -1,0 +1,337 @@
+{
+  "scenario_id": 2,
+  "title": "规划周日历管理",
+  "difficulty": "中",
+  "platforms": [
+    "Google Calendar",
+    "Gmail",
+    "Google Tasks",
+    "Telegram",
+    "Slack"
+  ],
+  "total_rounds": 8,
+  "total_questions": 12,
+  "extra_injection": null,
+  "rounds": [
+    {
+      "round": 1,
+      "description": "信息建立（这周日历总览）",
+      "platforms_involved": [
+        "Google Calendar"
+      ],
+      "user_message": "这周（2月18日-20日）我的日历上有什么？给我一个按天分组的总览。",
+      "expected_answer_points": [
+        "共8个日历事件",
+        "2/18（周一）：Daily Standup 09:00-09:15，Sprint 24 Planning 10:00-11:30，1:1 with Alice Wong 15:00-15:30",
+        "2/19（周二）：Daily Standup 09:00-09:15，Acme Corp Product Demo 14:00-15:00",
+        "2/20（周三）：Daily Standup 09:00-09:15，Architecture Review 09:30-11:00",
+        "全天：Project Phoenix PRD Final Review截止（2/20）",
+        "来源：Google Calendar"
+      ],
+      "scoring": {
+        "dimensions": [
+          {
+            "name": "事件总数正确",
+            "max_score": 2,
+            "criteria": "通过 gog calendar events 获取共8个事件"
+          },
+          {
+            "name": "每日分组正确",
+            "max_score": 4,
+            "criteria": "3天事件归属正确"
+          },
+          {
+            "name": "时间信息准确",
+            "max_score": 3,
+            "criteria": "关键会议时间无误"
+          },
+          {
+            "name": "全天事件识别",
+            "max_score": 1,
+            "criteria": "识别出全天截止日期事件"
+          }
+        ],
+        "max_total": 10
+      }
+    },
+    {
+      "round": 2,
+      "description": "细节查询",
+      "platforms_involved": [
+        "Google Calendar",
+        "Gmail"
+      ],
+      "user_message": "客户演示什么时候？谁参加？帮我给所有参与者发一封提醒邮件，主题写'Demo Reminder: Acme Corp'。",
+      "expected_answer_points": [
+        "时间：2/19（周二）14:00-15:00",
+        "地点：Google Meet",
+        "参与者：james.taylor@acmecorp.example.com, priya.sharma@vertexlabs.example.com",
+        "提醒邮件发送成功"
+      ],
+      "scoring": {
+        "dimensions": [
+          {
+            "name": "时间正确",
+            "max_score": 2,
+            "criteria": "2/19 14:00-15:00"
+          },
+          {
+            "name": "参与者全部列出",
+            "max_score": 3,
+            "criteria": "james.taylor + priya.sharma"
+          },
+          {
+            "name": "邮件发送成功",
+            "max_score": 3,
+            "criteria": "通过 gog gmail send 发送提醒邮件"
+          },
+          {
+            "name": "地点正确",
+            "max_score": 2,
+            "criteria": "Google Meet"
+          }
+        ],
+        "max_total": 10
+      }
+    },
+    {
+      "round": 3,
+      "description": "内容提取（演示准备+创建Tasks）",
+      "platforms_involved": [
+        "Google Calendar",
+        "Google Tasks"
+      ],
+      "user_message": "客户演示需要准备哪些材料？帮我每项都加到Google Tasks里。",
+      "expected_answer_points": [
+        "幻灯片（slide deck）",
+        "线上演示环境（live environment）",
+        "备份录制方案（backup recording setup）",
+        "在Google Tasks中创建3项待办任务",
+        "来源：Calendar evt_client_demo 描述字段"
+      ],
+      "scoring": {
+        "dimensions": [
+          {
+            "name": "3项材料全部列出",
+            "max_score": 4,
+            "criteria": "幻灯片/演示环境/备份录制"
+          },
+          {
+            "name": "Google Tasks创建",
+            "max_score": 4,
+            "criteria": "通过 gog tasks add 创建3项待办"
+          },
+          {
+            "name": "信息来源引用",
+            "max_score": 2,
+            "criteria": "引用日历事件描述字段"
+          }
+        ],
+        "max_total": 10
+      }
+    },
+    {
+      "round": 4,
+      "description": "记忆测试（站会后日程以及Slack通知）",
+      "platforms_involved": [
+        "Google Calendar",
+        "Slack"
+      ],
+      "user_message": "周三2/20的每日站会之后紧接着是什么会？在Slack上告诉团队Architecture Review的议题是什么。",
+      "expected_answer_points": [
+        "站会：09:00-09:15",
+        "紧接着是：Architecture Review - Microservices Migration",
+        "Architecture Review时间：09:30-11:00",
+        "议题：从单体架构迁移到微服务，需决定服务边界和数据所有权",
+        "在Slack发送Architecture Review议题通知"
+      ],
+      "scoring": {
+        "dimensions": [
+          {
+            "name": "正确识别下一个会议",
+            "max_score": 3,
+            "criteria": "Architecture Review"
+          },
+          {
+            "name": "时间信息正确",
+            "max_score": 2,
+            "criteria": "09:30-11:00"
+          },
+          {
+            "name": "议题内容正确",
+            "max_score": 2,
+            "criteria": "服务边界和数据所有权"
+          },
+          {
+            "name": "Slack通知发送",
+            "max_score": 3,
+            "criteria": "通过 Slack sendMessage 发送议题通知"
+          }
+        ],
+        "max_total": 10
+      }
+    },
+    {
+      "round": 5,
+      "description": "冲突检测（改期，涉及时间计算）",
+      "platforms_involved": [
+        "Google Calendar"
+      ],
+      "user_message": "我要把和Alice的1:1改到2/19 15:00-15:30，有冲突吗？没有的话帮我改。",
+      "expected_answer_points": [
+        "检查2/19 15:00-15:30时段",
+        "当天14:00-15:00有Acme Corp Demo，15:00后空闲",
+        "无冲突，可以改期",
+        "通过Calendar更新事件时间"
+      ],
+      "scoring": {
+        "dimensions": [
+          {
+            "name": "正确检查目标时间段",
+            "max_score": 2,
+            "criteria": "检查2/19 15:00-15:30"
+          },
+          {
+            "name": "正确结论（无冲突）",
+            "max_score": 3,
+            "criteria": "该时间段无其他事件"
+          },
+          {
+            "name": "日历事件更新",
+            "max_score": 3,
+            "criteria": "通过 gog calendar update 修改1:1时间"
+          },
+          {
+            "name": "跨轮记忆",
+            "max_score": 2,
+            "criteria": "知道Demo在14:00-15:00刚好不冲突"
+          }
+        ],
+        "max_total": 10
+      }
+    },
+    {
+      "round": 6,
+      "description": "截止日期识别+Telegram提醒",
+      "platforms_involved": [
+        "Google Calendar",
+        "Telegram"
+      ],
+      "user_message": "这周有什么截止日期？在Telegram上提醒我。",
+      "expected_answer_points": [
+        "2/20（周三）：Project Phoenix PRD Final Review（全天截止日期）",
+        "需要EOD前获得stakeholder签字",
+        "通过Telegram发送截止日期提醒",
+        "来源：Calendar全天事件evt_deadline"
+      ],
+      "scoring": {
+        "dimensions": [
+          {
+            "name": "识别出截止日期事件",
+            "max_score": 3,
+            "criteria": "Project Phoenix PRD Final Review"
+          },
+          {
+            "name": "日期正确",
+            "max_score": 2,
+            "criteria": "2/20周三"
+          },
+          {
+            "name": "内容描述正确",
+            "max_score": 2,
+            "criteria": "EOD / stakeholder签字"
+          },
+          {
+            "name": "Telegram提醒发送",
+            "max_score": 3,
+            "criteria": "通过 Telegram 发送截止日期提醒消息"
+          }
+        ],
+        "max_total": 10
+      }
+    },
+    {
+      "round": 7,
+      "description": "精确计算（会议总时长）",
+      "platforms_involved": [
+        "Google Calendar"
+      ],
+      "user_message": "周一2/18我总共有多少分钟的会议？",
+      "expected_answer_points": [
+        "Daily Standup：15分钟（09:00-09:15）",
+        "Sprint 24 Planning Meeting：90分钟（10:00-11:30）",
+        "1:1 with Alice Wong：30分钟（15:00-15:30）",
+        "总计：135分钟"
+      ],
+      "scoring": {
+        "dimensions": [
+          {
+            "name": "3个会议全部识别",
+            "max_score": 3,
+            "criteria": "Standup + Sprint Planning + 1:1"
+          },
+          {
+            "name": "各会议时长计算正确",
+            "max_score": 3,
+            "criteria": "15 + 90 + 30分钟"
+          },
+          {
+            "name": "总时长计算正确",
+            "max_score": 4,
+            "criteria": "135分钟"
+          }
+        ],
+        "max_total": 10
+      }
+    },
+    {
+      "round": 8,
+      "description": "综合报告（本周全览+Tasks检查）",
+      "platforms_involved": [
+        "Google Calendar",
+        "Google Tasks",
+        "Gmail",
+        "Slack"
+      ],
+      "user_message": "帮我生成本周工作总结（按天列出）：所有会议、截止日期、待办任务的完成情况，然后发到Slack和Gmail给我自己存档。",
+      "expected_answer_points": [
+        "会议总结：8个事件按天列出",
+        "截止日期：PRD Final Review 2/20",
+        "Google Tasks状态：演示准备3项待办",
+        "发送到Slack频道",
+        "发送Gmail自存档邮件",
+        "跨4个平台综合汇总"
+      ],
+      "scoring": {
+        "dimensions": [
+          {
+            "name": "会议总结完整",
+            "max_score": 2,
+            "criteria": "8个事件按天分组"
+          },
+          {
+            "name": "截止日期和Tasks",
+            "max_score": 2,
+            "criteria": "PRD截止 + Tasks状态"
+          },
+          {
+            "name": "Slack发送成功",
+            "max_score": 2,
+            "criteria": "通过 Slack sendMessage 发送"
+          },
+          {
+            "name": "Gmail存档成功",
+            "max_score": 2,
+            "criteria": "通过 gog gmail send 发送自存档"
+          },
+          {
+            "name": "跨平台整合度",
+            "max_score": 2,
+            "criteria": "包含Calendar+Tasks+Gmail+Slack"
+          }
+        ],
+        "max_total": 10
+      }
+    }
+  ]
+}
