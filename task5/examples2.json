@@ -1,0 +1,621 @@
+{
+    "conversation_id": "oc_001",
+    "user_persona": {
+      "name": "Robottest2026",
+      "system_context": {
+        "platform": "macOS",
+        "dev_stack": ["Homebrew", "Miniconda", "Conda env: openclaw"],
+        "project": "OpenClaw",
+        "integrations": ["Google Calendar (gog)", "Notion (API)", "Gmail (gog)", "Telegram (telegram)"],
+        "networking": ["Tailscale (incl. Funnel)"]
+      },
+      "primary_intent": "Multi-channel task automation and recovery under noise (E5), with meeting scheduling + meeting minutes capture.",
+      "communication_style": {
+        "language": "English",
+        "tone": "concise, task-focused",
+        "preference": "confirm actions explicitly and keep logs structured"
+      }
+    },
+    "task_event_graph": {
+        "nodes": [
+        {
+            "id": "e1",
+            "event": "Schedule ten weekly Friday meetings (3:30–4:30 PM ET) starting Feb 20, 2026 in Google Calendar",
+            "date": "2026-02-21",
+            "caused_by": []
+        },
+        {
+            "id": "e2",
+            "event": "Create consolidated Notion page titled 'Meeting Record' to store all ten meeting minutes",
+            "date": "2026-02-21",
+            "caused_by": ["e1"]
+        },
+        {
+            "id": "e3",
+            "event": "Append meeting minutes into 'Meeting Record' page (Meetings #1, #2, #3, #4, #6, #9)",
+            "date": "2026-02-21",
+            "caused_by": ["e2"]
+        },
+        {
+            "id": "e4",
+            "event": "Create separate Notion page for 2.19 meeting ('2.19 Cross-Team Sync Minutes') because it is not part of the ten Friday series",
+            "date": "2026-02-21",
+            "caused_by": ["e2"]
+        },
+        {
+            "id": "e5",
+            "event": "Create separate Notion page for 1.31 meeting ('1.31 Project Check-in Minutes') because it predates the ten Friday series",
+            "date": "2026-02-21",
+            "caused_by": ["e2"]
+        },
+        {
+            "id": "e6",
+            "event": "Send email to robottest2026@gmail.com using gog gmail send per skill instructions",
+            "date": "2026-02-21",
+            "caused_by": []
+        },
+        {
+            "id": "e7",
+            "event": "Question test",
+            "date": "2026-02-21",
+            "caused_by": []
+        }
+        ],
+        "edges": [
+        { "from": "e1", "to": "e2", "relation": "causal" },
+        { "from": "e2", "to": "e3", "relation": "causal" },
+        { "from": "e2", "to": "e4", "relation": "causal" },
+        { "from": "e2", "to": "e5", "relation": "causal" }
+        ]
+    },
+    "sessions": [
+        {
+        "session_id": "s1",
+        "channel": "terminal",
+        "date": "2026-02-21",
+        "turns": [
+            {
+            "turn_id": 1,
+            "speaker": "user",
+            "text": "Modify goals to focus on Task E5 (Recovery Under Noise & Dedup).",
+            "image": null,
+            "tool_calls": null
+            },
+            {
+            "turn_id": 2,
+            "speaker": "agent",
+            "text": "Updated goals to Task E5 (recover in-progress task under long-context/multi-channel noise and avoid duplicate actions).",
+            "image": null,
+            "tool_calls": null
+            },
+            {
+            "turn_id": 3,
+            "speaker": "user",
+            "text": "Add ten meetings to Google Calendar starting Feb 20, recurring every Friday 3:30–4:30 PM ET.",
+            "image": null,
+            "tool_calls": null
+            },
+            {
+            "turn_id": 4,
+            "speaker": "agent",
+            "text": "Executed gog instructions and scheduled ten weekly Friday meetings in Google Calendar.",
+            "image": null,
+            "tool_calls": [
+                {
+                "tool": "bash",
+                "command": "cat ~/Documents/openclaw/skills/gog/skill.md",
+                "result": "Instructions loaded"
+                },
+                {
+                "tool": "bash",
+                "command": "gog calendar create primary \\\n  --summary \"Weekly Meeting\" \\\n  --from \"2026-02-20T15:30:00-05:00\" \\\n  --to \"2026-02-20T16:30:00-05:00\" \\\n  --event-color 9",
+                "result": "Event created (1/10)"
+                },
+                {
+                "tool": "bash",
+                "command": "gog calendar create primary \\\n  --summary \"Weekly Meeting\" \\\n  --from \"2026-02-27T15:30:00-05:00\" \\\n  --to \"2026-02-27T16:30:00-05:00\" \\\n  --event-color 9",
+                "result": "Event created (2/10)"
+                },
+                {
+                "tool": "bash",
+                "command": "gog calendar create primary \\\n  --summary \"Weekly Meeting\" \\\n  --from \"2026-03-06T15:30:00-05:00\" \\\n  --to \"2026-03-06T16:30:00-05:00\" \\\n  --event-color 9",
+                "result": "Event created (3/10)"
+                },
+                {
+                "tool": "bash",
+                "command": "gog calendar create primary \\\n  --summary \"Weekly Meeting\" \\\n  --from \"2026-03-13T15:30:00-04:00\" \\\n  --to \"2026-03-13T16:30:00-04:00\" \\\n  --event-color 9",
+                "result": "Event created (4/10)"
+                },
+                {
+                "tool": "bash",
+                "command": "gog calendar create primary \\\n  --summary \"Weekly Meeting\" \\\n  --from \"2026-03-20T15:30:00-04:00\" \\\n  --to \"2026-03-20T16:30:00-04:00\" \\\n  --event-color 9",
+                "result": "Event created (5/10)"
+                },
+                {
+                "tool": "bash",
+                "command": "gog calendar create primary \\\n  --summary \"Weekly Meeting\" \\\n  --from \"2026-03-27T15:30:00-04:00\" \\\n  --to \"2026-03-27T16:30:00-04:00\" \\\n  --event-color 9",
+                "result": "Event created (6/10)"
+                },
+                {
+                "tool": "bash",
+                "command": "gog calendar create primary \\\n  --summary \"Weekly Meeting\" \\\n  --from \"2026-04-03T15:30:00-04:00\" \\\n  --to \"2026-04-03T16:30:00-04:00\" \\\n  --event-color 9",
+                "result": "Event created (7/10)"
+                },
+                {
+                "tool": "bash",
+                "command": "gog calendar create primary \\\n  --summary \"Weekly Meeting\" \\\n  --from \"2026-04-10T15:30:00-04:00\" \\\n  --to \"2026-04-10T16:30:00-04:00\" \\\n  --event-color 9",
+                "result": "Event created (8/10)"
+                },
+                {
+                "tool": "bash",
+                "command": "gog calendar create primary \\\n  --summary \"Weekly Meeting\" \\\n  --from \"2026-04-17T15:30:00-04:00\" \\\n  --to \"2026-04-17T16:30:00-04:00\" \\\n  --event-color 9",
+                "result": "Event created (9/10)"
+                },
+                {
+                "tool": "bash",
+                "command": "gog calendar create primary \\\n  --summary \"Weekly Meeting\" \\\n  --from \"2026-04-24T15:30:00-04:00\" \\\n  --to \"2026-04-24T16:30:00-04:00\" \\\n  --event-color 9",
+                "result": "Event created (10/10)"
+                }
+            ]
+            }
+        ]
+        },
+        {
+        "session_id": "s2",
+        "channel": "terminal",
+        "date": "2026-02-21",
+        "turns": [
+            {
+            "turn_id": 1,
+            "speaker": "user",
+            "text": "Create a consolidated Notion page 'Meeting Record' for all ten meetings; use database_id=30963422568e800f80aaf691e40ba9d7.",
+            "image": null,
+            "tool_calls": null
+            },
+            {
+            "turn_id": 2,
+            "speaker": "agent",
+            "text": "Created the consolidated Notion page 'Meeting Record'.",
+            "image": null,
+            "tool_calls": [
+                {
+                "tool": "bash",
+                "command": "cat ~/Documents/openclaw/skills/notion/skill.md",
+                "result": "Instructions loaded"
+                },
+                {
+                "tool": "bash",
+                "command": "NOTION_KEY=$(cat ~/.config/notion/api_key)\ncurl -s -X POST \"https://api.notion.com/v1/pages\" \\\n  -H \"Authorization: Bearer $NOTION_KEY\" \\\n  -H \"Notion-Version: 2025-01-01\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"parent\": {\"database_id\": \"30963422568e800f80aaf691e40ba9d7\"},\n    \"properties\": {\n      \"Name\": {\"title\": [{\"text\": {\"content\": \"Meeting Record\"}}]}\n    }\n  }'",
+                "result": "Page created: Meeting Record (id: 30e63422568e814ba2cdde4e72554446)"
+                }
+            ]
+            },
+            {
+            "turn_id": 3,
+            "speaker": "user",
+            "text": "Provide Meeting #1 minutes (Medical Paper Sharing Meeting Minutes).",
+            "image": null,
+            "tool_calls": null
+            },
+            {
+            "turn_id": 4,
+            "speaker": "agent",
+            "text": "Appended Meeting #1 minutes to 'Meeting Record'.",
+            "image": null,
+            "tool_calls": [
+                {
+                "tool": "bash",
+                "command": "NOTION_KEY=$(cat ~/.config/notion/api_key)\ncurl -s -X PATCH \"https://api.notion.com/v1/blocks/30e63422-568e-814b-a2cd-de4e72554446/children\" \\\n  -H \"Authorization: Bearer $NOTION_KEY\" \\\n  -H \"Notion-Version: 2025-01-01\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"children\": [{\"object\": \"block\", \"type\": \"heading_2\", \"heading_2\": {\"rich_text\": [{\"type\": \"text\", \"text\": {\"content\": \"Meeting #1 — Medical Paper Sharing Meeting Minutes\"}}]}}, {\"object\": \"block\", \"type\": \"paragraph\", \"paragraph\": {\"rich_text\": [{\"type\": \"text\", \"text\": {\"content\": \"(content omitted in command for brevity in this dataset)\"}}]}}]}'",
+                "result": "Meeting #1 appended"
+                }
+            ]
+            },
+            {
+            "turn_id": 5,
+            "speaker": "user",
+            "text": "Provide Meeting #3 content (Financial Analysis Project kickoff/scoping).",
+            "image": null,
+            "tool_calls": null
+            },
+            {
+            "turn_id": 6,
+            "speaker": "agent",
+            "text": "Appended Meeting #3 content to 'Meeting Record'.",
+            "image": null,
+            "tool_calls": [
+                {
+                "tool": "bash",
+                "command": "NOTION_KEY=$(cat ~/.config/notion/api_key)\ncurl -s -X PATCH \"https://api.notion.com/v1/blocks/30e63422-568e-814b-a2cd-de4e72554446/children\" \\\n  -H \"Authorization: Bearer $NOTION_KEY\" \\\n  -H \"Notion-Version: 2025-01-01\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"children\": [{\"object\": \"block\", \"type\": \"heading_2\", \"heading_2\": {\"rich_text\": [{\"type\": \"text\", \"text\": {\"content\": \"Meeting #3 — Financial Analysis Project\"}}]}}, {\"object\": \"block\", \"type\": \"paragraph\", \"paragraph\": {\"rich_text\": [{\"type\": \"text\", \"text\": {\"content\": \"(content omitted in command for brevity in this dataset)\"}}]}}]}'",
+                "result": "Meeting #3 appended"
+                }
+            ]
+            },
+            {
+            "turn_id": 7,
+            "speaker": "user",
+            "text": "Provide Meeting #4 content (Data Sourcing Working Session).",
+            "image": null,
+            "tool_calls": null
+            },
+            {
+            "turn_id": 8,
+            "speaker": "agent",
+            "text": "Appended Meeting #4 content to 'Meeting Record'.",
+            "image": null,
+            "tool_calls": [
+                {
+                "tool": "bash",
+                "command": "NOTION_KEY=$(cat ~/.config/notion/api_key)\ncurl -s -X PATCH \"https://api.notion.com/v1/blocks/30e63422-568e-814b-a2cd-de4e72554446/children\" \\\n  -H \"Authorization: Bearer $NOTION_KEY\" \\\n  -H \"Notion-Version: 2025-01-01\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"children\": [{\"object\": \"block\", \"type\": \"heading_2\", \"heading_2\": {\"rich_text\": [{\"type\": \"text\", \"text\": {\"content\": \"Meeting #4 — Data Sourcing Working Session\"}}]}}, {\"object\": \"block\", \"type\": \"paragraph\", \"paragraph\": {\"rich_text\": [{\"type\": \"text\", \"text\": {\"content\": \"(content omitted in command for brevity in this dataset)\"}}]}}]}'",
+                "result": "Meeting #4 appended"
+                }
+            ]
+            },
+            {
+            "turn_id": 9,
+            "speaker": "user",
+            "text": "Provide 3.27 weekly meeting content (Feature Design Working Session).",
+            "image": null,
+            "tool_calls": null
+            },
+            {
+            "turn_id": 10,
+            "speaker": "agent",
+            "text": "Appended March 27 content to 'Meeting Record'.",
+            "image": null,
+            "tool_calls": [
+                {
+                "tool": "bash",
+                "command": "NOTION_KEY=$(cat ~/.config/notion/api_key)\ncurl -s -X PATCH \"https://api.notion.com/v1/blocks/30e63422-568e-814b-a2cd-de4e72554446/children\" \\\n  -H \"Authorization: Bearer $NOTION_KEY\" \\\n  -H \"Notion-Version: 2025-01-01\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"children\": [{\"object\": \"block\", \"type\": \"heading_2\", \"heading_2\": {\"rich_text\": [{\"type\": \"text\", \"text\": {\"content\": \"Meeting #6 — 2026-03-27 Feature Design Working Session\"}}]}}, {\"object\": \"block\", \"type\": \"paragraph\", \"paragraph\": {\"rich_text\": [{\"type\": \"text\", \"text\": {\"content\": \"(content omitted in command for brevity in this dataset)\"}}]}}]}'",
+                "result": "3.27 meeting appended"
+                }
+            ]
+            },
+            {
+            "turn_id": 11,
+            "speaker": "user",
+            "text": "Provide Meeting #2 notes (Journal Club GLP-1RA RCT).",
+            "image": null,
+            "tool_calls": null
+            },
+            {
+            "turn_id": 12,
+            "speaker": "agent",
+            "text": "Appended Meeting #2 notes to 'Meeting Record'.",
+            "image": null,
+            "tool_calls": [
+                {
+                "tool": "bash",
+                "command": "NOTION_KEY=$(cat ~/.config/notion/api_key)\ncurl -s -X PATCH \"https://api.notion.com/v1/blocks/30e63422-568e-814b-a2cd-de4e72554446/children\" \\\n  -H \"Authorization: Bearer $NOTION_KEY\" \\\n  -H \"Notion-Version: 2025-01-01\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"children\": [{\"object\": \"block\", \"type\": \"heading_2\", \"heading_2\": {\"rich_text\": [{\"type\": \"text\", \"text\": {\"content\": \"Meeting #2 — Journal Club (GLP-1RA RCT)\"}}]}}, {\"object\": \"block\", \"type\": \"paragraph\", \"paragraph\": {\"rich_text\": [{\"type\": \"text\", \"text\": {\"content\": \"(content omitted in command for brevity in this dataset)\"}}]}}]}'",
+                "result": "Meeting #2 appended"
+                }
+            ]
+            },
+            {
+            "turn_id": 13,
+            "speaker": "user",
+            "text": "Provide Meeting #5 content (Journal Club meta-analysis on systemic corticosteroids in critically ill COVID-19).",
+            "image": null,
+            "tool_calls": null
+            },
+            {
+            "turn_id": 14,
+            "speaker": "agent",
+            "text": "Appended Meeting #5 recap to 'Meeting Record'.",
+            "image": null,
+            "tool_calls": [
+                {
+                "tool": "bash",
+                "command": "NOTION_KEY=$(cat ~/.config/notion/api_key)\ncurl -s -X PATCH \"https://api.notion.com/v1/blocks/30e63422-568e-814b-a2cd-de4e72554446/children\" \\\n  -H \"Authorization: Bearer $NOTION_KEY\" \\\n  -H \"Notion-Version: 2025-01-01\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"children\": [{\"object\": \"block\", \"type\": \"heading_2\", \"heading_2\": {\"rich_text\": [{\"type\": \"text\", \"text\": {\"content\": \"Meeting #5 — Journal Club (Steroids Meta-analysis)\"}}]}}, {\"object\": \"block\", \"type\": \"paragraph\", \"paragraph\": {\"rich_text\": [{\"type\": \"text\", \"text\": {\"content\": \"(content omitted in command for brevity in this dataset)\"}}]}}]}'",
+                "result": "Meeting #5 appended"
+                }
+            ]
+            },
+            {
+            "turn_id": 15,
+            "speaker": "user",
+            "text": "Provide 4.17 meeting content (Journal Club Xpert MTB/RIF validation).",
+            "image": null,
+            "tool_calls": null
+            },
+            {
+            "turn_id": 16,
+            "speaker": "agent",
+            "text": "Appended April 17 notes to 'Meeting Record'.",
+            "image": null,
+            "tool_calls": [
+                {
+                "tool": "bash",
+                "command": "NOTION_KEY=$(cat ~/.config/notion/api_key)\ncurl -s -X PATCH \"https://api.notion.com/v1/blocks/30e63422-568e-814b-a2cd-de4e72554446/children\" \\\n  -H \"Authorization: Bearer $NOTION_KEY\" \\\n  -H \"Notion-Version: 2025-01-01\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"children\": [{\"object\": \"block\", \"type\": \"heading_2\", \"heading_2\": {\"rich_text\": [{\"type\": \"text\", \"text\": {\"content\": \"Meeting #9 — 2026-04-17 Journal Club (Xpert MTB/RIF)\"}}]}}, {\"object\": \"block\", \"type\": \"paragraph\", \"paragraph\": {\"rich_text\": [{\"type\": \"text\", \"text\": {\"content\": \"(content omitted in command for brevity in this dataset)\"}}]}}]}'",
+                "result": "4.17 meeting appended"
+                }
+            ]
+            }
+        ]
+        },
+        {
+        "session_id": "s3",
+        "channel": "terminal",
+        "date": "2026-02-21",
+        "turns": [
+            {
+            "turn_id": 1,
+            "speaker": "user",
+            "text": "2.19 meeting content provided; check if it is within the ten Friday series; store accordingly.",
+            "image": null,
+            "tool_calls": null
+            },
+            {
+            "turn_id": 2,
+            "speaker": "agent",
+            "text": "Determined 2.19 is not part of the ten Friday meetings (series starts 2.20). Created a new Notion page titled '2.19 Cross-Team Sync Minutes' and added content.",
+            "image": null,
+            "tool_calls": [
+                {
+                "tool": "bash",
+                "command": "NOTION_KEY=$(cat ~/.config/notion/api_key)\ncurl -s -X POST \"https://api.notion.com/v1/pages\" \\\n  -H \"Authorization: Bearer $NOTION_KEY\" \\\n  -H \"Notion-Version: 2025-01-01\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"parent\": {\"database_id\": \"30963422568e800f80aaf691e40ba9d7\"},\n    \"properties\": {\n      \"Name\": {\"title\": [{\"text\": {\"content\": \"2.19 Cross-Team Sync Minutes\"}}]}\n    }\n  }'",
+                "result": "Page created"
+                }
+            ]
+            },
+            {
+            "turn_id": 3,
+            "speaker": "user",
+            "text": "Provide 1.31 meeting dialogue; create page if not in series.",
+            "image": null,
+            "tool_calls": null
+            },
+            {
+            "turn_id": 4,
+            "speaker": "agent",
+            "text": "Determined 1.31 predates series; created separate Notion page '1.31 Project Check-in Minutes' and added content.",
+            "image": null,
+            "tool_calls": [
+                {
+                "tool": "bash",
+                "command": "NOTION_KEY=$(cat ~/.config/notion/api_key)\ncurl -s -X POST \"https://api.notion.com/v1/pages\" \\\n  -H \"Authorization: Bearer $NOTION_KEY\" \\\n  -H \"Notion-Version: 2025-01-01\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"parent\": {\"database_id\": \"30963422568e800f80aaf691e40ba9d7\"},\n    \"properties\": {\n      \"Name\": {\"title\": [{\"text\": {\"content\": \"1.31 Project Check-in Minutes\"}}]}\n    }\n  }'",
+                "result": "Page created"
+                }
+            ]
+            }
+        ]
+        },
+        {
+        "session_id": "s4",
+        "channel": "terminal",
+        "date": "2026-02-21",
+        "turns": [
+            {
+            "turn_id": 1,
+            "speaker": "user",
+            "text": "Draft and send an email to robottest2026@gmail.com via gog.",
+            "image": null,
+            "tool_calls": null
+            },
+            {
+            "turn_id": 2,
+            "speaker": "agent",
+            "text": "Sent email using gog gmail send per skill instructions.",
+            "image": null,
+            "tool_calls": [
+                {
+                "tool": "bash",
+                "command": "cat ~/Documents/openclaw/skills/gog/skill.md",
+                "result": "Instructions loaded"
+                },
+                {
+                "tool": "bash",
+                "command": "gog gmail send \\\n  --to robottest2026@gmail.com \\\n  --subject \"Meeting Schedule — Feb 28 (7:00–10:00 PM EST)\" \\\n  --body-file - <<'EOF'\nHi team,\n\nI’m scheduling our meeting to align on current data quality findings and the latest model changes, and to agree on next steps for the coming week.\n\nMeeting time: Feb 28, 7:00–10:00 PM EST (duration: 3 hours)\nVideo link: https://zoom.us/j/1234567890\n\nAgenda:\n- Data quality status: anomalies, validation results, and remediation progress\n- Model updates: recent changes, performance impact, and rollout considerations\n- Risks & next steps: blockers, owners, and timelines\n\nPlease come prepared with a brief update, one current blocker, and any relevant metrics and/or screenshots that support your points.\n\nKindly confirm your attendance, or suggest alternative times if you’re unavailable.\n\nRobottest\nEOF",
+                "result": "Email sent"
+                }
+            ]
+            }
+        ]
+        }
+    ],
+    "qa_annotations": [
+        {
+        "qa_id": "qa1",
+        "question": "Check the meeting content in sixth meeting in the ten meeting.",
+        "answer": "The 6th meeting in the 10-meeting Friday series is on 2026-03-27 (3:30–4:30 PM ET). Content: “Feature Design Working Session (Financial Analysis Project)” recorded in the consolidated Notion page “Meeting Record”.",
+        "ground_truth": "6th meeting date is 2026-03-27; content is the Feature Design Working Session (Financial Analysis Project) stored in 'Meeting Record'.",
+        "is_correct": true,
+        "grounding": ["Meeting Record page entry for 2026-03-27"],
+        "type": "series_lookup",
+        "series_membership": { "in_series": true, "series": "ten_friday_meetings" }
+        },
+        {
+        "qa_id": "qa2",
+        "question": "what about 2.19 meeting content",
+        "answer": "The 2026-02-19 meeting is NOT part of the ten Friday series (series starts 2026-02-20). It is stored separately in Notion as “2.19 Cross-Team Sync Minutes”.",
+        "ground_truth": "2.19 is excluded from the ten Friday series; it should be stored on a separate Notion page titled '2.19 Cross-Team Sync Minutes'.",
+        "is_correct": true,
+        "grounding": ["Separate Notion page: 2.19 Cross-Team Sync Minutes"],
+        "type": "series_membership_check",
+        "series_membership": { "in_series": false, "series": "ten_friday_meetings" }
+        },
+        {
+        "qa_id": "qa3",
+        "question": "give me the meeting content",
+        "answer": "2.19 Cross-Team Sync Minutes — Topic: recurring data-pipeline failures/ETL breaks. Time: Tue 10:00–10:45. Attendees: Data Eng, Platform/SRE, Analytics, Product. Decisions: stricter schema checks with quarantine + late-data handling; centralized runbook/alert channel; tuned autoscaling. Action items: Alex (schema registry+quarantine) due 3/1; Priya (memory/autoscale+logs) due 2/27; Mei (SLA+alerts) due 2/28; Jordan (stability KPI+comms) due 3/4. Open Qs: upstream drift owner; pausing noncritical jobs during peak.",
+        "ground_truth": "2.19 minutes include: failures at 02:00–03:00 UTC causing stale dashboards; causes include schema drift/late partitions and memory limits; decisions to quarantine schema drift and centralize runbooks/alerts; action items assigned to Alex/Priya/Mei/Jordan with due dates; open questions on drift owner and pausing jobs.",
+        "is_correct": true,
+        "grounding": ["User-provided minutes for 2026-02-19"],
+        "type": "content_recall"
+        },
+        {
+        "qa_id": "qa4",
+        "question": "what about 2.23 meeting?",
+        "answer": "No recorded content for a 2026-02-23 meeting in the current notes/pages.",
+        "ground_truth": "No 2.23 meeting record exists in the provided dataset; return 'no record found'.",
+        "is_correct": true,
+        "grounding": ["No provided minutes/pages for 2026-02-23"],
+        "type": "missing_record"
+        },
+        {
+        "qa_id": "qa5",
+        "question": "who is Maya Chen?",
+        "answer": "In the recorded notes, Maya Chen appears in different contexts: she is listed as PM in the 2026-01-31 project/client check-in, and as VP Finance (Executive Sponsor) in the Financial Analysis Project meetings.",
+        "ground_truth": "Maya Chen appears as PM in the 1.31 project/client meeting and as VP Finance (Executive Sponsor) in the Financial Analysis Project notes.",
+        "is_correct": true,
+        "grounding": ["1.31 Project Check-in Minutes", "Financial Analysis Project meeting notes"],
+        "type": "entity_role_lookup"
+        },
+        {
+        "qa_id": "qa6",
+        "question": "confirm Maya Chen is PM or VP Finance",
+        "answer": "Both: PM in the 2026-01-31 project/client meeting; VP Finance (Executive Sponsor) in the Financial Analysis Project kickoff notes.",
+        "ground_truth": "Maya Chen is PM in the 1.31 meeting and VP Finance in the Financial Analysis Project kickoff.",
+        "is_correct": true,
+        "grounding": ["1.31 Project Check-in Minutes", "Financial Analysis Project kickoff notes"],
+        "type": "entity_role_confirm"
+        },
+        {
+        "qa_id": "qa7",
+        "question": "when is the project and client meetings",
+        "answer": "The project/client meeting with Maya Chen as PM is dated 2026-01-31 (stored as “1.31 Project Check-in Minutes”).",
+        "ground_truth": "The project/client meeting is on 2026-01-31.",
+        "is_correct": true,
+        "grounding": ["1.31 Project Check-in Minutes"],
+        "type": "date_lookup"
+        },
+        {
+        "qa_id": "qa8",
+        "question": "what is topic of Financial Analysis Project?",
+        "answer": "Identify primary drivers of gross margin and operating profit variance vs plan over the last 6 quarters; build a driver tree and scenario model; establish a reconciled single source of truth dataset and decision-ready levers.",
+        "ground_truth": "Topic: explain profit variance vs plan (pricing, discounting, COGS, mix, churn, headcount, cloud/fulfillment), deliver driver tree + dashboard + scenario model.",
+        "is_correct": true,
+        "grounding": ["Financial Analysis Project kickoff/scoping notes"],
+        "type": "topic_summary"
+        },
+        {
+        "qa_id": "qa9",
+        "question": "when will Financial Analysis Project meeting hold?",
+        "answer": "Held as part of the Friday series from 2026-02-20 through 2026-04-24, each Friday 3:30–4:30 PM ET (10 total).",
+        "ground_truth": "Financial Analysis Project meetings occur Fridays 3:30–4:30 PM ET during the 10-week series from 2026-02-20 to 2026-04-24.",
+        "is_correct": true,
+        "grounding": ["Ten Friday meeting schedule"],
+        "type": "schedule_lookup"
+        },
+        {
+        "qa_id": "qa10",
+        "question": "I want the exact meeting time of Financial Analysis Project meetings?",
+        "answer": "Every Friday, 3:30–4:30 PM ET, from 2026-02-20 to 2026-04-24 (10 meetings).",
+        "ground_truth": "Exact time is 3:30–4:30 PM ET every Friday for the 10-week series (2.20–4.24).",
+        "is_correct": true,
+        "grounding": ["Ten Friday meeting schedule"],
+        "type": "schedule_lookup"
+        },
+        {
+        "qa_id": "qa11",
+        "question": "what about Journal Club Discussion time>",
+        "answer": "Journal Club topics occurred within the same Friday 3:30–4:30 PM ET slot; the provided Journal Club notes correspond to 2026-02-27, 2026-03-20, and 2026-04-17 in the series.",
+        "ground_truth": "Journal Club sessions use the same Friday 3:30–4:30 PM ET slot; recorded Journal Club dates include 2.27, 3.20, and 4.17.",
+        "is_correct": true,
+        "grounding": ["Meeting Record entries for 2.27 / 3.20 / 4.17"],
+        "type": "schedule_lookup"
+        },
+        {
+        "qa_id": "qa12",
+        "question": "what is 3.6 meeting about?",
+        "answer": "2026-03-06 (3rd in series): Financial Analysis Project working session focused on business question alignment, scope, success metrics, and immediate next steps.",
+        "ground_truth": "3.6 meeting is a Financial Analysis Project session covering business question, scope, success metrics, and next steps.",
+        "is_correct": true,
+        "grounding": ["Meeting Record mapping for 2026-03-06"],
+        "type": "topic_lookup",
+        "series_membership": { "in_series": true, "series": "ten_friday_meetings", "index": 3 }
+        },
+        {
+        "qa_id": "qa13",
+        "question": "3.6 is which number in the tenth meeting?",
+        "answer": "3rd meeting in the 10-meeting Friday series.",
+        "ground_truth": "3.6 is meeting #3 in the 10-meeting Friday series.",
+        "is_correct": true,
+        "grounding": ["Ten Friday meeting schedule"],
+        "type": "series_index_lookup",
+        "series_membership": { "in_series": true, "series": "ten_friday_meetings", "index": 3 }
+        },
+        {
+        "qa_id": "qa14",
+        "question": "what is the 3.13 and 3.20 meeting about?",
+        "answer": "2026-03-13 (4th): Financial Analysis Project — data sourcing/reconciliation planning. 2026-03-20 (5th): Journal Club recap — systemic corticosteroids meta-analysis in critically ill COVID-19 patients.",
+        "ground_truth": "3.13 covers data sourcing/reconciliation for the Financial Analysis Project; 3.20 covers Journal Club meta-analysis on systemic corticosteroids and mortality in critically ill COVID-19.",
+        "is_correct": true,
+        "grounding": ["Meeting Record entries for 3.13 and 3.20"],
+        "type": "multi_date_topic_lookup"
+        },
+        {
+        "qa_id": "qa15",
+        "question": "what about 4.3?",
+        "answer": "2026-04-03 (7th): Financial Analysis Project continuation — governance/metrics review and preparation for driver/scenario modeling (based on series mapping; detailed minutes not provided in the excerpts).",
+        "ground_truth": "4.3 is meeting #7 in the Friday series; no topic is provided.",
+        "is_correct": false,
+        "grounding": ["Ten Friday meeting schedule (date/index mapping)"],
+        "type": "topic_lookup_partial",
+        "confidence": "medium"
+        },
+        {
+        "qa_id": "qa16",
+        "question": "what is zoom link of 2.28 meeting?",
+        "answer": "https://zoom.us/j/1234567890",
+        "ground_truth": "Zoom link is https://zoom.us/j/1234567890.",
+        "is_correct": true,
+        "grounding": ["Email body provided for 2.28 meeting"],
+        "type": "link_lookup"
+        },
+        {
+        "qa_id": "qa17",
+        "question": "what time is the 2.28 meeting?",
+        "answer": "2026-02-28, 7:00–10:00 PM ET.",
+        "ground_truth": "2.28 meeting time is 7:00–10:00 PM ET.",
+        "is_correct": true,
+        "grounding": ["Email body provided for 2.28 meeting"],
+        "type": "time_lookup"
+        },
+        {
+        "qa_id": "qa18",
+        "question": "topic of 2.19?",
+        "answer": "Recurring data-pipeline failures / ETL breaks — root causes, mitigations, ownership, and monitoring reliability improvements.",
+        "ground_truth": "2.19 topic is recurring data pipeline failures/ETL breaks and reliability improvements.",
+        "is_correct": true,
+        "grounding": ["User-provided minutes for 2026-02-19"],
+        "type": "topic_lookup"
+        },
+        {
+        "qa_id": "qa19",
+        "question": "topic of 2.1",
+        "answer": "No recorded content for a 2026-02-01 meeting in the current notes/pages.",
+        "ground_truth": "No 2.1 meeting record exists; return 'no record found'.",
+        "is_correct": true,
+        "grounding": ["No provided minutes/pages for 2026-02-01"],
+        "type": "missing_record"
+        },
+        {
+        "qa_id": "qa20",
+        "question": "list all meeting date",
+        "answer": "Recorded dates: 2026-01-31; 2026-02-19; 2026-02-20; 2026-02-27; 2026-02-28; 2026-03-06; 2026-03-13; 2026-03-20; 2026-03-27; 2026-04-03; 2026-04-17.",
+        "ground_truth": "All recorded meeting dates are: 1.31, 2.19, 2.20, 2.27, 2.28, 3.06, 3.13, 3.20, 3.27, 4.03, 4.10,4.17, 4.24.",
+        "is_correct": false,
+        "grounding": ["Meeting Record page + separate Notion pages + email content"],
+        "type": "date_list"
+        }
+    ],
+    "event_summary_ground_truth": "A ten-event Friday meeting series (3:30–4:30 PM ET, starting 2026-02-20) was created in Google Calendar. A consolidated Notion page ('Meeting Record') was created to hold minutes for that series and populated with multiple meeting notes (Medical paper sharing; Journal Club sessions; Financial Analysis Project sessions including data sourcing and feature design; April 17 TB diagnostic validation). Meetings outside the series (2.19 Cross-Team Sync; 1.31 Project Check-in) were correctly identified and stored as separate Notion pages. An email scheduling a separate Feb 28 meeting (7:00–10:00 PM ET) with a Zoom link was sent via gog. Throughout, the workflow tested recovery under noisy multi-channel inputs and avoided duplicative logging by checking inclusion before writing.",
+    "user_preferences": [
+      {
+        "category": "language",
+        "preference": "English only for task execution logs; concise and task-focused replies."
+      },
+      {
+        "category": "workflow",
+        "preference": "Check inclusion in the ten-meeting series before writing to the consolidated page; create separate pages for out-of-series meetings."
+      },
+      {
+        "category": "goals",
+        "preference": "Task E5: recovery under long-context/multi-channel noise and deduplication; avoid repeating actions and preserve correct task context."
+      },
+      {
+        "category": "documentation",
+        "preference": "Store recurring-series notes in a single consolidated Notion page; keep ad-hoc meetings separate."
+      }
+    ]
+  }
