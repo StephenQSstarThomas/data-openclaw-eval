@@ -1,0 +1,402 @@
+{
+  "scenario_id": 4,
+  "title": "新版本发布邮件+日历协调",
+  "construction_ref": "scenario_4_construction.json",
+  "user_persona": {
+    "name": "Emily Zhang",
+    "email": "zihangzhou26@gmail.com",
+    "role": "发布经理",
+    "company": "NovaSoft",
+    "age": 33,
+    "occupation": "发布经理",
+    "tech_stack": [
+      "Jenkins",
+      "ArgoCD",
+      "Grafana",
+      "PagerDuty",
+      "Confluence"
+    ],
+    "hobbies": [
+      "攀岩",
+      "烘焙",
+      "桌游"
+    ],
+    "communication_style": "条理清晰，喜欢用分类标签（技术/市场/会议）",
+    "primary_channel": "Slack",
+    "secondary_channels": [
+      "Telegram",
+      "Gmail"
+    ],
+    "timezone": "America/Los_Angeles",
+    "projects": [
+      "v3.0产品发布",
+      "CI/CD流水线优化"
+    ],
+    "preferences": {
+      "code_style": "N/A",
+      "language": "zh-CN",
+      "notification_time": "07:00-23:00",
+      "status_update_format": "分类标签（技术/市场/会议）",
+      "risk_threshold": "P0 bug阻塞发布"
+    }
+  },
+  "task_event_graph": {
+    "nodes": [
+      {
+        "id": "e1",
+        "event": "QA状态报告邮件",
+        "date": "2026-02-20",
+        "caused_by": []
+      },
+      {
+        "id": "e2",
+        "event": "DevOps回复BUG-4521修复进展",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e1"
+        ]
+      },
+      {
+        "id": "e3",
+        "event": "市场资产状态邮件",
+        "date": "2026-02-20",
+        "caused_by": []
+      },
+      {
+        "id": "e4",
+        "event": "Go/No-Go Meeting",
+        "date": "2026-02-25",
+        "caused_by": [
+          "e1",
+          "e2",
+          "e3"
+        ]
+      },
+      {
+        "id": "e5",
+        "event": "Production Deployment",
+        "date": "2026-02-26",
+        "caused_by": [
+          "e4"
+        ]
+      },
+      {
+        "id": "e6",
+        "event": "Launch Webinar",
+        "date": "2026-02-27",
+        "caused_by": [
+          "e5"
+        ]
+      },
+      {
+        "id": "e7",
+        "event": "Post-Release Retrospective",
+        "date": "2026-02-28",
+        "caused_by": [
+          "e5"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "from": "e1",
+        "to": "e2",
+        "relation": "QA报告触发DevOps跟进"
+      },
+      {
+        "from": "e1",
+        "to": "e4",
+        "relation": "QA结果是Go/No-Go输入"
+      },
+      {
+        "from": "e3",
+        "to": "e4",
+        "relation": "市场就绪是Go/No-Go标准之一"
+      },
+      {
+        "from": "e4",
+        "to": "e5",
+        "relation": "Go决策后部署"
+      },
+      {
+        "from": "e5",
+        "to": "e6",
+        "relation": "部署完成后28小时Webinar"
+      },
+      {
+        "from": "e5",
+        "to": "e7",
+        "relation": "发布后复盘"
+      }
+    ]
+  },
+  "injection_config": {
+    "signal_emails": [
+      {
+        "id": "E_QA",
+        "direction": "inbound",
+        "from_email": "qa.lead@novasoft.example.com",
+        "to_email": "zihangzhou26@gmail.com",
+        "subject": "v3.0 QA Status Report - Feb 20",
+        "date": "2026-02-20T09:00:00-08:00",
+        "body": "Hi Emily,\n\nHere is the comprehensive QA status report for the v3.0 release candidate (RC2).\n\n═══════════════════════════════════════\n  v3.0 QA STATUS REPORT — February 20, 2026\n═══════════════════════════════════════\n\n✅ PASSED TEST SUITES:\n\n1. Regression Test Suite\n   - Total: 847 test cases\n   - Passed: 847/847 (100%)\n   - Duration: 4h 23m\n   - Coverage: 94.2% line coverage, 87.1% branch coverage\n   - Notable: All payment flow tests passing after BUG-4498 fix\n\n2. Integration Test Suite\n   - Total: 234 test cases\n   - Passed: 234/234 (100%)\n   - Duration: 1h 47m\n   - API contract tests: All endpoints validated\n   - Third-party integration: Stripe, SendGrid, Twilio — all green\n\n3. Performance Benchmarks\n   - API response time (p95): 142ms (SLA: <200ms) ✅\n   - Database query time (p99): 89ms (SLA: <150ms) ✅\n   - Concurrent users: Tested 10,000 simultaneous (target: 5,000) ✅\n   - Memory usage: 2.1GB peak (limit: 4GB) ✅\n\n❌ FAILED / OPEN ISSUES:\n\n4. BUG-4521 (P0 — BLOCKER)\n   - Title: Payment checkout crashes on concurrent transactions\n   - Severity: P0 — blocks release\n   - Steps to reproduce: >5 concurrent checkout requests within 100ms window\n   - Impact: Payment service returns 500 errors, transactions lost\n   - Root cause: Under investigation by DevOps team\n   - Assigned to: DevOps (James Liu)\n\n5. BUG-4523 (P1 — Non-blocking)\n   - Title: Dark mode CSS rendering issue on Safari 17\n   - Severity: P1 — cosmetic, non-blocking\n   - Impact: Button borders invisible in Safari dark mode\n   - Workaround: Available (force light mode for Safari users)\n   - Assigned to: Frontend team\n\n═══════════════════════════════════════\n\nGo/No-Go Recommendation: CONDITIONAL GO — pending BUG-4521 resolution.\n\nThe P0 bug must be fixed and verified before we can proceed. All other quality gates are met.\n\nRegards,\nQA Lead\nNovaSoft Quality Engineering"
+      },
+      {
+        "id": "E_DevOps",
+        "direction": "inbound",
+        "from_email": "james.liu@novasoft.example.com",
+        "to_email": "zihangzhou26@gmail.com",
+        "subject": "Re: v3.0 QA Status Report - Feb 20",
+        "date": "2026-02-20T14:30:00-08:00",
+        "body": "Hi Emily,\n\nUpdate on BUG-4521 (P0 payment checkout crash):\n\n**Root Cause Identified:**\nThe issue is caused by connection pool exhaustion in the payment microservice. When >5 concurrent checkout requests arrive within a 100ms window, the connection pool (configured at max 10 connections) gets saturated. The connection cleanup wasn't releasing connections back to the pool properly due to a race condition in the error handling path.\n\n**Fix:**\n- PR #1892: \"Fix connection pool leak in payment service error handler\"\n- Changes: 47 lines added, 12 lines removed\n- Currently in code review (2 approvals needed, 1 received)\n- Expected to merge tonight after second review\n\n**Post-fix Verification Plan:**\n1. Run targeted payment concurrency test suite (~45 min)\n2. Full regression on payment module (~2h)\n3. Security scan required after code change (~4 hours)\n4. Load test at 2x normal traffic for 30 min\n\n**Rollback Plan:**\nAlready tested and verified. If issues arise during deployment:\n- Feature flag: payment_v3_enabled=false reverts to v2.x payment flow\n- Database migration: backward compatible, no rollback needed\n- Total rollback time: <5 minutes\n\n**Timeline Estimate:**\n- Tonight: PR merge + build\n- Tomorrow morning: Automated verification (payment tests + regression)\n- Tomorrow afternoon: Security scan completion\n- By EOD tomorrow (Feb 21): All clear for Go/No-Go on Feb 25\n\nLet me know if you need anything else.\n\nJames Liu\nDevOps Lead, NovaSoft"
+      },
+      {
+        "id": "E_Marketing",
+        "direction": "inbound",
+        "from_email": "marketing@novasoft.example.com",
+        "to_email": "zihangzhou26@gmail.com",
+        "subject": "v3.0 Marketing Assets Status",
+        "date": "2026-02-20T10:45:00-08:00",
+        "body": "Hi Emily,\n\nMarketing readiness update for the v3.0 launch:\n\n✅ COMPLETED:\n1. Blog Post Draft\n   - Title: \"Introducing NovaSoft v3.0: Faster, Smarter, More Secure\"\n   - Status: Draft complete, needs your review and approval\n   - Word count: 1,200 words\n   - SEO keywords optimized\n   - Link: [internal draft link]\n\n2. Social Media Campaign\n   - Platforms: Twitter/X, LinkedIn, Facebook\n   - 12 posts scheduled across launch week\n   - Visual assets created (banner, carousel, video thumbnail)\n   - Campaign hashtag: #NovaSoftV3\n\n3. Email Newsletter Template\n   - Segmented for: existing customers, trial users, prospects\n   - A/B test variants prepared (2 subject lines each)\n   - Send scheduled for launch day +1\n\n🔄 IN PROGRESS:\n4. Webinar Slide Deck\n   - Current progress: 70% complete (14/20 slides done)\n   - Remaining: product demo slides (need final screenshots from staging)\n   - ETA: Monday, February 23\n   - Presenter: Emily Zhang + Product Manager\n\n⏳ NOT STARTED:\n5. Press Release\n   - Waiting for final feature list from Emily\n   - Need: confirmed feature names, key metrics, customer quotes\n   - Deadline for Emily to provide feature list: Thursday, February 19\n   - Target publish date: Launch day\n\nPlease send us the final feature list by Thursday so we can start the press release.\n\nBest,\nMarketing Team\nNovaSoft"
+      }
+    ],
+    "signal_calendar_events": [
+      {
+        "id": "evt_gonogo",
+        "summary": "v3.0 Release Go/No-Go Meeting",
+        "start": "2026-02-25T11:00:00-08:00",
+        "end": "2026-02-25T12:00:00-08:00",
+        "description": "Final Go/No-Go decision for v3.0 production release.\n\nGo Criteria (ALL must be met):\n1. All P0 bugs fixed and verified\n2. Load test passed at 2x normal traffic\n3. Security scan clean (no critical/high findings)\n4. Marketing assets ready (blog, webinar, newsletter)\n\nRequired Attendees: QA Lead, DevOps Lead, Security, Marketing\nDecision Authority: Emily Zhang (Release Manager)",
+        "location": "Zoom",
+        "attendees": [
+          "qa.lead@novasoft.example.com",
+          "james.liu@novasoft.example.com",
+          "security@novasoft.example.com",
+          "marketing@novasoft.example.com"
+        ]
+      },
+      {
+        "id": "evt_deployment",
+        "summary": "v3.0 Production Deployment Window",
+        "start": "2026-02-26T02:00:00-08:00",
+        "end": "2026-02-26T06:00:00-08:00",
+        "description": "Maintenance window for v3.0 production deployment.\n\nPre-deployment Checklist:\n- Rollback plan tested and verified\n- On-call team: DevOps (James Liu) + Backend (Senior Engineer)\n- Status page updated with maintenance notice\n- Customer notification sent 48 hours prior\n\nDeployment Steps:\n1. Enable maintenance mode\n2. Database migration (estimated: 15 min)\n3. Deploy application services (blue-green)\n4. Smoke tests on production\n5. Disable maintenance mode\n6. Monitor for 30 minutes\n\nRollback trigger: Any P0 issue within first 2 hours post-deploy."
+      },
+      {
+        "id": "evt_webinar",
+        "summary": "v3.0 Launch Announcement Webinar",
+        "start": "2026-02-27T10:00:00-08:00",
+        "end": "2026-02-27T11:00:00-08:00",
+        "description": "Public webinar announcing v3.0 features and improvements.\n\nPresenter: Emily Zhang (Release Manager) + Product Manager\nExpected attendance: 200-300 registrants\nPlatform: Zoom Webinar\n\nAgenda:\n1. (10 min) v3.0 Overview and vision\n2. (25 min) Feature deep-dive and live demo\n3. (15 min) Customer success stories\n4. (10 min) Q&A",
+        "attendees": [
+          "marketing@novasoft.example.com"
+        ]
+      },
+      {
+        "id": "evt_retro",
+        "summary": "Post-Release Retrospective",
+        "start": "2026-02-28T14:00:00-08:00",
+        "end": "2026-02-28T15:00:00-08:00",
+        "description": "Release retrospective for v3.0.\n\nFormat: What went well / What could improve / Action items\nScope: End-to-end release process from code freeze to launch."
+      }
+    ],
+    "signal_tasks": [],
+    "noise_config": {
+      "emails": {
+        "count": 25,
+        "types": [
+          "newsletter",
+          "system_alert",
+          "ooo_reply",
+          "marketing",
+          "hr_announcement"
+        ],
+        "avg_body_words": 600
+      },
+      "calendar_events": {
+        "count": 15,
+        "types": [
+          "recurring_standup",
+          "team_sync",
+          "all_hands",
+          "training"
+        ],
+        "avg_description_words": 200
+      }
+    }
+  },
+  "execution_flow": [
+    {
+      "round": 1,
+      "channel": "telegram",
+      "expected_tool_calls": [
+        {
+          "tool": "calendar",
+          "command": "gog calendar events --query 'v3.0'"
+        },
+        {
+          "tool": "gmail",
+          "command": "gog gmail search --query 'v3.0 QA status'"
+        }
+      ],
+      "verification": {
+        "check_actions": [
+          "4个日历事件+QA邮件整合"
+        ],
+        "scoring_ref": "construction round 1"
+      }
+    },
+    {
+      "round": 2,
+      "channel": "slack",
+      "expected_tool_calls": [
+        {
+          "tool": "gmail",
+          "command": "gog gmail search --query 'v3.0 QA Status Report'"
+        },
+        {
+          "tool": "slack",
+          "command": "slack sendMessage --text 'QA状态...'"
+        }
+      ],
+      "verification": {
+        "check_actions": [
+          "QA详情+Bug列表",
+          "Slack通知"
+        ],
+        "scoring_ref": "construction round 2"
+      }
+    },
+    {
+      "round": 3,
+      "channel": "telegram",
+      "expected_tool_calls": [
+        {
+          "tool": "gmail",
+          "command": "gog gmail search --query 'BUG-4521'"
+        }
+      ],
+      "verification": {
+        "check_actions": [
+          "根因/PR号/ETA/回滚计划"
+        ],
+        "scoring_ref": "construction round 3"
+      }
+    },
+    {
+      "round": 4,
+      "channel": "slack",
+      "expected_tool_calls": [
+        {
+          "tool": "calendar",
+          "command": "gog calendar events --query 'Go/No-Go'"
+        },
+        {
+          "tool": "tasks",
+          "command": "gog tasks add (未满足标准)"
+        }
+      ],
+      "verification": {
+        "check_actions": [
+          "4项标准+Tasks创建"
+        ],
+        "scoring_ref": "construction round 4"
+      }
+    },
+    {
+      "round": 5,
+      "channel": "telegram",
+      "expected_tool_calls": [
+        {
+          "tool": "gmail",
+          "command": "gog gmail search --query 'marketing assets v3.0'"
+        },
+        {
+          "tool": "telegram",
+          "command": "telegram sendMessage --text '市场准备...'"
+        }
+      ],
+      "verification": {
+        "check_actions": [
+          "完成/进行中/未开始",
+          "Telegram通知"
+        ],
+        "scoring_ref": "construction round 5"
+      }
+    },
+    {
+      "round": 6,
+      "channel": "slack",
+      "expected_tool_calls": [
+        {
+          "tool": "gmail",
+          "command": "gog gmail send --reply ... --body '确认按时提供功能列表'"
+        }
+      ],
+      "verification": {
+        "check_actions": [
+          "功能列表+截止2/19",
+          "邮件回复"
+        ],
+        "scoring_ref": "construction round 6"
+      }
+    },
+    {
+      "round": 7,
+      "channel": "telegram",
+      "expected_tool_calls": [
+        {
+          "tool": "calendar",
+          "command": "gog calendar events --query 'deployment webinar'"
+        }
+      ],
+      "verification": {
+        "check_actions": [
+          "28小时计算正确"
+        ],
+        "scoring_ref": "construction round 7"
+      }
+    },
+    {
+      "round": 8,
+      "channel": "slack",
+      "expected_tool_calls": [
+        {
+          "tool": "gmail",
+          "command": "gog gmail search --query 'v3.0'"
+        },
+        {
+          "tool": "calendar",
+          "command": "gog calendar events"
+        },
+        {
+          "tool": "tasks",
+          "command": "gog tasks list"
+        },
+        {
+          "tool": "slack",
+          "command": "slack sendMessage"
+        },
+        {
+          "tool": "telegram",
+          "command": "telegram sendMessage"
+        }
+      ],
+      "verification": {
+        "check_actions": [
+          "综合5个平台",
+          "Slack+Telegram双发送"
+        ],
+        "scoring_ref": "construction round 8"
+      }
+    }
+  ],
+  "event_summary_ground_truth": "v3.0发布涉及4个日历事件：Go/No-Go（2/25 11:00-12:00）、部署窗口（2/26 02:00-06:00）、Webinar（2/27 10:00-11:00）、复盘（2/28 14:00-15:00）。QA状态：回归847/847通过，集成234/234通过，性能达标；P0 BUG-4521（支付连接池耗尽，PR #1892修复中，预计今晚合并）、P1 BUG-4523（Safari暗色模式CSS）。Go/No-Go 4项标准：P0修复、负载测试、安全扫描（4小时）、市场资产。市场已完成博客/社交/邮件通讯，Webinar幻灯片70%（ETA 2/23），新闻稿未开始（需Emily提供功能列表，截止2/19）。部署结束到Webinar间隔28小时。",
+  "user_preferences": [
+    "状态报告按【技术】【市场】【会议】分类",
+    "P0 Bug修复进展实时通过Slack同步",
+    "市场状态通过Telegram汇总",
+    "Go/No-Go标准未满足项自动加入Google Tasks",
+    "跨平台汇总同时发送到Slack和Telegram两个通道"
+  ]
+}
