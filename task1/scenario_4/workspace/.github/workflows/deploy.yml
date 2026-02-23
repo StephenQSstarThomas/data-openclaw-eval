@@ -1,0 +1,107 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types: [completed]
+    branches: [main]
+
+env:
+  DOCKER_REGISTRY: ghcr.io
+  IMAGE_PREFIX: ${{ github.repository }}
+
+jobs:
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    environment:
+      name: staging
+      url: https://staging.microplatform.io
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.STAGING_SSH_KEY }}
+
+      - name: Deploy to staging
+        run: |
+          SHA="${{ github.event.workflow_run.head_sha }}"
+          SHORT_SHA="${SHA:0:7}"
+
+          ssh -o StrictHostKeyChecking=no ${{ secrets.STAGING_HOST }} << EOF
+            cd /opt/microplatform
+            export IMAGE_TAG="${SHORT_SHA}"
+            docker compose pull
+            docker compose up -d --remove-orphans
+            docker compose exec -T api-gateway /app/healthcheck --timeout=60s
+          EOF
+
+      - name: Run smoke tests
+        run: |
+          sleep 10
+          curl -sf https://staging.microplatform.io/health || exit 1
+          curl -sf https://staging.microplatform.io/api/v1/health || exit 1
+
+      - name: Notify Slack
+        if: always()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: "Staging 部署 ${{ job.status }}"
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    environment:
+      name: production
+      url: https://microplatform.io
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.PROD_SSH_KEY }}
+
+      - name: Deploy to production
+        run: |
+          SHA="${{ github.event.workflow_run.head_sha }}"
+          SHORT_SHA="${SHA:0:7}"
+
+          ssh -o StrictHostKeyChecking=no ${{ secrets.PROD_HOST }} << 'DEPLOY'
+            cd /opt/microplatform
+            export IMAGE_TAG="${SHORT_SHA}"
+
+            # 滚动更新
+            for service in api-gateway user-service order-service; do
+              echo "Deploying ${service}..."
+              docker compose up -d --no-deps ${service}
+              sleep 5
+              docker compose exec -T ${service} /app/healthcheck --timeout=30s
+              if [ $? -ne 0 ]; then
+                echo "Health check failed for ${service}, rolling back..."
+                docker compose rollback ${service}
+                exit 1
+              fi
+            done
+          DEPLOY
+
+      - name: Verify production
+        run: |
+          for i in $(seq 1 5); do
+            curl -sf https://microplatform.io/health && break
+            sleep 5
+          done
+
+      - name: Notify Slack
+        if: always()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: "Production 部署 ${{ job.status }}"
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}

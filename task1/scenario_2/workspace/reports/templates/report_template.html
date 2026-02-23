@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; background: #f8f9fa; }
+        .header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 30px; border-radius: 8px; margin-bottom: 24px; }
+        .header h1 { margin: 0 0 8px; font-size: 24px; }
+        .header .meta { opacity: 0.85; font-size: 14px; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px; }
+        .kpi-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        .kpi-card .value { font-size: 28px; font-weight: 700; color: #333; }
+        .kpi-card .label { font-size: 13px; color: #999; margin-top: 4px; }
+        .kpi-card .change { font-size: 13px; margin-top: 6px; }
+        .change-up { color: #52c41a; }
+        .change-down { color: #ff4d4f; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 24px; }
+        th { background: #667eea; color: white; padding: 12px 16px; text-align: left; font-size: 13px; }
+        td { padding: 10px 16px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+        tr:last-child td { border-bottom: none; }
+        .section-title { font-size: 18px; font-weight: 600; margin: 24px 0 12px; color: #333; }
+        .footer { text-align: center; color: #999; font-size: 12px; margin-top: 32px; padding-top: 16px; border-top: 1px solid #e8e8e8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>{{ "周报" if metrics.period_type == "weekly" else "月报" }} — {{ metrics.period_label }}</h1>
+        <div class="meta">{{ metrics.start_date }} 至 {{ metrics.end_date }} | 生成于 {{ generated_at }}</div>
+    </div>
+
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="value">¥{{ "{:,.0f}".format(metrics.total_revenue) }}</div>
+            <div class="label">销售额</div>
+            <div class="change {% if metrics.revenue_change_pct >= 0 %}change-up{% else %}change-down{% endif %}">
+                环比 {{ "↑" if metrics.revenue_change_pct >= 0 else "↓" }} {{ "{:.1f}".format(metrics.revenue_change_pct|abs) }}%
+            </div>
+        </div>
+        <div class="kpi-card">
+            <div class="value">{{ metrics.total_orders }}</div>
+            <div class="label">订单数</div>
+            <div class="change {% if metrics.orders_change_pct >= 0 %}change-up{% else %}change-down{% endif %}">
+                环比 {{ "↑" if metrics.orders_change_pct >= 0 else "↓" }} {{ "{:.1f}".format(metrics.orders_change_pct|abs) }}%
+            </div>
+        </div>
+        <div class="kpi-card">
+            <div class="value">¥{{ "{:,.0f}".format(metrics.avg_order_value) }}</div>
+            <div class="label">客单价</div>
+        </div>
+        <div class="kpi-card">
+            <div class="value">{{ metrics.unique_customers }}</div>
+            <div class="label">独立客户数</div>
+        </div>
+    </div>
+
+    <div class="section-title">分类销售占比</div>
+    <table>
+        <tr><th>分类</th><th>销售额</th><th>占比</th></tr>
+        {% for cat in metrics.top_categories %}
+        <tr><td>{{ cat.name }}</td><td>¥{{ "{:,.0f}".format(cat.revenue) }}</td><td>{{ cat.pct }}%</td></tr>
+        {% endfor %}
+    </table>
+
+    <div class="section-title">TOP 10 商品</div>
+    <table>
+        <tr><th>商品</th><th>销售额</th><th>销量</th></tr>
+        {% for p in metrics.top_products %}
+        <tr><td>{{ p.name }}</td><td>¥{{ "{:,.0f}".format(p.revenue) }}</td><td>{{ p.qty }}</td></tr>
+        {% endfor %}
+    </table>
+
+    <div class="footer">本报告由电商销售数据分析平台自动生成 | Powered by FastAPI + pandas</div>
+</body>
+</html>
