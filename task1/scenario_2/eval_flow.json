@@ -1,30 +1,30 @@
 {
   "scenario_id": "e1_s2",
   "construction_ref": "construction.json",
-  "user_persona": "Data Analyst Bella\n\nTelegram: Personal lead/architecture/analysis  \nSlack: Backend/ETL/API/reporting  \nDiscord: Frontend visualization/dashboard  \nWebChat: Debugging/fixing",
+  "user_persona": "Data Analyst Bella\n\nTelegram: Main personal contact / architecture / analysis  \nSlack: Backend / ETL / API / reporting  \nDiscord: Frontend visualization / dashboards  \nWebChat: Debugging / troubleshooting",
   "task_event_graph": {
     "nodes": [
       {
         "id": "r1",
-        "event": "Round 1: Good morning! Here are the three requested tasks:\n\n---\n\n### 1. E-commerce Sales ...",
+        "event": "Round 1: Good morning! Here are the three requested tasks:\n\n---\n\n### 1. Database Model De...",
         "day": 1,
         "channel": "telegram"
       },
       {
         "id": "r2",
-        "event": "Round 2: 1. `etl/pipeline.py` — Main Cleaning Workflow\n\n```python\nimport pandas as pd\nimp...",
+        "event": "Round 2: 1. `etl/pipeline.py`\n\n```python\nimport pandas as pd\nimport logging\nfrom etl.vali...",
         "day": 3,
         "channel": "slack"
       },
       {
         "id": "r3",
-        "event": "Round 3: The cleaned data is ready! Now it's time for visualization. Please write `visual...",
+        "event": "Round 3: The cleaned data is now ready! Next, we need to create visualizations. Please wr...",
         "day": 5,
         "channel": "discord"
       },
       {
         "id": "r4",
-        "event": "Round 4: Visualization looks great! Now we need to add user profile analysis. Please writ...",
+        "event": "Round 4: analysis/rfm_model.py\n\n```python\nimport pandas as pd\nimport numpy as np\nfrom dat...",
         "day": 7,
         "channel": "telegram"
       },
@@ -36,7 +36,7 @@
       },
       {
         "id": "r6",
-        "event": "Round 6: When running the pipeline, I found that some date parsing failed because some da...",
+        "event": "Round 6: When running the pipeline, I found that some date parsing failed. Some dates in ...",
         "day": 11,
         "channel": "webchat"
       },
@@ -48,7 +48,7 @@
       },
       {
         "id": "r8",
-        "event": "Round 8: Now we need to add an automated reporting feature. Requirements:\n\n1. Write a rep...",
+        "event": "Round 8: Now, we need to add an automated reporting feature. Requirements:\n\n1. Create a r...",
         "day": 15,
         "channel": "slack"
       }
@@ -96,9 +96,9 @@
       "qa_id": "q1",
       "type": "cross_channel_association",
       "channel": "discord",
-      "question": "What kind of database is used? How is the table structure designed? On which channel were these tasks carried out?",
-      "answer": "Use SQLite. The table structure (five tables: categories, products, customers, orders, and order_items) was designed during Round 1 on Telegram and is created using the `init_db()` function in `config.py`.",
-      "ground_truth": "Use SQLite. The table structure (five tables: categories, products, customers, orders, and order_items) was designed during Round 1 on Telegram and is created using the `init_db()` function in `config.py`.",
+      "question": "Which database was used? How was the table structure designed? On which channel were these tasks carried out?",
+      "answer": "Use SQLite. The table structure (five tables: categories, products, customers, orders, and order_items) was designed in Round 1 on Telegram and created using the `init_db()` function in `config.py`.",
+      "ground_truth": "Use SQLite. The table structure (five tables: categories, products, customers, orders, and order_items) was designed in Round 1 on Telegram and created using the `init_db()` function in `config.py`.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -134,8 +134,8 @@
       "type": "cross_channel_association",
       "channel": "telegram",
       "question": "What are the data cleaning steps in an ETL pipeline? On which channel are they implemented?",
-      "answer": "The ETL Pipeline (`etl/pipeline.py`) consists of 8 steps: deduplication, missing value handling, outlier processing, type conversion, amount validation, business rule validation, data standardization, and final validation. Implement this in Round 2 on Slack.",
-      "ground_truth": "The ETL Pipeline (`etl/pipeline.py`) consists of 8 steps: deduplication, missing value handling, outlier processing, type conversion, amount validation, business rule validation, data standardization, and final validation. Implement this in Round 2 on Slack.",
+      "answer": "The ETL Pipeline (`etl/pipeline.py`) consists of 8 steps: deduplication, missing value handling, outlier processing, type conversion, amount validation, business rule validation, data normalization, and final validation. Implemented in Slack Round 2.",
+      "ground_truth": "The ETL Pipeline (`etl/pipeline.py`) consists of 8 steps: deduplication, missing value handling, outlier processing, type conversion, amount validation, business rule validation, data normalization, and final validation. Implemented in Slack Round 2.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -170,9 +170,9 @@
       "qa_id": "q3",
       "type": "cross_channel_association",
       "channel": "webchat",
-      "question": "What technology was originally used to build the visual dashboard? What interactive features were later added? On which channels were they implemented?",
-      "answer": "Initially, static charts were created using Plotly on Discord (Round 3). Later, in Discord (Round 7), these were rewritten as interactive dashboards using ECharts, adding features such as a date range selector, category drill-down, month-over-month comparison, and export functionality.",
-      "ground_truth": "Initially, static charts were created using Plotly on Discord (Round 3). Later, in Discord (Round 7), these were rewritten as interactive dashboards using ECharts, adding features such as a date range selector, category drill-down, month-over-month comparison, and export functionality.",
+      "question": "What technology was originally used to build the visual dashboard? What interactive features were added later? On which channels were these implemented?",
+      "answer": "Initially, static charts were created using Plotly on Discord (Round 3). Later, in Discord (Round 7), they were rewritten as interactive dashboards using ECharts, with added features such as date range selectors, category drill-down, month-over-month comparison, and export functionality.",
+      "ground_truth": "Initially, static charts were created using Plotly on Discord (Round 3). Later, in Discord (Round 7), they were rewritten as interactive dashboards using ECharts, with added features such as date range selectors, category drill-down, month-over-month comparison, and export functionality.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -207,7 +207,7 @@
       "qa_id": "q4",
       "type": "channel_preference",
       "channel": "slack",
-      "question": "Throughout the project development process, what patterns are there in Bella's use of different channels? What types of tasks are handled on which channels?",
+      "question": "Throughout the project development process, what patterns are there in Bella's use of different channels? What types of tasks are handled in which channels?",
       "answer": "Telegram is used for project initiation and advanced analysis (data model design, RFM analysis); Slack is used for backend development (ETL pipeline, FastAPI API, automated reporting); Discord is used for frontend visualization (Plotly charts, ECharts interactive dashboards); WebChat is used for debugging and troubleshooting (date parsing bugs, database index optimization).",
       "ground_truth": "Telegram is used for project initiation and advanced analysis (data model design, RFM analysis); Slack is used for backend development (ETL pipeline, FastAPI API, automated reporting); Discord is used for frontend visualization (Plotly charts, ECharts interactive dashboards); WebChat is used for debugging and troubleshooting (date parsing bugs, database index optimization).",
       "grounding": [],
@@ -227,7 +227,7 @@
           ]
         },
         {
-          "criterion": "Identifying Discord for Visualization/Frontend",
+          "criterion": "Identifying Discord for visualization/frontend",
           "points": 1,
           "keywords": [
             "discord"
@@ -247,7 +247,7 @@
       "qa_id": "q5",
       "type": "tech_decision",
       "channel": "discord",
-      "question": "Which backend API framework was used? What endpoints are available? On which channel was it developed?",
+      "question": "Which backend API framework was used? What interfaces are available? On which channel was it developed?",
       "answer": "Using FastAPI, developed 5 endpoints in Slack (Round 5): overview, trend, by-category, by-region, and filter.",
       "ground_truth": "Using FastAPI, developed 5 endpoints in Slack (Round 5): overview, trend, by-category, by-region, and filter.",
       "grounding": [],
@@ -270,7 +270,7 @@
           ]
         },
         {
-          "criterion": "Correctly Linking to Slack",
+          "criterion": "Successfully linked to Slack",
           "points": 1,
           "keywords": [
             "slack"
@@ -283,9 +283,9 @@
       "qa_id": "q6",
       "type": "cross_channel_association",
       "channel": "telegram",
-      "question": "What is the bug with date parsing? On which channel was it fixed? What is the solution for the fix?",
-      "answer": "The ETL pipeline's use of `pd.to_datetime` with the fixed format `%Y-%m-%d %H:%M:%S` caused parsing failures for dates in the `2025/03/15` format. In WebChat (Round 6), this was fixed by switching to the `_parse_dates_flexible()` method, which sequentially attempts 7 different date formats.",
-      "ground_truth": "The ETL pipeline's use of `pd.to_datetime` with the fixed format `%Y-%m-%d %H:%M:%S` caused parsing failures for dates in the `2025/03/15` format. In WebChat (Round 6), this was fixed by switching to the `_parse_dates_flexible()` method, which sequentially attempts 7 different date formats.",
+      "question": "What is the issue with the date parsing bug? On which channel was it fixed? What is the solution for the fix?",
+      "answer": "The ETL pipeline's use of `pd.to_datetime` with the fixed format `%Y-%m-%d %H:%M:%S` caused parsing failures for dates in the format `2025/03/15`. This was fixed in WebChat (Round 6) by switching to the `_parse_dates_flexible()` method, which sequentially attempts 7 different date formats.",
+      "ground_truth": "The ETL pipeline's use of `pd.to_datetime` with the fixed format `%Y-%m-%d %H:%M:%S` caused parsing failures for dates in the format `2025/03/15`. This was fixed in WebChat (Round 6) by switching to the `_parse_dates_flexible()` method, which sequentially attempts 7 different date formats.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -332,7 +332,7 @@
           ]
         },
         {
-          "criterion": "Correct explanation of the three RFM dimensions\n\n- **Recency (R):** Refers to how recently a customer made a purchase. The more recent the purchase, the higher the recency score.\n- **Frequency (F):** Indicates how often a customer makes purchases within a certain period. The more frequent the purchases, the higher the frequency score.\n- **Monetary (M):** Represents the total amount a customer has spent. The higher the spending, the higher the monetary score.",
+          "criterion": "Correct explanation of the three RFM dimensions\n\n- **Recency (R):** Refers to how recently a customer made a purchase. The shorter the interval since the last purchase, the higher the recency score.\n- **Frequency (F):** Indicates how often a customer makes purchases within a certain period. The more frequent the purchases, the higher the frequency score.\n- **Monetary (M):** Represents the total amount a customer has spent in a given period. The higher the spending, the higher the monetary score.",
           "points": 1,
           "keywords": [
             "recency",
@@ -349,7 +349,7 @@
           ]
         },
         {
-          "criterion": "It is divided into four groups.",
+          "criterion": "Mentioned as being divided into 4 groups.",
           "points": 1,
           "keywords": [
             "4"
@@ -378,7 +378,7 @@
           ]
         },
         {
-          "criterion": "Channel association is correct.",
+          "criterion": "Channel association is correct",
           "points": 2,
           "keywords": [
             "telegram",
@@ -400,9 +400,9 @@
       "qa_id": "q9",
       "type": "adversarial",
       "channel": "webchat",
-      "question": "Is the backend API you helped me build with Django on Slack still usable?",
-      "answer": "Django is not used. The backend API was developed with FastAPI (in Slack Round 5), not Django.",
-      "ground_truth": "Django is not used. The backend API was developed with FastAPI (in Slack Round 5), not Django.",
+      "question": "Is the backend API you helped me set up with Django on Slack still usable?",
+      "answer": "Django was not used. The backend API was developed with FastAPI (in Slack Round 5), not Django.",
+      "ground_truth": "Django was not used. The backend API was developed with FastAPI (in Slack Round 5), not Django.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -450,7 +450,7 @@
           ]
         },
         {
-          "criterion": "Mentioned in the configuration of `config.py`",
+          "criterion": "Mentioned configuration in `config.py`",
           "points": 1,
           "keywords": [
             "config"
@@ -463,9 +463,9 @@
       "qa_id": "q11",
       "type": "tech_decision",
       "channel": "slack",
-      "question": "What performance optimizations have been made to the database? On which channel were these optimizations implemented?",
-      "answer": "In WebChat (Round 6), 13 database indexes were added (covering all filter conditions in the filter interface, including composite indexes), as well as an MD5 query cache (5-minute TTL with automatic cleanup).",
-      "ground_truth": "In WebChat (Round 6), 13 database indexes were added (covering all filter conditions in the filter interface, including composite indexes), as well as an MD5 query cache (5-minute TTL with automatic cleanup).",
+      "question": "What performance optimizations were made to the database? On which channel were these optimizations implemented?",
+      "answer": "In WebChat (Round 6), 13 database indexes were added (covering all filter interface conditions, including composite indexes), as well as MD5 query caching (5-minute TTL with automatic cleanup).",
+      "ground_truth": "In WebChat (Round 6), 13 database indexes were added (covering all filter interface conditions, including composite indexes), as well as MD5 query caching (5-minute TTL with automatic cleanup).",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -477,7 +477,7 @@
           ]
         },
         {
-          "criterion": "Mentioning 13 or composite indexes",
+          "criterion": "Mention 13 or composite indexes",
           "points": 1,
           "keywords": [
             "13",
@@ -506,9 +506,9 @@
       "qa_id": "q12",
       "type": "cross_channel_association",
       "channel": "discord",
-      "question": "How is the automated reporting feature implemented? On which channel is it done? What are the scheduling rules?",
-      "answer": "Implemented in Slack (Round 8). Use APScheduler for scheduled tasks: generate weekly reports every Monday at 09:00, and monthly reports on the 1st of each month at 09:00. Send reports via SMTP email, with up to 3 retry attempts in case of failure.",
-      "ground_truth": "Implemented in Slack (Round 8). Use APScheduler for scheduled tasks: generate weekly reports every Monday at 09:00, and monthly reports on the 1st of each month at 09:00. Send reports via SMTP email, with up to 3 retry attempts in case of failure.",
+      "question": "How is the automated reporting feature implemented? Which channel is it done on? What are the scheduling rules?",
+      "answer": "Implemented in Slack (Round 8). Uses APScheduler for scheduled tasks: generates weekly reports every Monday at 09:00 and monthly reports on the 1st of each month at 09:00. Reports are sent via SMTP email, with up to 3 retry attempts on failure.",
+      "ground_truth": "Implemented in Slack (Round 8). Uses APScheduler for scheduled tasks: generates weekly reports every Monday at 09:00 and monthly reports on the 1st of each month at 09:00. Reports are sent via SMTP email, with up to 3 retry attempts on failure.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -551,9 +551,9 @@
       "qa_id": "q13",
       "type": "channel_preference",
       "channel": "webchat",
-      "question": "If Bella wants to create a new machine learning model (such as sales forecasting), based on her usual habits, which channel do you think she would use to discuss this requirement?",
-      "answer": "Based on Bella's channel usage habits, advanced analytics and modeling tasks (such as RFM analysis) are typically discussed on Telegram, so it's likely that discussions about sales forecasting requirements will also take place on Telegram.",
-      "ground_truth": "Based on Bella's channel usage habits, advanced analytics and modeling tasks (such as RFM analysis) are typically discussed on Telegram, so it's likely that discussions about sales forecasting requirements will also take place on Telegram.",
+      "question": "If Bella wants to develop a new machine learning model (such as sales forecasting), based on her usual habits, which channel do you think she would use to discuss this requirement?",
+      "answer": "Based on Bella's channel usage habits, advanced analytics and modeling tasks (such as RFM analysis) are discussed on Telegram, so it's highly likely that discussions about sales forecasting requirements will also take place on Telegram.",
+      "ground_truth": "Based on Bella's channel usage habits, advanced analytics and modeling tasks (such as RFM analysis) are discussed on Telegram, so it's highly likely that discussions about sales forecasting requirements will also take place on Telegram.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -579,8 +579,8 @@
       "type": "timeline",
       "channel": "telegram",
       "question": "How many versions has the dashboard visualization feature gone through? On which channel was each version developed?",
-      "answer": "Two versions. V1 used Plotly in Discord (Round 3) to create static charts (trend line charts, category pie charts, and top product bar charts). V2 was rewritten with ECharts in Discord (Round 7) as an interactive dashboard (date filtering, drill-down, month-over-month comparison, export).",
-      "ground_truth": "Two versions. V1 used Plotly in Discord (Round 3) to create static charts (trend line charts, category pie charts, and top product bar charts). V2 was rewritten with ECharts in Discord (Round 7) as an interactive dashboard (date filtering, drill-down, month-over-month comparison, export).",
+      "answer": "Two versions. V1 on Discord (Round 3) used Plotly to create static charts (trend line charts, category pie charts, TOP product bar charts). V2 on Discord (Round 7) was rewritten with ECharts as an interactive dashboard (date filtering, drill-down, month-over-month comparison, export functionality).",
+      "ground_truth": "Two versions. V1 on Discord (Round 3) used Plotly to create static charts (trend line charts, category pie charts, TOP product bar charts). V2 on Discord (Round 7) was rewritten with ECharts as an interactive dashboard (date filtering, drill-down, month-over-month comparison, export functionality).",
       "grounding": [],
       "scoring_rubric": [
         {

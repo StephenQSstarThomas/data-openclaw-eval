@@ -1,7 +1,7 @@
 {
   "scenario_id": "e1_s4",
   "construction_ref": "construction.json",
-  "user_persona": "DevOps engineer David: Telegram = architecture planning/infrastructure, Slack = Go implementation/CI-CD, Discord = monitoring/alerts, WebChat = emergency fixes",
+  "user_persona": "DevOps Engineer David\n\nTelegram: Architecture planning / Infrastructure  \nSlack: Go implementation / CI-CD  \nDiscord: Monitoring / Alerting  \nWebChat: Emergency fixes",
   "task_event_graph": {
     "nodes": [
       {
@@ -12,13 +12,13 @@
       },
       {
         "id": "r2",
-        "event": "Round 2: Now, we need to write a health check service implemented in Go. It should be abl...",
+        "event": "Round 2: We now need to write a health check service implemented in Go. It should be able...",
         "day": 2,
         "channel": "slack"
       },
       {
         "id": "r3",
-        "event": "Round 3: I need to set up Prometheus monitoring. Please help me write a `prometheus.yml` ...",
+        "event": "Round 3: Sure, here are the requested configurations and code:\n\n---\n\n**1. prometheus.yml ...",
         "day": 4,
         "channel": "discord"
       },
@@ -30,7 +30,7 @@
       },
       {
         "id": "r5",
-        "event": "Round 5: Next, we need to implement the Go code for deployment automation. I need three m...",
+        "event": "Round 5: Next, we need to implement Go code for deployment automation. I need three modul...",
         "day": 8,
         "channel": "slack"
       },
@@ -42,7 +42,7 @@
       },
       {
         "id": "r7",
-        "event": "Round 7: The monitoring section still needs improved alerting. Please write Prometheus al...",
+        "event": "Round 7: The monitoring section still needs to improve alerting. Please write Prometheus ...",
         "day": 12,
         "channel": "discord"
       },
@@ -97,8 +97,8 @@
       "type": "cross_channel_association",
       "channel": "discord",
       "question": "Which services are defined in the `docker-compose.yml` file? On which channel are they created?",
-      "answer": "Created in Telegram (Round 1). Includes three core services: api-gateway, user-service, and order-service, as well as postgres and redis for database/cache services. Uses a three-tier network architecture (frontend, backend, datastore) for isolation.",
-      "ground_truth": "Created in Telegram (Round 1). Includes three core services: api-gateway, user-service, and order-service, as well as postgres and redis for database/cache services. Uses a three-tier network architecture (frontend, backend, datastore) for isolation.",
+      "answer": "Created in Telegram (Round 1). Includes three core services: api-gateway, user-service, and order-service, as well as postgres and redis database/cache services. Uses a three-tier network architecture (frontend, backend, datastore) for isolation.",
+      "ground_truth": "Created in Telegram (Round 1). Includes three core services: api-gateway, user-service, and order-service, as well as postgres and redis database/cache services. Uses a three-tier network architecture (frontend, backend, datastore) for isolation.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -135,8 +135,8 @@
       "type": "cross_channel_association",
       "channel": "telegram",
       "question": "What bugs have occurred in Go's health check service? How were they fixed? On which channel were they fixed?",
-      "answer": "Fixed in WebChat (Round 6).  \nThe bug was caused by multiple goroutines writing to the results map simultaneously, resulting in a race condition.  \nThe solution was to use a channel to collect results, and add a sync.RWMutex to protect map reads and writes.",
-      "ground_truth": "Fixed in WebChat (Round 6).  \nThe bug was caused by multiple goroutines writing to the results map simultaneously, resulting in a race condition.  \nThe solution was to use a channel to collect results, and add a sync.RWMutex to protect map reads and writes.",
+      "answer": "Fixed in WebChat (Round 6). The bug was caused by multiple goroutines writing to the results map simultaneously, resulting in a race condition. The solution was to use a channel to collect results and add a sync.RWMutex to protect map reads and writes.",
+      "ground_truth": "Fixed in WebChat (Round 6). The bug was caused by multiple goroutines writing to the results map simultaneously, resulting in a race condition. The solution was to use a channel to collect results and add a sync.RWMutex to protect map reads and writes.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -173,9 +173,9 @@
       "qa_id": "q3",
       "type": "tech_decision",
       "channel": "slack",
-      "question": "What IaC tools were used for the infrastructure? Which cloud platform is it deployed on? What database is being used?",
-      "answer": "Using Terraform (for Telegram Round 4 configuration). Deploy on AWS with VPC, ALB, EC2, and RDS. The database uses PostgreSQL 16 (Multi-AZ).",
-      "ground_truth": "Using Terraform (for Telegram Round 4 configuration). Deploy on AWS with VPC, ALB, EC2, and RDS. The database uses PostgreSQL 16 (Multi-AZ).",
+      "question": "What IaC tool was used for the infrastructure? Which cloud platform is it deployed on? What database is being used?",
+      "answer": "Using Terraform (for configuration in Telegram Round 4). Deploy on AWS, utilizing VPC, ALB, EC2, and RDS. The database uses PostgreSQL 16 (Multi-AZ).",
+      "ground_truth": "Using Terraform (for configuration in Telegram Round 4). Deploy on AWS, utilizing VPC, ALB, EC2, and RDS. The database uses PostgreSQL 16 (Multi-AZ).",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -215,12 +215,12 @@
       "type": "cross_channel_association",
       "channel": "webchat",
       "question": "What is the issue with label cardinality explosion in Prometheus? Where is it fixed?",
-      "answer": "Fixed in WebChat (Round 6). The issue was that the request path was used directly as a metric label, which included dynamic user IDs (such as /users/12345), causing the number of time series to grow indefinitely. The solution was to normalize the path by using a regular expression to replace dynamic segments with placeholders (e.g., /users/:id).",
-      "ground_truth": "Fixed in WebChat (Round 6). The issue was that the request path was used directly as a metric label, which included dynamic user IDs (such as /users/12345), causing the number of time series to grow indefinitely. The solution was to normalize the path by using a regular expression to replace dynamic segments with placeholders (e.g., /users/:id).",
+      "answer": "Fixed in WebChat (Round 6). The issue was that the request path was used directly as a metric label, which included dynamic user IDs (such as /users/12345), causing the time series to grow without limit. The fix was to normalize the path by using a regular expression to replace dynamic segments with placeholders (such as /users/:id).",
+      "ground_truth": "Fixed in WebChat (Round 6). The issue was that the request path was used directly as a metric label, which included dynamic user IDs (such as /users/12345), causing the time series to grow without limit. The fix was to normalize the path by using a regular expression to replace dynamic segments with placeholders (such as /users/:id).",
       "grounding": [],
       "scoring_rubric": [
         {
-          "criterion": "Describe the reasons for label cardinality explosion",
+          "criterion": "The reason for label cardinality explosion is that when the number of label values increases rapidly, the total number of possible label combinations grows exponentially. This leads to a dramatic increase in the number of unique series, causing higher memory usage, slower queries, and increased storage requirements. This phenomenon is often caused by using high-cardinality fields (such as user IDs, session IDs, or timestamps) as labels, resulting in an uncontrollable expansion of data.",
           "points": 1,
           "keywords": [
             "路径",
@@ -252,20 +252,20 @@
       "qa_id": "q5",
       "type": "channel_preference",
       "channel": "telegram",
-      "question": "During development, what types of tasks are assigned to each channel? Is there any pattern?",
-      "answer": "Telegram is used for architecture planning and infrastructure design (docker-compose, Terraform); Slack is used for Go code implementation and CI/CD (health check services, deployment automation, GitHub Actions); Discord is used for monitoring and alerting (Prometheus, Grafana, Alertmanager); WebChat is used for emergency fixes (race conditions, label explosion, OOM).",
-      "ground_truth": "Telegram is used for architecture planning and infrastructure design (docker-compose, Terraform); Slack is used for Go code implementation and CI/CD (health check services, deployment automation, GitHub Actions); Discord is used for monitoring and alerting (Prometheus, Grafana, Alertmanager); WebChat is used for emergency fixes (race conditions, label explosion, OOM).",
+      "question": "During development, what types of tasks are handled by each channel? Is there any pattern to their usage?",
+      "answer": "Telegram is used for architecture planning and infrastructure design (docker-compose, Terraform); Slack is used for Go code implementation and CI/CD (health check service, deployment automation, GitHub Actions); Discord is used for monitoring and alerting (Prometheus, Grafana, Alertmanager); WebChat is used for emergency fixes (race conditions, label explosion, OOM).",
+      "ground_truth": "Telegram is used for architecture planning and infrastructure design (docker-compose, Terraform); Slack is used for Go code implementation and CI/CD (health check service, deployment automation, GitHub Actions); Discord is used for monitoring and alerting (Prometheus, Grafana, Alertmanager); WebChat is used for emergency fixes (race conditions, label explosion, OOM).",
       "grounding": [],
       "scoring_rubric": [
         {
-          "criterion": "Identifying Telegram's architecture/infrastructure",
+          "criterion": "Identifying Telegram for architecture/infrastructure",
           "points": 1,
           "keywords": [
             "telegram"
           ]
         },
         {
-          "criterion": "Identifying Slack for Go Implementation/CI-CD",
+          "criterion": "Identifying Slack implementations for Go/CI-CD",
           "points": 1,
           "keywords": [
             "slack"
@@ -293,8 +293,8 @@
       "type": "cross_channel_association",
       "channel": "discord",
       "question": "If a rolling update fails in the deployment automation module, what happens? On which channel is this module written?",
-      "answer": "Implemented in Slack (Round 5). When a failure occurs, rollback is automatically triggered (`rollback.go`), restoring the previous snapshot version. At the same time, notifications are sent to Slack and Webhook via `notifier.go`.",
-      "ground_truth": "Implemented in Slack (Round 5). When a failure occurs, rollback is automatically triggered (`rollback.go`), restoring the previous snapshot version. At the same time, notifications are sent to Slack and Webhook via `notifier.go`.",
+      "answer": "Implemented in Slack (Round 5). When a failure occurs, a rollback is automatically triggered (`rollback.go`), restoring the previous snapshot version. At the same time, notifications are sent via `notifier.go` to Slack and Webhook.",
+      "ground_truth": "Implemented in Slack (Round 5). When a failure occurs, a rollback is automatically triggered (`rollback.go`), restoring the previous snapshot version. At the same time, notifications are sent via `notifier.go` to Slack and Webhook.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -305,7 +305,7 @@
           ]
         },
         {
-          "criterion": "Describe the automatic rollback mechanism\n\nThe automatic rollback mechanism is a system that can automatically revert to a previous stable state when an error or exception occurs during deployment or operation. This mechanism typically monitors the status of the application or service in real time. If it detects failures such as abnormal responses, high error rates, or unsuccessful deployments, it will trigger a rollback operation to restore the application to the last known good version, thereby minimizing the impact of the failure on users.\n\nCommon automatic rollback mechanisms include:\n\n- Monitoring deployment status and health checks.\n- Automatically triggering rollback when deployment fails or health checks do not pass.\n- Recording version history to ensure that rollback can be performed accurately.\n- Providing notification and logging to facilitate troubleshooting and follow-up.\n\nThis mechanism is widely used in continuous integration and continuous deployment (CI/CD) pipelines to improve system reliability and reduce operational risks.",
+          "criterion": "Describe the automatic rollback mechanism\n\nThe automatic rollback mechanism is designed to ensure system stability and reliability. When an error or exception occurs during deployment or execution, the system automatically reverts to the previous stable state. This process typically includes the following steps:\n\n1. **Error Detection**: The system monitors for errors or abnormal conditions during operation or deployment.\n2. **Trigger Rollback**: Once an error is detected, the rollback mechanism is activated.\n3. **Restore Previous State**: The system restores files, configurations, or database records to the last known stable version.\n4. **Notification and Logging**: The rollback event is recorded in logs and relevant personnel are notified.\n\nThis mechanism minimizes the impact of failures and ensures that the system can quickly recover to normal operation.",
           "points": 1,
           "keywords": [
             "回滚",
@@ -368,9 +368,9 @@
       "qa_id": "q8",
       "type": "adversarial",
       "channel": "webchat",
-      "question": "Do you still have the Kubernetes deployment YAML you helped me write on Discord?",
-      "answer": "Kubernetes was not used. The project uses Docker Compose for orchestration (Telegram Round 1), along with a custom Go deployment tool (Slack Round 5) and Terraform to manage AWS infrastructure (Telegram Round 4).",
-      "ground_truth": "Kubernetes was not used. The project uses Docker Compose for orchestration (Telegram Round 1), along with a custom Go deployment tool (Slack Round 5) and Terraform to manage AWS infrastructure (Telegram Round 4).",
+      "question": "Do you still have the Kubernetes deployment YAML you helped me write on Discord earlier?",
+      "answer": "Kubernetes is not used. The project uses Docker Compose for orchestration (Telegram Round 1), along with a custom Go deployment tool (Slack Round 5) and Terraform for managing AWS infrastructure (Telegram Round 4).",
+      "ground_truth": "Kubernetes is not used. The project uses Docker Compose for orchestration (Telegram Round 1), along with a custom Go deployment tool (Slack Round 5) and Terraform for managing AWS infrastructure (Telegram Round 4).",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -442,8 +442,8 @@
       "type": "cross_channel_association",
       "channel": "discord",
       "question": "What stages are there in a CI/CD pipeline? Are there any special requirements for production deployment? Where are these configured?",
-      "answer": "Configure GitHub Actions in Slack (Round 8). The CI process has three stages: lint, test, and build. Production deployment requires manual approval (GitHub environment protection rules), while staging is deployed automatically.",
-      "ground_truth": "Configure GitHub Actions in Slack (Round 8). The CI process has three stages: lint, test, and build. Production deployment requires manual approval (GitHub environment protection rules), while staging is deployed automatically.",
+      "answer": "Configure GitHub Actions in Slack (Round 8). The CI pipeline has three stages: lint, test, and build. Production deployment requires manual approval (GitHub environment protection rules), while staging is deployed automatically.",
+      "ground_truth": "Configure GitHub Actions in Slack (Round 8). The CI pipeline has three stages: lint, test, and build. Production deployment requires manual approval (GitHub environment protection rules), while staging is deployed automatically.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -466,7 +466,7 @@
           ]
         },
         {
-          "criterion": "Correctly Linking to Slack",
+          "criterion": "Correctly linking to Slack",
           "points": 1,
           "keywords": [
             "slack"
@@ -485,7 +485,7 @@
       "grounding": [],
       "scoring_rubric": [
         {
-          "criterion": "Correctly link to Discord",
+          "criterion": "Correctly Linking to Discord",
           "points": 1,
           "keywords": [
             "discord"
@@ -510,9 +510,9 @@
       "qa_id": "q12",
       "type": "channel_preference",
       "channel": "webchat",
-      "question": "If David plans to add a log aggregation system (such as ELK Stack), which channel is he most likely to use for discussion and configuration based on his usual habits?",
-      "answer": "According to David's usual practice, monitoring-related configurations (Prometheus, Grafana, Alertmanager) are all done on Discord. Log aggregation also falls under the category of monitoring/observability, so it's most likely handled on Discord as well.",
-      "ground_truth": "According to David's usual practice, monitoring-related configurations (Prometheus, Grafana, Alertmanager) are all done on Discord. Log aggregation also falls under the category of monitoring/observability, so it's most likely handled on Discord as well.",
+      "question": "If David plans to add a log aggregation system (such as ELK Stack) next, based on his usual habits, which channel is he most likely to use for discussion and configuration?",
+      "answer": "According to David's usual practice, monitoring-related configurations (Prometheus, Grafana, Alertmanager) are all handled on Discord. Log aggregation also falls under the category of monitoring/observability, so it is most likely managed on Discord as well.",
+      "ground_truth": "According to David's usual practice, monitoring-related configurations (Prometheus, Grafana, Alertmanager) are all handled on Discord. Log aggregation also falls under the category of monitoring/observability, so it is most likely managed on Discord as well.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -539,8 +539,8 @@
       "type": "cross_channel_association",
       "channel": "slack",
       "question": "How was the container OOM issue resolved? What configuration changes were made?",
-      "answer": "Fixed in WebChat (Round 6). Increased user-service memory limit from 256M to 512M, CPU from 0.5 to 1.0, added GOGC=50 to lower the GC threshold, and GOMEMLIMIT=450MiB as a soft memory limit.",
-      "ground_truth": "Fixed in WebChat (Round 6). Increased user-service memory limit from 256M to 512M, CPU from 0.5 to 1.0, added GOGC=50 to lower the GC threshold, and GOMEMLIMIT=450MiB as a soft memory limit.",
+      "answer": "Fixed in WebChat (Round 6). Increased the memory limit for user-service from 256M to 512M, and CPU from 0.5 to 1.0. Added GOGC=50 to lower the GC threshold and GOMEMLIMIT=450MiB as a soft memory limit.",
+      "ground_truth": "Fixed in WebChat (Round 6). Increased the memory limit for user-service from 256M to 512M, and CPU from 0.5 to 1.0. Added GOGC=50 to lower the GC threshold and GOMEMLIMIT=450MiB as a soft memory limit.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -574,9 +574,9 @@
       "qa_id": "q14",
       "type": "timeline",
       "channel": "discord",
-      "question": "When are Terraform configuration and CI/CD configuration done, respectively? Is there any order or dependency between them?",
-      "answer": "Terraform was completed on Day 6 (Telegram Round 4), while CI/CD (GitHub Actions) was finished on Day 14 (Slack Round 8). Terraform was done before CI/CD because the infrastructure needs to be in place before setting up the deployment pipeline.",
-      "ground_truth": "Terraform was completed on Day 6 (Telegram Round 4), while CI/CD (GitHub Actions) was finished on Day 14 (Slack Round 8). Terraform was done before CI/CD because the infrastructure needs to be in place before setting up the deployment pipeline.",
+      "question": "When are Terraform configuration and CI/CD configuration each done? Is there an order between them?",
+      "answer": "Terraform was completed on Day 6 (Telegram Round 4), and CI/CD (GitHub Actions) was finished on Day 14 (Slack Round 8). Terraform was done before CI/CD because the infrastructure needs to be in place before configuring the deployment pipeline.",
+      "ground_truth": "Terraform was completed on Day 6 (Telegram Round 4), and CI/CD (GitHub Actions) was finished on Day 14 (Slack Round 8). Terraform was done before CI/CD because the infrastructure needs to be in place before configuring the deployment pipeline.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -596,7 +596,7 @@
           ]
         },
         {
-          "criterion": "Describe the sequence of events.",
+          "criterion": "Explain the sequence of events.",
           "points": 1,
           "keywords": [
             "先",

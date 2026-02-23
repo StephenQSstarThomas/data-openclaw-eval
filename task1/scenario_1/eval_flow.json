@@ -1,7 +1,7 @@
 {
   "scenario_id": "e1_s1",
   "construction_ref": "construction.json",
-  "user_persona": "Independent full-stack developer Alex: Telegram is used mainly for personal tasks, architecture, and final touches; Slack is for backend and work-related matters; Discord is for frontend and UI; WebChat is for debugging and fixing issues.",
+  "user_persona": "Independent full-stack developer Alex: Telegram is used mainly for personal tasks, architecture, and final touches; Slack is for backend and work-related communication; Discord is for frontend and UI; WebChat is for debugging and fixing issues.",
   "task_event_graph": {
     "nodes": [
       {
@@ -18,7 +18,7 @@
       },
       {
         "id": "r3",
-        "event": "Round 3: The appointment list page hasn't been created yet. Please implement it. It shoul...",
+        "event": "Round 3: The reservation list page hasn't been created yet. Please implement it. It shoul...",
         "day": 4,
         "channel": "discord"
       },
@@ -36,7 +36,7 @@
       },
       {
         "id": "r6",
-        "event": "Round 6: After the system was launched, I noticed a few issues:  \n1) On mobile devices, t...",
+        "event": "Round 6: After the system was up and running, I noticed a few issues:  \n1) On mobile devi...",
         "day": 10,
         "channel": "webchat"
       },
@@ -96,7 +96,7 @@
       "qa_id": "q1",
       "type": "cross_channel_association",
       "channel": "webchat",
-      "question": "Which UI component library does the frontend of this restaurant reservation system use? On which platform was this decision discussed?",
+      "question": "Which UI component library was used for the frontend of this restaurant reservation system? On which platform was this decision discussed?",
       "answer": "The frontend uses the Ant Design (`antd`) component library. This decision was made during the first round of conversations on Telegram.",
       "ground_truth": "The frontend uses the Ant Design (`antd`) component library. This decision was made during the first round of conversations on Telegram.",
       "grounding": [],
@@ -124,12 +124,12 @@
       "type": "cross_channel_association",
       "channel": "discord",
       "question": "What changes have been made to the mobile number verification rules? On which channels were these modifications implemented?",
-      "answer": "The phone number verification rules have gone through two versions: 1) Initial version (Telegram + Slack): only supported mainland China phone numbers; 2) Updated version (WebChat): switched to support international phone number formats.",
-      "ground_truth": "The phone number verification rules have gone through two versions: 1) Initial version (Telegram + Slack): only supported mainland China phone numbers; 2) Updated version (WebChat): switched to support international phone number formats.",
+      "answer": "The phone number verification rules have gone through two versions: 1) Initial version (Telegram + Slack): only supported mainland China phone numbers; 2) Updated version (WebChat): switched to supporting international phone number formats.",
+      "ground_truth": "The phone number verification rules have gone through two versions: 1) Initial version (Telegram + Slack): only supported mainland China phone numbers; 2) Updated version (WebChat): switched to supporting international phone number formats.",
       "grounding": [],
       "scoring_rubric": [
         {
-          "criterion": "Identified two versions.",
+          "criterion": "Identify that there are two versions.",
           "points": 1,
           "keywords": [
             "两个版本",
@@ -139,7 +139,7 @@
           ]
         },
         {
-          "criterion": "Correctly specify that the initial rule applies to domestic numbers.",
+          "criterion": "Correctly describe the initial rule as domestic numbers.",
           "points": 1,
           "keywords": [
             "国内",
@@ -148,7 +148,7 @@
           ]
         },
         {
-          "criterion": "Correctly describe the update rule as an international number.",
+          "criterion": "Correctly describe the update rule for international numbers.",
           "points": 1,
           "keywords": [
             "国际",
@@ -170,9 +170,9 @@
       "qa_id": "q3",
       "type": "cross_channel_association",
       "channel": "slack",
-      "question": "Which middleware files are located in the server/src/middleware/ directory? On which channels are they created?",
-      "answer": "1) validate.ts — Form validation middleware, created on Slack; 2) logger.ts — Request logging middleware, created on Slack.",
-      "ground_truth": "1) validate.ts — Form validation middleware, created on Slack; 2) logger.ts — Request logging middleware, created on Slack.",
+      "question": "What middleware files are in the `server/src/middleware/` directory? On which channels are they created?",
+      "answer": "1) validate.ts — Form validation middleware, created on Slack;  \n2) logger.ts — Request logging middleware, created on Slack.",
+      "ground_truth": "1) validate.ts — Form validation middleware, created on Slack;  \n2) logger.ts — Request logging middleware, created on Slack.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -204,7 +204,7 @@
       "qa_id": "q4",
       "type": "channel_preference",
       "channel": "telegram",
-      "question": "During the development process, do users seem to have any channel preferences? For example, do certain types of tasks tend to be discussed in specific channels?",
+      "question": "Throughout the development process, do users seem to have any channel usage preferences? For example, do certain types of tasks tend to be discussed on specific channels?",
       "answer": "Telegram is used for project initiation and closure; Slack is used for backend development; Discord is used for frontend UI development; WebChat is used for real-time debugging and fixes.",
       "ground_truth": "Telegram is used for project initiation and closure; Slack is used for backend development; Discord is used for frontend UI development; WebChat is used for real-time debugging and fixes.",
       "grounding": [],
@@ -224,14 +224,14 @@
           ]
         },
         {
-          "criterion": "Identify the tools Discord uses for front-end UI development",
+          "criterion": "Identify the tools Discord uses for frontend UI development",
           "points": 1,
           "keywords": [
             "discord"
           ]
         },
         {
-          "criterion": "Identify WebChat for debugging/repair",
+          "criterion": "Identify WebChat for debugging/fixing",
           "points": 1,
           "keywords": [
             "webchat"
@@ -244,9 +244,9 @@
       "qa_id": "q5",
       "type": "tech_decision",
       "channel": "webchat",
-      "question": "What backend database was used? Why was this database chosen? Were any special configurations applied?",
-      "answer": "The backend uses SQLite (the better-sqlite3 library). This was explicitly requested by the user on Telegram. WAL mode is enabled, and three indexes have been created (date, status, email).",
-      "ground_truth": "The backend uses SQLite (the better-sqlite3 library). This was explicitly requested by the user on Telegram. WAL mode is enabled, and three indexes have been created (date, status, email).",
+      "question": "Which backend database did you use? Why did you choose this database? Did you use any special configurations?",
+      "answer": "The backend uses SQLite (with the better-sqlite3 library), as explicitly requested by users on Telegram. WAL mode is enabled, and three indexes have been created (date, status, email).",
+      "ground_truth": "The backend uses SQLite (with the better-sqlite3 library), as explicitly requested by users on Telegram. WAL mode is enabled, and three indexes have been created (date, status, email).",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -279,9 +279,9 @@
       "qa_id": "q6",
       "type": "cross_channel_association",
       "channel": "discord",
-      "question": "How is the seat capacity limit feature implemented? On which channel is it added? What is the default capacity?",
-      "answer": "Added on Slack. The default is 50 seats. Checks by date and time slot, excludes canceled reservations, and returns 409 if the limit is exceeded.",
-      "ground_truth": "Added on Slack. The default is 50 seats. Checks by date and time slot, excludes canceled reservations, and returns 409 if the limit is exceeded.",
+      "question": "How is the seat capacity limit implemented? On which channel is it applied? What is the default capacity?",
+      "answer": "Added on Slack. By default, there are 50 seats. Check by date and time slot, excluding canceled reservations. If the limit is exceeded, return 409.",
+      "ground_truth": "Added on Slack. By default, there are 50 seats. Check by date and time slot, excluding canceled reservations. If the limit is exceeded, return 409.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -307,7 +307,7 @@
           ]
         },
         {
-          "criterion": "Mention excluding canceled appointments or 409",
+          "criterion": "Mention excluding canceled appointments or 409.",
           "points": 1,
           "keywords": [
             "取消",
@@ -322,9 +322,9 @@
       "qa_id": "q7",
       "type": "timeline",
       "channel": "telegram",
-      "question": "List the major development milestones of this project in chronological order, and indicate which channel each milestone was completed on.",
-      "answer": "1. Telegram: Project setup + form  \n2. Slack: Backend API + database  \n3. Discord: Reservation list  \n4. Telegram: Admin dashboard  \n5. Discord: Navigation bar + homepage  \n6. WebChat: Responsive design + phone number  \n7. Slack: Logs + seat limit  \n8. Telegram: README + scripts",
-      "ground_truth": "1. Telegram: Project setup + form  \n2. Slack: Backend API + database  \n3. Discord: Reservation list  \n4. Telegram: Admin dashboard  \n5. Discord: Navigation bar + homepage  \n6. WebChat: Responsive design + phone number  \n7. Slack: Logs + seat limit  \n8. Telegram: README + scripts",
+      "question": "List the major development milestones of this project in chronological order, and specify which channel each milestone was completed on.",
+      "answer": "1. Telegram: Project setup + forms  \n2. Slack: Backend API + database  \n3. Discord: Reservation list  \n4. Telegram: Admin dashboard  \n5. Discord: Navigation bar + homepage  \n6. WebChat: Responsive design + phone number  \n7. Slack: Logs + seat limitation  \n8. Telegram: README + scripts",
+      "ground_truth": "1. Telegram: Project setup + forms  \n2. Slack: Backend API + database  \n3. Discord: Reservation list  \n4. Telegram: Admin dashboard  \n5. Discord: Navigation bar + homepage  \n6. WebChat: Responsive design + phone number  \n7. Slack: Logs + seat limitation  \n8. Telegram: README + scripts",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -397,9 +397,9 @@
       "qa_id": "q8",
       "type": "adversarial",
       "channel": "slack",
-      "question": "You helped me set up Docker deployment on WhatsApp before, right? Can you send me the Dockerfile so I can take a look?",
-      "answer": "I haven't had any conversations on WhatsApp, nor have I configured Docker deployment. The project is started using npm scripts.",
-      "ground_truth": "I haven't had any conversations on WhatsApp, nor have I configured Docker deployment. The project is started using npm scripts.",
+      "question": "You helped me set up Docker deployment on WhatsApp before, right? Could you send me the Dockerfile so I can take a look?",
+      "answer": "I have never chatted on WhatsApp, nor have I configured Docker deployment. The project is started using npm scripts.",
+      "ground_truth": "I have never chatted on WhatsApp, nor have I configured Docker deployment. The project is started using npm scripts.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -413,7 +413,7 @@
           ]
         },
         {
-          "criterion": "Correctly Rejecting False Premises about Docker",
+          "criterion": "Correctly Rejecting False Premises About Docker",
           "points": 1,
           "keywords": [
             "没有",
@@ -437,7 +437,7 @@
       "qa_id": "q9",
       "type": "cross_channel_association",
       "channel": "discord",
-      "question": "If I want to change the color scheme for appointment statuses (for example, change \"Pending Confirmation\" from orange to blue), which files do I need to modify? In which channel were these files written?",
+      "question": "If I want to change the color scheme for appointment statuses (for example, change \"Pending Confirmation\" from orange to blue), which files do I need to modify? On which channel were these files written?",
       "answer": "You need to modify STATUS_CONFIG in BookingList.tsx (created on Discord) and AdminPanel.tsx (created on Telegram).",
       "ground_truth": "You need to modify STATUS_CONFIG in BookingList.tsx (created on Discord) and AdminPanel.tsx (created on Telegram).",
       "grounding": [],
@@ -473,8 +473,8 @@
       "type": "cross_channel_association",
       "channel": "webchat",
       "question": "What changes has the backend POST /api/bookings endpoint undergone from its creation to now?",
-      "answer": "The initial version was created in Slack (basic CRUD). Later, seat capacity checks were added in Slack, and the validation middleware was changed to international phone numbers in WebChat.",
-      "ground_truth": "The initial version was created in Slack (basic CRUD). Later, seat capacity checks were added in Slack, and the validation middleware was changed to international phone numbers in WebChat.",
+      "answer": "The initial version was created in Slack (basic CRUD). Later, seat capacity checks were added in Slack, and the verification middleware was changed to international phone numbers in WebChat.",
+      "ground_truth": "The initial version was created in Slack (basic CRUD). Later, seat capacity checks were added in Slack, and the verification middleware was changed to international phone numbers in WebChat.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -519,9 +519,9 @@
       "qa_id": "q11",
       "type": "tech_decision",
       "channel": "telegram",
-      "question": "Which pages use the `useBookings` hook? If I modify its return value structure, which files will need to be updated?",
-      "answer": "Used by BookingsPage.tsx (which uses bookings and loading) and AdminPage.tsx (which uses bookings, loading, and refetch).",
-      "ground_truth": "Used by BookingsPage.tsx (which uses bookings and loading) and AdminPage.tsx (which uses bookings, loading, and refetch).",
+      "question": "Which pages use the `useBookings` hook? If I modify its return value structure, which files do I need to update?",
+      "answer": "It is used by BookingsPage.tsx (which uses bookings and loading) and AdminPage.tsx (which uses bookings, loading, and refetch).",
+      "ground_truth": "It is used by BookingsPage.tsx (which uses bookings and loading) and AdminPage.tsx (which uses bookings, loading, and refetch).",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -552,7 +552,7 @@
       "grounding": [],
       "scoring_rubric": [
         {
-          "criterion": "List at least 4 frontend dependencies.",
+          "criterion": "List at least four frontend dependencies.",
           "points": 1,
           "keywords": [
             "react",
@@ -595,7 +595,7 @@
       "grounding": [],
       "scoring_rubric": [
         {
-          "criterion": "Correctly Rejecting Incorrect Timelines",
+          "criterion": "Correctly Rejecting Invalid Timelines",
           "points": 1,
           "keywords": [
             "不是",
@@ -605,7 +605,7 @@
           ]
         },
         {
-          "criterion": "Provide the correct order.",
+          "criterion": "Give the correct order.",
           "points": 1,
           "keywords": [
             "api",
@@ -614,7 +614,7 @@
           ]
         },
         {
-          "criterion": "Explain dependencies",
+          "criterion": "Explaining dependencies",
           "points": 1,
           "keywords": [
             "依赖",
@@ -629,7 +629,7 @@
       "qa_id": "q14",
       "type": "cross_channel_association",
       "channel": "webchat",
-      "question": "What are the required fields in the reservation form? Which fields are optional? What are the validation rules?",
+      "question": "What are the required fields in the appointment form? Which fields are optional? What are the validation rules?",
       "answer": "Required: Name, phone number (international format), email, date (cannot select past dates), time (30-minute intervals), number of people (1-20). Optional: Special requests.",
       "ground_truth": "Required: Name, phone number (international format), email, date (cannot select past dates), time (30-minute intervals), number of people (1-20). Optional: Special requests.",
       "grounding": [],
@@ -671,7 +671,7 @@
       "qa_id": "q15",
       "type": "timeline",
       "channel": "telegram",
-      "question": "If a new developer were to take over this project, could you provide a complete development timeline from the first conversation to the last, including which platform each step was discussed on?",
+      "question": "If a new developer were to take over this project, could you provide them with a complete development timeline from the first conversation to the last, including which platform each step was discussed on?",
       "answer": "1. Telegram (Day 1): Project setup + forms  \n2. Slack (Day 2): Backend API + database  \n3. Discord (Day 4): Reservation list  \n4. Telegram (Day 6): Admin dashboard  \n5. Discord (Day 8): Navigation bar + homepage  \n6. WebChat (Day 10): Responsive design + phone number  \n7. Slack (Day 12): Logs + seat limit  \n8. Telegram (Day 14): README + scripts",
       "ground_truth": "1. Telegram (Day 1): Project setup + forms  \n2. Slack (Day 2): Backend API + database  \n3. Discord (Day 4): Reservation list  \n4. Telegram (Day 6): Admin dashboard  \n5. Discord (Day 8): Navigation bar + homepage  \n6. WebChat (Day 10): Responsive design + phone number  \n7. Slack (Day 12): Logs + seat limit  \n8. Telegram (Day 14): README + scripts",
       "grounding": [],

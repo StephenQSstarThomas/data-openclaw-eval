@@ -1,7 +1,7 @@
 {
   "scenario_id": "e1_s5",
   "construction_ref": "construction.json",
-  "user_persona": "CS graduate student Emily  \nTelegram: Feature planning / architecture design  \nSlack: Database / search / backend logic  \nDiscord: UI components / styling  \nWebChat: Bug fixes / performance optimization",
+  "user_persona": "CS graduate student Emily:  \nTelegram = Feature planning / architecture design  \nSlack = Database / search / backend logic  \nDiscord = UI components / styling  \nWebChat = Bug fixes / performance optimization",
   "task_event_graph": {
     "nodes": [
       {
@@ -30,7 +30,7 @@
       },
       {
         "id": "r5",
-        "event": "Round 5: Create a sidebar with a notebook tree view (supports nesting), and a search bar ...",
+        "event": "Round 5: Create a sidebar with a notebook tree view (supports nesting), and add a search ...",
         "day": 8,
         "channel": "discord"
       },
@@ -48,7 +48,7 @@
       },
       {
         "id": "r8",
-        "event": "Round 8: It's almost done. Add a settings page (theme switching, font size, and shortcut ...",
+        "event": "Round 8: Almost done. Add a settings page (theme switching, font size, shortcut configura...",
         "day": 14,
         "channel": "telegram"
       }
@@ -96,7 +96,7 @@
       "qa_id": "q1",
       "type": "cross_channel_association",
       "channel": "discord",
-      "question": "What technologies are used for the database? What tables are there? On which channel were they designed?",
+      "question": "What database technology was used? What tables are there? On which channel were they designed?",
       "answer": "SQLite (better-sqlite3). There are 5 tables: notebooks, notes, tags, note_tags, links, plus 1 FTS5 virtual table notes_fts. Designed and implemented in Slack (Round 2).",
       "ground_truth": "SQLite (better-sqlite3). There are 5 tables: notebooks, notes, tags, note_tags, links, plus 1 FTS5 virtual table notes_fts. Designed and implemented in Slack (Round 2).",
       "grounding": [],
@@ -141,9 +141,9 @@
       "qa_id": "q2",
       "type": "cross_channel_association",
       "channel": "telegram",
-      "question": "What library is used for knowledge graph visualization? How is the graph data constructed? Which channel is it done on?",
-      "answer": "Using D3.js force-directed graph. Data is built from [[wiki-links]] and #tags in notes via `graph-builder.ts`. Implemented in Telegram (Round 4).",
-      "ground_truth": "Using D3.js force-directed graph. Data is built from [[wiki-links]] and #tags in notes via `graph-builder.ts`. Implemented in Telegram (Round 4).",
+      "question": "Which library is used for knowledge graph visualization? How is the graph data constructed? On which channel is it implemented?",
+      "answer": "Using a D3.js force-directed graph. Data is built from [[wiki-links]] and #tags in notes via `graph-builder.ts`. Implemented in Telegram (Round 4).",
+      "ground_truth": "Using a D3.js force-directed graph. Data is built from [[wiki-links]] and #tags in notes via `graph-builder.ts`. Implemented in Telegram (Round 4).",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -177,7 +177,7 @@
       "qa_id": "q3",
       "type": "cross_channel_association",
       "channel": "slack",
-      "question": "What technologies does the note editor use? What formatting features does it offer? On which channel is it implemented?",
+      "question": "What technologies are used in the note editor? What formatting features does it offer? On which channel are these implemented?",
       "answer": "Use the CodeMirror 6 editor. The formatting toolbar has 20 buttons, including headings, bold, italic, code blocks, links, lists, quotes, tables, wiki links, and more. Implement this in Discord (Round 3).",
       "ground_truth": "Use the CodeMirror 6 editor. The formatting toolbar has 20 buttons, including headings, bold, italic, code blocks, links, lists, quotes, tables, wiki links, and more. Implement this in Discord (Round 3).",
       "grounding": [],
@@ -190,7 +190,7 @@
           ]
         },
         {
-          "criterion": "List at least 4 formatting features:\n\n1. Automatic indentation\n2. Line wrapping\n3. Code alignment\n4. Removal of trailing whitespace",
+          "criterion": "List at least 4 formatting features:\n\n1. Automatic indentation\n2. Code alignment\n3. Removal of extra whitespace\n4. Consistent use of quotation marks",
           "points": 1,
           "keywords": [
             "加粗",
@@ -201,7 +201,7 @@
           ]
         },
         {
-          "criterion": "Correctly link to Discord",
+          "criterion": "Correctly Linking to Discord",
           "points": 1,
           "keywords": [
             "discord"
@@ -215,26 +215,26 @@
       "type": "channel_preference",
       "channel": "webchat",
       "question": "During development, what is each channel used for? Is there any pattern?",
-      "answer": "Telegram is used for architecture design and feature planning (building with Electron, knowledge graph, settings page); Slack is used for database and backend logic (SQLite, search engine, import/export); Discord is used for UI component development (editor, sidebar, search bar); WebChat is used for bug fixing (IPC leaks, FTS5 tokenization, cursor jumping).",
-      "ground_truth": "Telegram is used for architecture design and feature planning (building with Electron, knowledge graph, settings page); Slack is used for database and backend logic (SQLite, search engine, import/export); Discord is used for UI component development (editor, sidebar, search bar); WebChat is used for bug fixing (IPC leaks, FTS5 tokenization, cursor jumping).",
+      "answer": "Telegram is used for architecture design and feature planning (building with Electron, knowledge graph, settings page); Slack is used for database and backend logic (SQLite, search engine, import/export); Discord is used for UI component development (editor, sidebar, search bar); WebChat is used for bug fixes (IPC leaks, FTS5 tokenization, cursor jumps).",
+      "ground_truth": "Telegram is used for architecture design and feature planning (building with Electron, knowledge graph, settings page); Slack is used for database and backend logic (SQLite, search engine, import/export); Discord is used for UI component development (editor, sidebar, search bar); WebChat is used for bug fixes (IPC leaks, FTS5 tokenization, cursor jumps).",
       "grounding": [],
       "scoring_rubric": [
         {
-          "criterion": "Identifying Telegram for Architecture/Planning",
+          "criterion": "Identifying Telegram for architecture/planning",
           "points": 1,
           "keywords": [
             "telegram"
           ]
         },
         {
-          "criterion": "Identify what Slack uses for its database/backend",
+          "criterion": "Identify the database/backend used by Slack",
           "points": 1,
           "keywords": [
             "slack"
           ]
         },
         {
-          "criterion": "Identify Discord's UI components",
+          "criterion": "Identifying Discord's UI components",
           "points": 1,
           "keywords": [
             "discord"
@@ -255,8 +255,8 @@
       "type": "tech_decision",
       "channel": "discord",
       "question": "What changes have been made to the FTS5 full-text search tokenizer? Why were they necessary?",
-      "answer": "Initially, the unicode61 tokenizer was used in Slack (Round 2). Later, it was found that Chinese search performance was poor in WebChat (Round 6), so the trigram tokenizer was adopted to support Chinese substring search.",
-      "ground_truth": "Initially, the unicode61 tokenizer was used in Slack (Round 2). Later, it was found that Chinese search performance was poor in WebChat (Round 6), so the trigram tokenizer was adopted to support Chinese substring search.",
+      "answer": "Initially, the unicode61 tokenizer was used in Slack (Round 2). Later, in WebChat (Round 6), poor Chinese search performance was observed, so the trigram tokenizer was adopted to support Chinese substring search.",
+      "ground_truth": "Initially, the unicode61 tokenizer was used in Slack (Round 2). Later, in WebChat (Round 6), poor Chinese search performance was observed, so the trigram tokenizer was adopted to support Chinese substring search.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -312,7 +312,7 @@
           ]
         },
         {
-          "criterion": "Correctly Linking to Slack",
+          "criterion": "Correctly linking to Slack",
           "points": 1,
           "keywords": [
             "slack"
@@ -350,7 +350,7 @@
           ]
         },
         {
-          "criterion": "Chronological order is correct",
+          "criterion": "The chronological order is correct.",
           "points": 1,
           "keywords": [
             "day"
@@ -364,8 +364,8 @@
       "type": "adversarial",
       "channel": "discord",
       "question": "You helped me integrate MongoDB on Slack before, right? Could you send me the connection configuration?",
-      "answer": "MongoDB is not used. The project uses SQLite (better-sqlite3) as its database, configured in Slack Round 2. It is an embedded database and does not require separate connection configuration.",
-      "ground_truth": "MongoDB is not used. The project uses SQLite (better-sqlite3) as its database, configured in Slack Round 2. It is an embedded database and does not require separate connection configuration.",
+      "answer": "MongoDB is not used. The project uses SQLite (better-sqlite3) as the database, configured in Slack Round 2. It is an embedded database and does not require separate connection configuration.",
+      "ground_truth": "MongoDB is not used. The project uses SQLite (better-sqlite3) as the database, configured in Slack Round 2. It is an embedded database and does not require separate connection configuration.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -385,7 +385,7 @@
           ]
         },
         {
-          "criterion": "Mentioned embedded/no connection required",
+          "criterion": "Mentioning embedded/no connection required",
           "points": 1,
           "keywords": [
             "嵌入",
@@ -400,8 +400,8 @@
       "type": "adversarial",
       "channel": "telegram",
       "question": "Is the search feature using Elasticsearch? Could you help me check the cluster configuration?",
-      "answer": "Elasticsearch is not used. Search is implemented using SQLite FTS5 full-text search (with the trigram tokenizer) and a custom-built Boolean search engine.",
-      "ground_truth": "Elasticsearch is not used. Search is implemented using SQLite FTS5 full-text search (with the trigram tokenizer) and a custom-built Boolean search engine.",
+      "answer": "Elasticsearch is not used. Search is implemented using SQLite FTS5 full-text search (with the trigram tokenizer) and a custom Boolean search engine.",
+      "ground_truth": "Elasticsearch is not used. Search is implemented using SQLite FTS5 full-text search (with the trigram tokenizer) and a custom Boolean search engine.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -449,7 +449,7 @@
           ]
         },
         {
-          "criterion": "List at least 4 types of IPC:\n\n1. Message passing\n2. Shared memory\n3. Pipes\n4. Sockets",
+          "criterion": "List at least 4 categories of IPC:\n\n1. Message passing\n2. Shared memory\n3. Remote procedure call (RPC)\n4. Sockets",
           "points": 2,
           "keywords": [
             "note",
@@ -490,7 +490,7 @@
           ]
         },
         {
-          "criterion": "Mentioning parenthesis support",
+          "criterion": "Mentioning bracket support",
           "points": 1,
           "keywords": [
             "括号",
@@ -504,9 +504,9 @@
       "qa_id": "q12",
       "type": "channel_preference",
       "channel": "slack",
-      "question": "If Emily is planning to add real-time collaboration features (allowing multiple users to edit simultaneously), based on her usual habits, which channel is she most likely to use to discuss the architecture?",
-      "answer": "According to Emily's habits, architecture design and feature planning (Electron setup, knowledge graph, settings) are all discussed on Telegram. Real-time collaborative architecture design is also most likely done on Telegram.",
-      "ground_truth": "According to Emily's habits, architecture design and feature planning (Electron setup, knowledge graph, settings) are all discussed on Telegram. Real-time collaborative architecture design is also most likely done on Telegram.",
+      "question": "If Emily plans to add real-time collaboration features (allowing multiple users to edit simultaneously), based on her usual habits, which channel is she most likely to use to discuss the architecture?",
+      "answer": "According to Emily's habits, architecture design and feature planning (Electron setup, knowledge graph, settings) are all discussed on Telegram. Real-time collaborative architecture design is also most likely conducted on Telegram.",
+      "ground_truth": "According to Emily's habits, architecture design and feature planning (Electron setup, knowledge graph, settings) are all discussed on Telegram. Real-time collaborative architecture design is also most likely conducted on Telegram.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -533,8 +533,8 @@
       "type": "tech_decision",
       "channel": "telegram",
       "question": "How are settings persisted? What keyboard shortcuts are available?",
-      "answer": "Persistent storage using `electron-store` (implemented in Telegram Round 8). By default, there are 9 shortcuts: New Note (CmdOrCtrl+N), Search (CmdOrCtrl+Shift+F), Save (CmdOrCtrl+S), Sidebar (CmdOrCtrl+\\), Graph (CmdOrCtrl+G), Quick Switch (CmdOrCtrl+P), Bold/Italic/Code Block.",
-      "ground_truth": "Persistent storage using `electron-store` (implemented in Telegram Round 8). By default, there are 9 shortcuts: New Note (CmdOrCtrl+N), Search (CmdOrCtrl+Shift+F), Save (CmdOrCtrl+S), Sidebar (CmdOrCtrl+\\), Graph (CmdOrCtrl+G), Quick Switch (CmdOrCtrl+P), Bold/Italic/Code Block.",
+      "answer": "Persistent storage using `electron-store` (implemented in Telegram Round 8). By default, there are 9 shortcut keys: New Note (CmdOrCtrl+N), Search (CmdOrCtrl+Shift+F), Save (CmdOrCtrl+S), Sidebar (CmdOrCtrl+\\), Graph (CmdOrCtrl+G), Quick Switch (CmdOrCtrl+P), Bold/Italic/Code Block.",
+      "ground_truth": "Persistent storage using `electron-store` (implemented in Telegram Round 8). By default, there are 9 shortcut keys: New Note (CmdOrCtrl+N), Search (CmdOrCtrl+Shift+F), Save (CmdOrCtrl+S), Sidebar (CmdOrCtrl+\\), Graph (CmdOrCtrl+G), Quick Switch (CmdOrCtrl+P), Bold/Italic/Code Block.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -569,8 +569,8 @@
       "type": "timeline",
       "channel": "discord",
       "question": "What is the complete evolution process of the FTS5 search feature? Which channels are involved?",
-      "answer": "1) Slack (Day 2): Initially created an FTS5 virtual table using the unicode61 tokenizer.\n2) WebChat (Day 10): Found that Chinese search results were poor, migrated to the trigram tokenizer and added a LIKE fallback.\n3) Slack (Day 12): Built a Boolean search engine (AND/OR/NOT) on top of this.",
-      "ground_truth": "1) Slack (Day 2): Initially created an FTS5 virtual table using the unicode61 tokenizer.\n2) WebChat (Day 10): Found that Chinese search results were poor, migrated to the trigram tokenizer and added a LIKE fallback.\n3) Slack (Day 12): Built a Boolean search engine (AND/OR/NOT) on top of this.",
+      "answer": "1) Slack (Day 2): Initially created an FTS5 virtual table using the unicode61 tokenizer.\n2) WebChat (Day 10): Discovered poor Chinese search performance, migrated to the trigram tokenizer, and added a LIKE fallback.\n3) Slack (Day 12): Built a Boolean search engine (AND/OR/NOT) on top of this foundation.",
+      "ground_truth": "1) Slack (Day 2): Initially created an FTS5 virtual table using the unicode61 tokenizer.\n2) WebChat (Day 10): Discovered poor Chinese search performance, migrated to the trigram tokenizer, and added a LIKE fallback.\n3) Slack (Day 12): Built a Boolean search engine (AND/OR/NOT) on top of this foundation.",
       "grounding": [],
       "scoring_rubric": [
         {
@@ -590,7 +590,7 @@
           ]
         },
         {
-          "criterion": "Description of Boolean Search Expansion\n\nBoolean search expansion refers to the process of broadening the scope of a search by adding, removing, or modifying Boolean operators (such as AND, OR, NOT) and keywords. This technique is commonly used in information retrieval systems to improve search accuracy and recall. By expanding the Boolean expression, users can obtain more comprehensive search results, covering a wider range of relevant documents. For example, adding synonyms or related terms with the OR operator can increase the diversity of search results, while using the AND operator can help narrow down the results to more specific documents.",
+          "criterion": "Description of Boolean Search Expansion",
           "points": 1,
           "keywords": [
             "布尔",
