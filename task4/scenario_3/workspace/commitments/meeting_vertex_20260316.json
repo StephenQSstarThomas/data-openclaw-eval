@@ -1,0 +1,57 @@
+{
+  "commitment_id": "commit_20260316_001",
+  "type": "meeting_scheduling",
+  "description": "Schedule product demo meeting with Vertex Systems before Friday",
+  "made_on": "2026-03-16",
+  "made_via": "WhatsApp",
+  "deadline_natural": "before this Friday",
+  "deadline_parsed": "2026-03-20T17:00:00+08:00",
+  "contact": {
+    "name": "David Okonkwo",
+    "title": "Head of Platform",
+    "company": "Vertex Systems",
+    "email": "d.okonkwo@vertexsystems.com"
+  },
+  "reminders": [
+    {
+      "label": "Thu evening",
+      "time": "2026-03-19T21:00:00+08:00",
+      "channel": "WhatsApp",
+      "cal_id": "cal_s3a",
+      "status": "fired"
+    },
+    {
+      "label": "Fri morning (updated to 8AM)",
+      "time": "2026-03-20T08:00:00+08:00",
+      "channel": "WhatsApp",
+      "cal_id": "cal_s3b",
+      "status": "fired"
+    }
+  ],
+  "task_id": "gtask_s3_001",
+  "verification_method": "google_calendar",
+  "calendar_search_query": "Vertex OR Okonkwo OR demo after:2026-03-16",
+  "prior_correspondence": [
+    {
+      "date": "2026-01-14",
+      "subject": "Product Integration Inquiry \u2014 Vertex Systems",
+      "id": "msg_20260114_vertex"
+    },
+    {
+      "date": "2026-01-28",
+      "subject": "Re: Integration Inquiry \u2014 Vertex Systems",
+      "id": "msg_20260128_vertex",
+      "david_note": "Happy to demo in late March after internal review"
+    }
+  ],
+  "meeting_scheduled_at": "2026-03-17T13:00:00+08:00",
+  "meeting_cal_id": "cal_s3_meeting",
+  "meeting_time": "2026-04-02T10:00:00+08:00",
+  "status": "completed-on-time",
+  "completed": true,
+  "deadline_met": true,
+  "calendar_verified": true,
+  "verification_event_id": "cal_s3_meeting",
+  "slack_status_checked": true,
+  "notes": "Demo meeting scheduled Tue 2026-03-17 for Apr 2. Verified via Calendar at Fri 17:00 deadline. 3 days early. Reminder updated: Fri 09:00\u219208:00."
+}

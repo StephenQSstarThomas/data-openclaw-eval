@@ -1,0 +1,58 @@
+{
+  "commitment_id": "commit_20260309_001",
+  "type": "document_delivery",
+  "description": "Send revised SLA terms document to Luminate Consulting",
+  "made_on": "2026-03-09",
+  "made_via": "WhatsApp",
+  "deadline_natural": "before Wednesday COB",
+  "deadline_parsed": "2026-03-11T18:00:00+08:00",
+  "client": {
+    "name": "Sarah Park",
+    "title": "VP Operations",
+    "company": "Luminate Consulting",
+    "email": "s.park@luminateconsulting.com"
+  },
+  "quote_details": {
+    "sla_changes": "P2 resolution 30d\u219215d, escalation path added"
+  },
+  "reminders": [
+    {
+      "label": "Tue evening",
+      "time": "2026-03-10T21:00:00+08:00",
+      "channel": "WhatsApp",
+      "cal_id": "cal_s2a",
+      "status": "fired"
+    },
+    {
+      "label": "Wed morning",
+      "time": "2026-03-11T09:00:00+08:00",
+      "channel": "WhatsApp",
+      "cal_id": "cal_s2b",
+      "status": "fired"
+    }
+  ],
+  "task_id": "gtask_s2_001",
+  "gmail_search_query": "from:me to:s.park@luminateconsulting.com subject:SLA OR terms OR agreement",
+  "prior_correspondence": [
+    {
+      "date": "2025-10-05",
+      "subject": "SLA Agreement \u2014 Luminate Consulting (Enterprise Plan)",
+      "id": "msg_20251005"
+    },
+    {
+      "date": "2025-11-12",
+      "subject": "Re: SLA Revision Request \u2014 Luminate Consulting",
+      "id": "msg_20251112",
+      "revision_request": "P2 30d\u219215d, clearer escalation path"
+    }
+  ],
+  "status": "completed-on-time",
+  "completed": true,
+  "sent_at": "2026-03-11T16:47:22+08:00",
+  "sent_email_id": "msg_20260311_sent",
+  "sent_subject": "Luminate Consulting \u2014 Revised SLA Terms 2026",
+  "deadline_met": true,
+  "gmail_verified": true,
+  "slack_status_checked": true,
+  "notes": "Commitment made 2026-03-09 via WhatsApp. SLA sent 73 min before 6 PM deadline. Gmail verified. Follow-up reminder set for Thu 10 AM."
+}

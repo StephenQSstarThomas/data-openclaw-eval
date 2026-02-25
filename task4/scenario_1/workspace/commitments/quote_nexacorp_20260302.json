@@ -1,0 +1,74 @@
+{
+  "commitment_id": "commit_20260302_001",
+  "type": "quote_delivery",
+  "description": "Send software licensing proposal to enterprise client (NexaCorp)",
+  "made_on": "2026-03-02",
+  "made_via": "WhatsApp",
+  "deadline_natural": "before this Friday",
+  "deadline_parsed": "2026-03-06T17:00:00+08:00",
+  "client": {
+    "name": "Michael Chen",
+    "title": "CTO",
+    "company": "NexaCorp",
+    "email": "m.chen@nexacorp.io"
+  },
+  "quote_details": {
+    "proposed_price": 45000,
+    "currency": "CNY",
+    "term": "1 year",
+    "seats": 100,
+    "note": "Fresh offer, no discount explanation needed"
+  },
+  "reminders": [
+    {
+      "label": "Thu evening",
+      "time": "2026-03-05T21:00:00+08:00",
+      "channel": "WhatsApp",
+      "cal_id": "cal_tw8x2a",
+      "status": "fired"
+    },
+    {
+      "label": "Fri morning (updated to 8AM)",
+      "time": "2026-03-06T08:00:00+08:00",
+      "channel": "WhatsApp",
+      "cal_id": "cal_tw8x2b",
+      "status": "fired"
+    }
+  ],
+  "task_id": "gtask_q4_001",
+  "gmail_search_query": "from:me to:m.chen@nexacorp.io subject:licensing OR proposal OR quote",
+  "prior_correspondence": [
+    {
+      "date": "2025-09-28",
+      "subject": "Intro: Enterprise SaaS solutions for NexaCorp",
+      "id": "msg_20250928"
+    },
+    {
+      "date": "2025-10-03",
+      "subject": "SaaS Licensing Proposal - NexaCorp Enterprise Plan",
+      "id": "msg_20251003",
+      "price": "48000 CNY/year"
+    },
+    {
+      "date": "2025-10-14",
+      "subject": "Re: SaaS Licensing Proposal for NexaCorp",
+      "id": "msg_20251014",
+      "price": "43200 CNY/year (10% early-bird, expired Nov 2025)"
+    }
+  ],
+  "status": "completed-late",
+  "completed": true,
+  "overdue_detected_at": "2026-03-06T17:00:00+08:00",
+  "sent_at": "2026-03-06T18:32:04+08:00",
+  "sent_email_id": "msg_20260306_sent",
+  "sent_subject": "NexaCorp Software Licensing — Updated Proposal 2026",
+  "deadline_met": false,
+  "delay_minutes": 92,
+  "gmail_verified": true,
+  "follow_up_sent": true,
+  "follow_up_channel": "WhatsApp",
+  "follow_up_time": "2026-03-06T17:01:05+08:00",
+  "slack_status_checked": true,
+  "slack_overdue_notified": true,
+  "notes": "Commitment made on WhatsApp 2026-03-02. Sent 92 min past the 5PM Friday deadline. Gmail verified. Loop closed as completed-late. Follow-up with Michael Chen scheduled for Sat 10 AM."
+}

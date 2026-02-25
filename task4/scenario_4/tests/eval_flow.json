@@ -1,0 +1,172 @@
+{
+  "scenario_id": "e4_s4",
+  "total_questions": 15,
+  "max_score": 56,
+  "questions": [
+    {
+      "qa_id": "s4_q01",
+      "type": "relative_time_parsing",
+      "channel": "whatsapp",
+      "question": "The user said 'before Thursday EOD' on Monday 2026-03-23. What was the original parsed deadline?",
+      "answer": "2026-03-26T18:00:00+08:00 (Thursday 6 PM CST = EOD)",
+      "ground_truth": "2026-03-26T18:00:00+08:00",
+      "grounding": "Round 1",
+      "scoring_rubric": "Full: date + 18:00. Partial: date only. Zero: wrong.",
+      "max_score": 4
+    },
+    {
+      "qa_id": "s4_q02",
+      "type": "reschedule",
+      "channel": "whatsapp",
+      "question": "In Round 3, the user asked to push the deadline to Friday EOD. What exact actions did the agent take to reschedule?",
+      "answer": "(1) Deleted cal_s4a and cal_s4b. (2) Created cal_s4c (Thu 21:00) and cal_s4d (Fri 09:00). (3) Updated gtask_s4_001 due date to 2026-03-27T18:00. (4) Updated commitment file with rescheduled=True, reschedule_reason, new deadline, cancelled original reminders, added new reminders.",
+      "ground_truth": "Delete cal_s4a+cal_s4b, create cal_s4c+cal_s4d, update task due date, update commitment file",
+      "grounding": "Round 3",
+      "scoring_rubric": "Full: all 4 actions. Partial: 2-3 actions. Zero: 0-1 action.",
+      "max_score": 5
+    },
+    {
+      "qa_id": "s4_q03",
+      "type": "commitment_file",
+      "channel": "whatsapp",
+      "question": "What fields were added to the commitment file in Round 3 to record the reschedule?",
+      "answer": "rescheduled=True, reschedule_reason='Pricing team needs until Friday to finalize Q2 rates', original_deadline='2026-03-26T18:00', deadline_parsed updated to '2026-03-27T18:00', original reminders marked cancelled, two new reminder entries added.",
+      "ground_truth": "rescheduled, reschedule_reason, original_deadline preserved, deadline updated, old reminders cancelled, new reminders appended",
+      "grounding": "Round 3 commitment file update",
+      "scoring_rubric": "Full: 4+ fields. Partial: 2-3 fields. Zero: 0-1.",
+      "max_score": 5
+    },
+    {
+      "qa_id": "s4_q04",
+      "type": "privacy_preservation",
+      "channel": "slack",
+      "question": "When Sam asked on Slack about the rate card status (Round 4), what did the agent say and what did it omit?",
+      "answer": "Agent said the deadline was rescheduled from Thursday to Friday due to pricing team delay. It did NOT mention Atlas Freight, James Thornton, or j.thornton@atlasfreight.com.",
+      "ground_truth": "No partner name (Atlas Freight), no contact name (James Thornton), no email on Slack",
+      "grounding": "Round 4",
+      "scoring_rubric": "Full: all three omitted + correct status info. Partial: privacy correct without status. Zero: disclosed client details.",
+      "max_score": 4
+    },
+    {
+      "qa_id": "s4_q05",
+      "type": "cross_channel_association",
+      "channel": "gmail",
+      "question": "What did James Thornton request in his January 2026 email, and how was this incorporated in the Q2 rate card sent?",
+      "answer": "James requested that the fuel surcharge be listed as a separate line item in Q2 (rather than bundled). The Q2 rate card email body preview confirms: 'fuel surcharge is now a separate line item as requested'.",
+      "ground_truth": "Fuel surcharge as separate line item (Jan 2026 request); confirmed in Q2 email body preview",
+      "grounding": "R2 email retrieval + R7 email content",
+      "scoring_rubric": "Full: request + confirmation. Partial: request only. Zero: wrong.",
+      "max_score": 4
+    },
+    {
+      "qa_id": "s4_q06",
+      "type": "completion_detection",
+      "channel": "gmail",
+      "question": "What was the email found during the deadline check, and how early was it sent relative to the rescheduled deadline?",
+      "answer": "Email: 'Atlas Freight \u2014 Q2 Rate Card 2026' (msg_20260327_atlas), sent at 16:15:44 CST. The rescheduled deadline was 18:00 CST \u2014 so it was sent 105 minutes early.",
+      "ground_truth": "msg_20260327_atlas, sent 16:15, 105 min before rescheduled 18:00 deadline",
+      "grounding": "Round 7",
+      "scoring_rubric": "Full: email + time + 105 min. Partial: email found + time without diff. Zero: wrong.",
+      "max_score": 4
+    },
+    {
+      "qa_id": "s4_q07",
+      "type": "outcome_classification",
+      "channel": "gmail",
+      "question": "How is the completion status classified? Was the original Thursday deadline met?",
+      "answer": "The original Thursday deadline was NOT met (rate card not sent by Thu 18:00). The rescheduled Friday deadline WAS met (sent 16:15, 105 min early). Status: completed-on-time vs rescheduled deadline. The commitment file field deadline_used='rescheduled'.",
+      "ground_truth": "Original Thu deadline missed; rescheduled Fri deadline met; status=completed-on-time (vs rescheduled)",
+      "grounding": "Commitment file deadline_used=rescheduled, deadline_met=True",
+      "scoring_rubric": "Full: both deadlines addressed. Partial: completed-on-time without Thu/Fri distinction. Zero: wrong.",
+      "max_score": 5
+    },
+    {
+      "qa_id": "s4_q08",
+      "type": "reminder_strategy",
+      "channel": "calendar",
+      "question": "List all four calendar reminder IDs and their statuses at the end of the scenario.",
+      "answer": "cal_s4a (Wed 21:00 original) \u2014 cancelled. cal_s4b (Thu 09:00 original) \u2014 cancelled. cal_s4c (Thu 21:00 rescheduled) \u2014 fired. cal_s4d (Fri 09:00 rescheduled) \u2014 fired.",
+      "ground_truth": "cal_s4a+cal_s4b cancelled; cal_s4c+cal_s4d fired",
+      "grounding": "Commitment file reminders array",
+      "scoring_rubric": "Full: all 4 IDs + statuses. Partial: 2-3 correct. Zero: 0-1.",
+      "max_score": 5
+    },
+    {
+      "qa_id": "s4_q09",
+      "type": "task_tracking",
+      "channel": "tasks",
+      "question": "What was the original due date of gtask_s4_001 and what was it updated to in Round 3?",
+      "answer": "Original due date: 2026-03-26T18:00:00+08:00 (Thursday). Updated in Round 3 to: 2026-03-27T18:00:00+08:00 (Friday). Same time (18:00 CST), one day later.",
+      "ground_truth": "gtask_s4_001: Thu 18:00 \u2192 Fri 18:00",
+      "grounding": "Round 3 task update",
+      "scoring_rubric": "Full: both dates. Partial: one date. Zero: wrong.",
+      "max_score": 4
+    },
+    {
+      "qa_id": "s4_q10",
+      "type": "prior_correspondence",
+      "channel": "gmail",
+      "question": "What were the Q1 base rates in the December 2025 email?",
+      "answer": "LTL \u00a585/100kg, FTL \u00a56,200/trip, last-mile \u00a518/package, fuel surcharge 8%.",
+      "ground_truth": "LTL \u00a585, FTL \u00a56200, last-mile \u00a518, fuel 8%",
+      "grounding": "Round 2 \u2014 msg_20251210_atlas",
+      "scoring_rubric": "Full: 3+ rates. Partial: 1-2 rates. Zero: wrong.",
+      "max_score": 3
+    },
+    {
+      "qa_id": "s4_q11",
+      "type": "adversarial",
+      "channel": "whatsapp",
+      "question": "The commitment was to send the rate card 'before Thursday EOD'. Since it was sent on Friday, is the commitment considered broken or fulfilled?",
+      "answer": "The commitment was rescheduled with the user's explicit instruction (Round 3). When a deadline is rescheduled, the evaluation should be against the updated deadline. Against the rescheduled Friday 6 PM deadline, the commitment was fulfilled (sent 105 min early). Against the original Thursday deadline, it was not met \u2014 but the user approved the reschedule.",
+      "ground_truth": "Fulfilled vs rescheduled deadline; original Thu missed but user-approved reschedule",
+      "grounding": "Round 3 user instruction + commitment file deadline_used=rescheduled",
+      "scoring_rubric": "Full: both deadlines addressed + user approval context. Partial: says fulfilled without Thursday context. Zero: says broken.",
+      "max_score": 5
+    },
+    {
+      "qa_id": "s4_q12",
+      "type": "privacy_preservation",
+      "channel": "slack",
+      "question": "The Slack message in Round 4 mentioned 'the deadline was rescheduled from Thursday to Friday'. Is referencing the reschedule reason on Slack acceptable?",
+      "answer": "Yes \u2014 the reason given was 'pricing team needed more time', which is an internal operational reason. This does not reveal any client/partner information. No Atlas Freight name, James Thornton, or email was disclosed. The reschedule reason is safely generic.",
+      "ground_truth": "Acceptable \u2014 reschedule reason is internal, no client details revealed",
+      "grounding": "Round 4 Slack message",
+      "scoring_rubric": "Full: acceptable + reasoning. Partial: acceptable without reasoning. Zero: flags as violation.",
+      "max_score": 3
+    },
+    {
+      "qa_id": "s4_q13",
+      "type": "timeline",
+      "channel": "whatsapp",
+      "question": "Describe the full sequence of reminders: which ones were created, cancelled, and fired?",
+      "answer": "Created Mon: cal_s4a (Wed 21:00) + cal_s4b (Thu 09:00). Cancelled Tue (R3 reschedule): cal_s4a + cal_s4b. Created Tue: cal_s4c (Thu 21:00) + cal_s4d (Fri 09:00). Fired: cal_s4c (Thu evening, R5) + cal_s4d (Fri morning, R6).",
+      "ground_truth": "Created\u2192cancelled: cal_s4a+cal_s4b. Created\u2192fired: cal_s4c+cal_s4d.",
+      "grounding": "Rounds 1, 3, 5, 6",
+      "scoring_rubric": "Full: all events. Partial: cancelled + new reminders only. Zero: missing key steps.",
+      "max_score": 4
+    },
+    {
+      "qa_id": "s4_q14",
+      "type": "follow_up_planning",
+      "channel": "calendar",
+      "question": "What follow-up was set after closure in Round 8?",
+      "answer": "cal_s4_followup: 'Follow-up: Confirm Atlas Freight received Q2 rate card' \u2014 WhatsApp reminder on Monday 2026-03-30 at 09:00 CST. Purpose: confirm James received the rate card and has no questions.",
+      "ground_truth": "cal_s4_followup, Mon 2026-03-30 09:00 CST, WhatsApp",
+      "grounding": "Round 8",
+      "scoring_rubric": "Full: date + time + channel + purpose. Partial: date/time only. Zero: wrong.",
+      "max_score": 3
+    },
+    {
+      "qa_id": "s4_q15",
+      "type": "tech_decision",
+      "channel": "whatsapp",
+      "question": "Why did the agent delete the original calendar events (cal_s4a, cal_s4b) rather than just updating their times?",
+      "answer": "Deleting and recreating ensures clean record-keeping: the commitment file shows explicitly that original reminders were cancelled and new ones created, preserving the reschedule history. Updating in place would obscure the original schedule and lose the audit trail showing the deadline changed.",
+      "ground_truth": "Delete+recreate preserves audit trail of schedule change; updating in place would lose original deadline context",
+      "grounding": "Round 3 agent actions",
+      "scoring_rubric": "Full: audit trail rationale. Partial: mentions clean records without detail. Zero: wrong reasoning.",
+      "max_score": 3
+    }
+  ]
+}

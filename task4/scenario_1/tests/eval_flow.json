@@ -1,0 +1,263 @@
+{
+  "scenario_id": "e4_s1",
+  "construction_ref": "construction.json",
+  "user_persona": "Chen Wei, business development manager at a B2B SaaS startup. WhatsApp for personal commitments and reminders (preferred). Slack for internal team coordination (client confidentiality required). Gmail for formal client correspondence. Google Tasks + Calendar for tracking.",
+  "task_event_graph": {
+    "nodes": [
+      {"id": "r1", "event": "Round 1 (WhatsApp, Day 1): Commitment capture — 'before this Friday' deadline parsed, double reminders set, Google Task created, client details added", "day": 1, "channel": "whatsapp"},
+      {"id": "r2", "event": "Round 2 (Gmail, Day 2): Prior NexaCorp correspondence retrieved and summarized, new quote pricing decided (¥45k)", "day": 2, "channel": "gmail"},
+      {"id": "r3", "event": "Round 3 (Slack, Day 3): Colleague status check — agent reports pending without disclosing client details", "day": 3, "channel": "slack"},
+      {"id": "r4", "event": "Round 4 (WhatsApp, Day 4 Thu): Friday reminder moved from 9 AM to 8 AM, overdue task surfaced", "day": 4, "channel": "whatsapp"},
+      {"id": "r5", "event": "Round 5 (Calendar/WhatsApp, Day 5 Thu 9PM): Thursday evening reminder fires — Gmail check, WhatsApp prep reminder", "day": 5, "channel": "whatsapp"},
+      {"id": "r6", "event": "Round 6 (Calendar/WhatsApp, Day 5 Fri 8AM): Friday morning reminder fires — Gmail check, WhatsApp deadline reminder", "day": 5, "channel": "whatsapp"},
+      {"id": "r7", "event": "Round 7 (Gmail, Day 5 Fri 5PM): Deadline check — two-pass Gmail search, overdue detected, WhatsApp alert + Slack notification", "day": 5, "channel": "gmail"},
+      {"id": "r8", "event": "Round 8 (WhatsApp+Gmail, Day 5 Fri 6PM): User sent quote late — Gmail verified, task closed completed-late, follow-up reminder set", "day": 5, "channel": "whatsapp"}
+    ],
+    "edges": [
+      {"from": "r1", "to": "r2", "relation": "sequential"},
+      {"from": "r2", "to": "r3", "relation": "sequential"},
+      {"from": "r3", "to": "r4", "relation": "sequential"},
+      {"from": "r4", "to": "r5", "relation": "sequential"},
+      {"from": "r5", "to": "r6", "relation": "sequential"},
+      {"from": "r6", "to": "r7", "relation": "sequential"},
+      {"from": "r7", "to": "r8", "relation": "sequential"}
+    ]
+  },
+  "qa_annotations": [
+    {
+      "qa_id": "q1",
+      "type": "relative_time_parsing",
+      "channel": "whatsapp",
+      "question": "In Round 1, the user said 'before this Friday.' What specific deadline did the agent parse from this? What were the initial two reminder times set, and through which channel were they configured?",
+      "answer": "Deadline parsed as 2026-03-06T17:00:00+08:00 (Friday 5 PM CST). Two reminders set: (1) Thursday 2026-03-05 21:00 CST via WhatsApp (cal_tw8x2a); (2) Friday 2026-03-06 09:00 CST via WhatsApp (cal_tw8x2b). Both were set through Google Calendar with WhatsApp as the notification channel.",
+      "ground_truth": "Deadline: 2026-03-06T17:00 CST. Reminders: Thu 21:00 WhatsApp (cal_tw8x2a) + Fri 09:00 WhatsApp (cal_tw8x2b).",
+      "grounding": ["r1"],
+      "scoring_rubric": [
+        {"criterion": "Correctly identifies deadline as Friday 2026-03-06 at 5 PM (17:00 CST)", "points": 1, "keywords": ["2026-03-06", "friday", "5 pm", "17:00"]},
+        {"criterion": "Correctly identifies Thursday evening reminder (21:00 / 9 PM, cal_tw8x2a)", "points": 1, "keywords": ["thursday", "21:00", "9 pm", "cal_tw8x2a"]},
+        {"criterion": "Correctly identifies Friday morning reminder (09:00, cal_tw8x2b)", "points": 1, "keywords": ["friday", "09:00", "9 am", "cal_tw8x2b"]},
+        {"criterion": "States both reminders are via WhatsApp", "points": 1, "keywords": ["whatsapp"]}
+      ],
+      "max_score": 4
+    },
+    {
+      "qa_id": "q2",
+      "type": "channel_preference",
+      "channel": "whatsapp",
+      "question": "Why did the agent use WhatsApp — rather than Slack or email — for all reminder notifications? Where does this preference come from?",
+      "answer": "According to USER.md, WhatsApp is Chen Wei's preferred notification channel for personal commitments, client follow-ups, and reminders. The agent reads USER.md on startup and applies this preference when creating calendar events (notify-channel whatsapp). Slack is used only for internal team coordination, and Gmail is for formal correspondence.",
+      "ground_truth": "USER.md states WhatsApp is the preferred notification channel. Agent reads USER.md at startup and applies the preference to all reminder calendar events.",
+      "grounding": ["r1"],
+      "scoring_rubric": [
+        {"criterion": "Cites USER.md as the source of the channel preference", "points": 1, "keywords": ["user.md", "user profile", "workspace"]},
+        {"criterion": "States WhatsApp is Chen Wei's preferred reminder channel", "points": 1, "keywords": ["whatsapp", "preferred", "reminder"]},
+        {"criterion": "Explains Slack is for internal team use (not personal reminders)", "points": 1, "keywords": ["slack", "internal", "team"]}
+      ],
+      "max_score": 3
+    },
+    {
+      "qa_id": "q3",
+      "type": "cross_channel_association",
+      "channel": "gmail",
+      "question": "In Round 2, what did the agent find in the prior NexaCorp email history? List the emails found and the key pricing information from each.",
+      "answer": "The agent found 3 emails: (1) Sep 28, 2025 — Cold intro to Michael Chen after TechConnect conference; (2) Oct 3, 2025 — Full proposal at ¥48,000/year for 100 seats with premium support, SSO, and quarterly reviews; (3) Oct 14, 2025 — Follow-up offering a 10% early-bird discount: ¥43,200/year, valid through end of November 2025. No response was received after Oct 14.",
+      "ground_truth": "3 emails: Sep 28 intro, Oct 3 proposal (¥48k/yr), Oct 14 follow-up with 10% early-bird (¥43.2k, expired Nov 2025). No reply after Oct 14.",
+      "grounding": ["r2"],
+      "scoring_rubric": [
+        {"criterion": "Correctly identifies the Sep 28 intro email", "points": 0.5, "keywords": ["september", "sep 28", "intro", "techconnect"]},
+        {"criterion": "Correctly identifies the Oct 3 proposal with ¥48,000 pricing", "points": 1, "keywords": ["october 3", "oct 3", "48000", "48,000", "proposal"]},
+        {"criterion": "Correctly identifies the Oct 14 follow-up with 10% early-bird discount (¥43,200)", "points": 1, "keywords": ["october 14", "oct 14", "43200", "43,200", "early-bird", "discount"]},
+        {"criterion": "Notes that no reply was received after Oct 14", "points": 0.5, "keywords": ["no reply", "no response", "silence"]}
+      ],
+      "max_score": 3
+    },
+    {
+      "qa_id": "q4",
+      "type": "tech_decision",
+      "channel": "gmail",
+      "question": "After reviewing the NexaCorp pricing history in Round 2, what price did Chen Wei decide on for the new quote, and why was this different from both previous offers?",
+      "answer": "Chen Wei decided on ¥45,000/year — a fresh offer with no discount explanation needed. This is different from the original ¥48,000 (the standard price) and the ¥43,200 early-bird (which expired in November 2025). ¥45,000 represents a moderate reduction from the list price without referencing or continuing the expired discount.",
+      "ground_truth": "¥45,000/year — fresh offer, different from ¥48k standard and ¥43.2k expired early-bird.",
+      "grounding": ["r2"],
+      "scoring_rubric": [
+        {"criterion": "States the new price as ¥45,000/year", "points": 1, "keywords": ["45000", "45,000", "¥45k"]},
+        {"criterion": "Notes that the early-bird discount had expired (November 2025)", "points": 1, "keywords": ["expired", "november 2025", "early-bird"]},
+        {"criterion": "Explains this is a fresh offer rather than a continuation of the old discount", "points": 1, "keywords": ["fresh", "new offer", "no discount explanation"]}
+      ],
+      "max_score": 3
+    },
+    {
+      "qa_id": "q5",
+      "type": "privacy_preservation",
+      "channel": "slack",
+      "question": "In Round 3, when David asked on Slack 'did the enterprise quote go out to the client yet?', what exactly did the agent reply? Was the client's name, company, or email address mentioned?",
+      "answer": "The agent replied: '@chenwei The enterprise quote is still pending — hasn't gone out yet. Deadline is this Friday at 5 PM. Reminders are already set up so it won't slip. Might be worth blocking some time Wednesday or Thursday to prep the document.' No client name (NexaCorp), no contact name (Michael Chen), and no email address (m.chen@nexacorp.io) was disclosed on Slack.",
+      "ground_truth": "Slack reply used 'enterprise quote' — no client name, company, or email. Based on USER.md confidentiality requirement.",
+      "grounding": ["r3"],
+      "scoring_rubric": [
+        {"criterion": "Correctly states agent used 'enterprise quote' without revealing client details", "points": 1, "keywords": ["enterprise quote", "no client", "no name"]},
+        {"criterion": "Confirms NexaCorp was NOT mentioned on Slack", "points": 1, "keywords": ["nexacorp", "not mentioned", "not disclosed", "no company"]},
+        {"criterion": "Explains this follows USER.md confidentiality requirement", "points": 1, "keywords": ["user.md", "confidentiality", "client privacy"]}
+      ],
+      "max_score": 3
+    },
+    {
+      "qa_id": "q6",
+      "type": "reminder_update",
+      "channel": "whatsapp",
+      "question": "In Round 4, the user asked to move the Friday morning reminder to 8 AM. What was the original time? Which calendar event was updated, and how was the commitment file changed?",
+      "answer": "The original Friday morning reminder was set to 09:00 CST (9 AM) on calendar event cal_tw8x2b. The agent read the commitment file, confirmed 9 AM via openclaw calendar get, then updated cal_tw8x2b to 08:00 CST. The commitment file was also updated: the reminder time changed from '2026-03-06T09:00:00+08:00' to '2026-03-06T08:00:00+08:00', and the label updated to 'Fri morning (updated to 8AM)'.",
+      "ground_truth": "Original: 09:00. Calendar event cal_tw8x2b updated to 08:00. Commitment file: time and label updated.",
+      "grounding": ["r4"],
+      "scoring_rubric": [
+        {"criterion": "States original time was 9 AM (09:00 CST)", "points": 1, "keywords": ["9 am", "09:00", "nine"]},
+        {"criterion": "Identifies calendar event cal_tw8x2b as the updated event", "points": 1, "keywords": ["cal_tw8x2b"]},
+        {"criterion": "Confirms update to 8 AM (08:00 CST)", "points": 1, "keywords": ["8 am", "08:00", "eight"]},
+        {"criterion": "Mentions the commitment file was also updated to reflect the change", "points": 1, "keywords": ["commitment file", "json", "updated", "workspace"]}
+      ],
+      "max_score": 4
+    },
+    {
+      "qa_id": "q7",
+      "type": "completion_detection",
+      "channel": "gmail",
+      "question": "In Round 7 (5 PM Friday deadline check), how did the agent determine the quote was not sent? Describe the two Gmail searches performed and their queries.",
+      "answer": "The agent performed two Gmail search passes: (1) Specific query: 'from:me to:m.chen@nexacorp.io subject:licensing OR proposal after:2026/03/05' — returned 0 results; (2) Broad query: 'from:me (to:nexacorp OR to:m.chen OR subject:NexaCorp OR subject:licensing OR subject:proposal OR subject:quote OR subject:45000) after:2026/03/04' — returned 0 results. Both searches confirmed no quote email was sent, leading the agent to mark the task as overdue.",
+      "ground_truth": "Two Gmail searches: (1) specific to:m.chen@nexacorp.io (0 results); (2) broad with multiple subject/recipient variations (0 results). Both confirmed no send.",
+      "grounding": ["r7"],
+      "scoring_rubric": [
+        {"criterion": "Describes the first pass as a specific query targeting m.chen@nexacorp.io", "points": 1, "keywords": ["m.chen@nexacorp.io", "specific", "first pass"]},
+        {"criterion": "Describes the second pass as a broader query with multiple keyword variations", "points": 1, "keywords": ["broad", "second pass", "multiple", "variations"]},
+        {"criterion": "States both passes returned 0 results", "points": 1, "keywords": ["0", "zero", "no messages", "not found"]},
+        {"criterion": "Explains two passes were used to reduce risk of false negatives", "points": 1, "keywords": ["verify", "confirm", "redundant", "false negative", "broader"]}
+      ],
+      "max_score": 4
+    },
+    {
+      "qa_id": "q8",
+      "type": "overdue_escalation",
+      "channel": "whatsapp",
+      "question": "After detecting the overdue status in Round 7, what channels did the agent use to send notifications, and what information was included vs. withheld in each?",
+      "answer": "The agent sent two notifications: (1) WhatsApp to Chen Wei — included client name (Michael Chen), mentioned the quote hadn't gone out, and provided recovery options (send now or email Michael explaining the delay); (2) Slack to @chenwei — only said 'the enterprise quote deadline passed, flagged as overdue, check WhatsApp for next steps' — NO client name, company, or deal details disclosed on Slack.",
+      "ground_truth": "WhatsApp: included client name, recovery options. Slack: @chenwei only, enterprise quote, no client details.",
+      "grounding": ["r7"],
+      "scoring_rubric": [
+        {"criterion": "States WhatsApp overdue alert included client-specific information (Michael Chen / NexaCorp)", "points": 1, "keywords": ["whatsapp", "michael", "nexacorp", "client name"]},
+        {"criterion": "States Slack message to @chenwei contained no client name or deal details", "points": 1, "keywords": ["slack", "no client", "enterprise quote", "@chenwei"]},
+        {"criterion": "Describes the recovery options given in the WhatsApp message", "points": 1, "keywords": ["send now", "acknowledge delay", "options", "recover"]}
+      ],
+      "max_score": 3
+    },
+    {
+      "qa_id": "q9",
+      "type": "cross_channel_association",
+      "channel": "whatsapp",
+      "question": "In Round 8, how did the agent verify that the email had actually been sent? What was found, and what was the final commitment status and delay?",
+      "answer": "The agent searched Gmail for the specific subject 'NexaCorp Software Licensing' after 2026-03-06 and found one email: sent at 18:32 CST on 2026-03-06 to m.chen@nexacorp.io (with attachment NexaCorp_Proposal_2026_Final.pdf). The agent also retrieved the email via gmail get to confirm the recipient and content. Final status: completed-late. Delay: 92 minutes past the 17:00 deadline.",
+      "ground_truth": "Gmail search found 1 email (18:32, to m.chen@nexacorp.io). Status: completed-late, delay: 92 minutes.",
+      "grounding": ["r8"],
+      "scoring_rubric": [
+        {"criterion": "States agent searched Gmail for the specific subject", "points": 1, "keywords": ["gmail", "search", "subject"]},
+        {"criterion": "Email found at 18:32 on 2026-03-06", "points": 1, "keywords": ["18:32", "6:32 pm"]},
+        {"criterion": "Final status is completed-late (not just completed)", "points": 1, "keywords": ["completed-late", "late", "overdue"]},
+        {"criterion": "Delay stated as 92 minutes", "points": 1, "keywords": ["92", "ninety-two"]}
+      ],
+      "max_score": 4
+    },
+    {
+      "qa_id": "q10",
+      "type": "timeline",
+      "channel": "whatsapp",
+      "question": "List the 8 rounds of this commitment tracking chain in chronological order. For each round, state the channel and the key action or event.",
+      "answer": "1. WhatsApp (Day 1 Mon): Commitment captured, deadline parsed, double reminders set, Google Task created. 2. Gmail (Day 2 Tue): Prior NexaCorp emails retrieved, pricing history surfaced, ¥45k decided. 3. Slack (Day 3 Wed): Colleague checks status — agent reports pending without client details. 4. WhatsApp (Day 4 Thu): Friday morning reminder moved from 9 AM to 8 AM. 5. WhatsApp/Calendar (Day 5 Thu 9PM): Thursday evening reminder fires, WhatsApp prep sent. 6. WhatsApp/Calendar (Day 5 Fri 8AM): Friday morning reminder fires, WhatsApp deadline sent. 7. Gmail (Day 5 Fri 5PM): Deadline check, two Gmail passes, overdue detected, WhatsApp+Slack alerts. 8. WhatsApp+Gmail (Day 5 Fri 6PM): Quote sent late, Gmail verified, closed as completed-late.",
+      "ground_truth": "R1 WhatsApp→R2 Gmail→R3 Slack→R4 WhatsApp→R5 Thu reminder→R6 Fri reminder→R7 overdue→R8 closure.",
+      "grounding": ["r1","r2","r3","r4","r5","r6","r7","r8"],
+      "scoring_rubric": [
+        {"criterion": "Correctly identifies all 8 rounds in the right order", "points": 2, "keywords": ["round 1","round 2","round 3","round 4","round 5","round 6","round 7","round 8"]},
+        {"criterion": "Correctly maps each round to its channel", "points": 2, "keywords": ["whatsapp","gmail","slack"]},
+        {"criterion": "Key action for each round accurately described", "points": 2, "keywords": ["commitment","prior emails","slack check","reminder update","thursday","friday","overdue","completed"]},
+        {"criterion": "Final outcome stated as completed-late", "points": 1, "keywords": ["completed-late","late","overdue"]}
+      ],
+      "max_score": 7
+    },
+    {
+      "qa_id": "q11",
+      "type": "cross_channel_association",
+      "channel": "gmail",
+      "question": "How many times was the commitment file (quote_nexacorp_20260302.json) updated throughout the 8 rounds? Name the key fields that changed in each update.",
+      "answer": "The commitment file was updated 6 times: (1) Round 1 — initial creation (status=pending, empty client, generic gmail_query); (2) Round 1 follow-up — client details added (name, title, company, email), gmail_query refined; (3) Round 2 — quote_details added (¥45k, 1yr, 100 seats); (4) Round 3 — slack_status_checked=true; (5) Round 4 — reminder cal_tw8x2b time updated (09:00→08:00), label updated; (6) Rounds 5-6 — reminder status fields fired; (7) Round 7 — status=overdue, gmail_verified=false, follow_up_sent=true, slack_overdue_notified=true; (8) Round 8 — status=completed-late, sent_at, sent_email_id, delay_minutes=92, gmail_verified=true.",
+      "ground_truth": "Updated 7+ times across rounds 1,2,3,4,5,6,7,8. Key fields: client, quote_details, slack_status_checked, reminder times, overdue flags, completion fields.",
+      "grounding": ["r1","r2","r3","r4","r5","r6","r7","r8"],
+      "scoring_rubric": [
+        {"criterion": "Identifies at least 5 distinct updates across the rounds", "points": 1, "keywords": ["5","6","7","eight","multiple updates"]},
+        {"criterion": "Mentions client details added in Round 1 follow-up", "points": 1, "keywords": ["client", "michael", "nexacorp", "email"]},
+        {"criterion": "Mentions quote_details (¥45k) added in Round 2", "points": 1, "keywords": ["quote_details","45000","pricing"]},
+        {"criterion": "Mentions status progression: pending → overdue → completed-late", "points": 1, "keywords": ["pending","overdue","completed-late"]}
+      ],
+      "max_score": 4
+    },
+    {
+      "qa_id": "q12",
+      "type": "adversarial",
+      "channel": "slack",
+      "question": "The Slack colleague David was told in Round 3 that the quote was going to 'NexaCorp' and that Michael Chen was the contact. Is that correct?",
+      "answer": "No, that is incorrect. The agent's Slack reply did not mention NexaCorp, Michael Chen, or any client-specific details. The message only said 'the enterprise quote is still pending — deadline is this Friday at 5 PM.' This is consistent with the USER.md rule: 'Client confidentiality is critical — never mention client names or deal details on Slack.'",
+      "ground_truth": "No. Slack message said 'enterprise quote' only. NexaCorp and Michael Chen were not mentioned.",
+      "grounding": ["r3"],
+      "scoring_rubric": [
+        {"criterion": "Correctly rejects the false premise (NexaCorp was NOT mentioned on Slack)", "points": 1, "keywords": ["no","incorrect","not mentioned","not disclosed"]},
+        {"criterion": "Quotes or accurately describes the actual Slack message content", "points": 1, "keywords": ["enterprise quote","pending","friday"]},
+        {"criterion": "Cites USER.md confidentiality rule as the reason", "points": 1, "keywords": ["user.md","confidentiality","privacy","policy"]}
+      ],
+      "max_score": 3
+    },
+    {
+      "qa_id": "q13",
+      "type": "adversarial",
+      "channel": "whatsapp",
+      "question": "In Round 5, the Thursday evening reminder was the first notification about the Friday deadline. Was there a Friday morning reminder before Round 5?",
+      "answer": "The Thursday evening reminder (Round 5, cal_tw8x2a) was NOT the first notification. The Friday morning reminder (cal_tw8x2b) had already been set in Round 1 (along with the Thursday one). Round 5 is the Thursday evening event *firing*, not the first time a reminder was set. Both reminders were created together in Round 1. The Friday morning reminder fires later in Round 6.",
+      "ground_truth": "Both reminders were created in Round 1. Round 5 is cal_tw8x2a firing (Thu evening). The Fri morning reminder cal_tw8x2b fires in Round 6.",
+      "grounding": ["r1","r5","r6"],
+      "scoring_rubric": [
+        {"criterion": "Correctly rejects the claim that Round 5 was the first notification", "points": 1, "keywords": ["not first","both set in round 1","created earlier"]},
+        {"criterion": "Explains that both reminders were set up together in Round 1", "points": 1, "keywords": ["round 1","both","created","cal_tw8x2a","cal_tw8x2b"]},
+        {"criterion": "States that the Friday morning reminder (cal_tw8x2b) fired in Round 6, not Round 5", "points": 1, "keywords": ["round 6","cal_tw8x2b","friday morning"]}
+      ],
+      "max_score": 3
+    },
+    {
+      "qa_id": "q14",
+      "type": "channel_preference",
+      "channel": "whatsapp",
+      "question": "Throughout the 8 rounds, how did each channel (WhatsApp, Slack, Gmail, Google Calendar, Google Tasks) play a different role? Does this match the preferences in USER.md?",
+      "answer": "WhatsApp: Personal commitment channel — received the initial promise, delivered all reminder notifications (both calendar-triggered and the overdue alert), and was used for the closure summary. Slack: Internal team coordination — only used to update the team on status (Round 3) and flag overdue (Round 7), with strict client confidentiality. Gmail: Formal correspondence + verification tool — past emails retrieved for context (Round 2) and searched to verify sends (Rounds 3,5,6,7,8). Google Calendar: Scheduling infrastructure — held the two reminder events, one of which was updated (Round 4). Google Tasks: Tracking backbone — gtask_q4_001 tracked the full lifecycle from pending to overdue to completed. This matches USER.md exactly.",
+      "ground_truth": "WhatsApp=personal/reminders; Slack=team(private); Gmail=formal+verification; Calendar=reminders; Tasks=tracking. All match USER.md.",
+      "grounding": ["r1","r2","r3","r4","r5","r6","r7","r8"],
+      "scoring_rubric": [
+        {"criterion": "Correctly describes WhatsApp's role as personal reminders and commitment channel", "points": 1, "keywords": ["whatsapp","personal","reminder","commitment"]},
+        {"criterion": "Correctly describes Slack's role as internal team with client privacy constraints", "points": 1, "keywords": ["slack","internal","team","confidentiality","private"]},
+        {"criterion": "Correctly describes Gmail as both historical context source and verification tool", "points": 1, "keywords": ["gmail","verification","history","search"]},
+        {"criterion": "States the role assignment matches USER.md preferences", "points": 1, "keywords": ["user.md","matches","preference","consistent"]}
+      ],
+      "max_score": 4
+    },
+    {
+      "qa_id": "q15",
+      "type": "tech_decision",
+      "channel": "gmail",
+      "question": "The agent checked Gmail for the sent quote at five different points during the scenario (Rounds 3, 5, 6, 7, 8). What was the result each time, and why did Round 7 require two searches while the others only needed one?",
+      "answer": "Round 3 (Wed): 0 results — task still pending, no email sent. Round 5 (Thu 9PM): 0 results — still not sent. Round 6 (Fri 8AM): 0 results — still not sent. Round 7 (Fri 5PM, deadline): TWO searches performed — (1) specific query (0 results), then (2) broader query with multiple keyword/recipient variations (0 results). Both confirmed overdue. Round 8 (Fri 6PM, after user sent it): 1 result found confirming the actual sent email. Round 7 required two passes because it was the high-stakes deadline moment — a single false negative could have wrongly marked a completed commitment as overdue, so the agent broadened the search to be thorough.",
+      "ground_truth": "Rounds 3,5,6: 0 results (1 pass each). Round 7: two passes (specific + broad, both 0) because it's the critical deadline decision point. Round 8: 1 email found.",
+      "grounding": ["r3","r5","r6","r7","r8"],
+      "scoring_rubric": [
+        {"criterion": "Correctly notes Rounds 3, 5, and 6 each returned 0 results with a single search", "points": 1, "keywords": ["round 3","round 5","round 6","0","single","one pass"]},
+        {"criterion": "Correctly states Round 7 used two passes (specific + broad), both 0 results", "points": 1, "keywords": ["round 7","two pass","specific","broad","0"]},
+        {"criterion": "Correctly states Round 8 found 1 email confirming the send", "points": 1, "keywords": ["round 8","1 result","found","confirmed"]},
+        {"criterion": "Explains the reason for the two-pass approach at deadline (high-stakes, avoid false negatives)", "points": 1, "keywords": ["deadline","high-stakes","false negative","thorough","critical"]}
+      ],
+      "max_score": 4
+    }
+  ],
+  "event_summary_ground_truth": "Chen Wei committed on WhatsApp (Monday 2026-03-02) to send a software licensing quote to Michael Chen (CTO, NexaCorp, m.chen@nexacorp.io) before Friday 5 PM. Agent parsed 'before this Friday' → 2026-03-06T17:00 CST; set double WhatsApp reminders (Thu 21:00 cal_tw8x2a + Fri 09:00 cal_tw8x2b); created Google Task gtask_q4_001; saved commitment file. Round 2: retrieved 3 prior NexaCorp emails (Sep-Oct 2025, pricing ¥48k→¥43.2k early-bird expired), user chose ¥45k fresh offer; notes/nexacorp_thread_summary.md saved. Round 3: Slack colleague check — task pending, 0 Gmail results, @chenwei notified without client details. Round 4: user moved Friday reminder from 9 AM to 8 AM (cal_tw8x2b updated). Rounds 5-6: Thursday 9 PM and Friday 8 AM reminders fired; each time Gmail confirmed 0 sent emails. Round 7: Friday 5 PM — two Gmail passes (0 results each) → task marked overdue → WhatsApp alert (with client details) + Slack notification (@chenwei, no client details). Round 8: user sent quote at 18:32 — Gmail verified 1 email found → task closed as completed-late (92 min delay, gmail_verified=true) → Saturday 10 AM follow-up reminder set."
+}

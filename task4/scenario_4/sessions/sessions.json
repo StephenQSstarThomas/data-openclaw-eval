@@ -1,0 +1,13 @@
+{
+  "sessions": [
+    {
+      "id": "d7e1f3a4-5b9c-6d0e-1f2a-4b6d8f0a2c4e",
+      "name": "main",
+      "cwd": "/home/wangfang/.openclaw/workspace",
+      "createdAt": "2026-03-23T09:00:00.000Z",
+      "updatedAt": "2026-03-23T09:18:00.000Z",
+      "model": "claude-sonnet-4-6",
+      "provider": "anthropic"
+    }
+  ]
+}

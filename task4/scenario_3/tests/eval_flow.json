@@ -1,0 +1,172 @@
+{
+  "scenario_id": "e4_s3",
+  "total_questions": 15,
+  "max_score": 54,
+  "questions": [
+    {
+      "qa_id": "s3_q01",
+      "type": "relative_time_parsing",
+      "channel": "whatsapp",
+      "question": "The user said 'before this Friday' on Monday 2026-03-16. What deadline did the agent parse?",
+      "answer": "2026-03-20T17:00:00+08:00 (Friday 5 PM CST)",
+      "ground_truth": "2026-03-20T17:00:00+08:00",
+      "grounding": "Round 1",
+      "scoring_rubric": "Full: exact date + 17:00. Partial: correct date, wrong time. Zero: wrong date.",
+      "max_score": 4
+    },
+    {
+      "qa_id": "s3_q02",
+      "type": "verification_method",
+      "channel": "calendar",
+      "question": "This scenario involves scheduling a meeting rather than sending an email. How does the agent verify the commitment is complete \u2014 via Gmail or Google Calendar?",
+      "answer": "Via Google Calendar. The agent searches Calendar for any event matching 'Vertex OR Okonkwo OR demo' after 2026-03-16. Email is NOT used for verification.",
+      "ground_truth": "Google Calendar search (not Gmail). Meeting scheduled = commitment satisfied.",
+      "grounding": "Commitment file: verification_method=google_calendar. Round 7: calendar search returned cal_s3_meeting.",
+      "scoring_rubric": "Full: Calendar + reason. Partial: Calendar without explanation. Zero: says Gmail.",
+      "max_score": 5
+    },
+    {
+      "qa_id": "s3_q03",
+      "type": "reminder_update",
+      "channel": "whatsapp",
+      "question": "The user asked to move the Friday morning reminder from 9 AM to 8 AM. Which calendar event ID was updated and what was the new time?",
+      "answer": "cal_s3b was updated from 09:00 to 08:00 CST on 2026-03-20. The commitment file label was also updated to 'Fri morning (updated to 8AM)'.",
+      "ground_truth": "cal_s3b: 09:00\u219208:00, commitment file updated",
+      "grounding": "Round 4",
+      "scoring_rubric": "Full: cal_s3b + 08:00 + file update. Partial: correct ID or time only. Zero: wrong ID.",
+      "max_score": 4
+    },
+    {
+      "qa_id": "s3_q04",
+      "type": "privacy_preservation",
+      "channel": "slack",
+      "question": "When Kevin asked on Slack about the demo meeting status (Round 3), what information did the agent withhold?",
+      "answer": "The agent did not mention Vertex Systems, David Okonkwo, or d.okonkwo@vertexsystems.com. It referred only to 'the integration partner' and 'partner demo meeting'.",
+      "ground_truth": "No partner name (Vertex Systems), no contact name (David Okonkwo), no email on Slack",
+      "grounding": "Round 3 \u2014 Slack reply used 'partner demo meeting' without client details",
+      "scoring_rubric": "Full: all three withheld. Partial: one or two. Zero: disclosed client details.",
+      "max_score": 5
+    },
+    {
+      "qa_id": "s3_q05",
+      "type": "cross_channel_association",
+      "channel": "gmail",
+      "question": "What did David Okonkwo's January 28 email say, and how was it relevant to the March commitment?",
+      "answer": "David said Vertex was evaluating integrations for Q2 and wanted a demo in late March after their internal review. This aligned with the commitment deadline (before Fri Mar 20) and confirmed interest.",
+      "ground_truth": "msg_20260128_vertex: happy to demo late March after internal review; aligns with Mar 20 deadline",
+      "grounding": "Round 2 \u2014 agent retrieved and summarized prior correspondence",
+      "scoring_rubric": "Full: content + relevance. Partial: content only. Zero: wrong or missing.",
+      "max_score": 4
+    },
+    {
+      "qa_id": "s3_q06",
+      "type": "proactive_detection",
+      "channel": "gmail",
+      "question": "In Noise 3 (inbox summary), what notable email appeared that was relevant to the meeting commitment? What happened next?",
+      "answer": "David Okonkwo sent an email 'Re: Demo availability \u2014 Vertex Systems' with two time slot options (Apr 2 10AM or Apr 8 2PM). The agent flagged it as notable. The user asked to open it, selected Apr 2, and the agent scheduled cal_s3_meeting.",
+      "ground_truth": "David emailed proactively with two slots; agent flagged it; user chose Apr 2; meeting scheduled same day (Tue Mar 17)",
+      "grounding": "Noise 3 inbox summary + follow-up user messages",
+      "scoring_rubric": "Full: identified email + meeting scheduling outcome. Partial: email flagged without scheduling detail. Zero: missed.",
+      "max_score": 4
+    },
+    {
+      "qa_id": "s3_q07",
+      "type": "completion_detection",
+      "channel": "calendar",
+      "question": "When the Friday 5 PM deadline check ran (Round 7), what did the Calendar search return?",
+      "answer": "1 event found: cal_s3_meeting \u2014 'Product Demo \u2014 Vertex Systems (David Okonkwo)' scheduled for 2026-04-02 10:00 CST. Task marked completed on time.",
+      "ground_truth": "cal_s3_meeting found; status=confirmed; task marked completed",
+      "grounding": "Round 7 \u2014 openclaw calendar search returned 1 result",
+      "scoring_rubric": "Full: event ID + meeting time + completed status. Partial: event found without details. Zero: says 0 results.",
+      "max_score": 4
+    },
+    {
+      "qa_id": "s3_q08",
+      "type": "timeline",
+      "channel": "whatsapp",
+      "question": "How many days before the deadline was the meeting scheduled, and what triggered the scheduling?",
+      "answer": "3 days early. The meeting was scheduled on Tuesday March 17 (after David emailed with available slots). The deadline was Friday March 20. David had proactively emailed with two options: Apr 2 or Apr 8.",
+      "ground_truth": "Scheduled Tue Mar 17, 3 days before Fri Mar 20 deadline. Triggered by David's proactive email.",
+      "grounding": "Noise 3 inbox + follow-up scheduling; commitment file meeting_scheduled_at=2026-03-17",
+      "scoring_rubric": "Full: 3 days + trigger. Partial: date only. Zero: wrong.",
+      "max_score": 3
+    },
+    {
+      "qa_id": "s3_q09",
+      "type": "reminder_strategy",
+      "channel": "calendar",
+      "question": "What did the Thursday evening reminder check, and what was the result?",
+      "answer": "The agent searched Google Calendar for 'Vertex OR demo' after 2026-03-16. It found cal_s3_meeting (Apr 2 10AM), confirmed the commitment was already satisfied, and sent a WhatsApp informational reminder that the meeting was already scheduled.",
+      "ground_truth": "Calendar search \u2192 cal_s3_meeting found; cal_s3a marked fired; WhatsApp sent confirming early completion",
+      "grounding": "Round 5",
+      "scoring_rubric": "Full: Calendar check + result + WhatsApp content. Partial: Calendar check without result. Zero: says Gmail used.",
+      "max_score": 4
+    },
+    {
+      "qa_id": "s3_q10",
+      "type": "task_tracking",
+      "channel": "tasks",
+      "question": "What is the task ID for the meeting commitment, and what was its final status?",
+      "answer": "gtask_s3_001. Final status: completed (updated in Round 7 after Calendar verification).",
+      "ground_truth": "gtask_s3_001, status=completed",
+      "grounding": "Round 1 creation + Round 7 update",
+      "scoring_rubric": "Full: ID + completed. Partial: one correct. Zero: wrong.",
+      "max_score": 3
+    },
+    {
+      "qa_id": "s3_q11",
+      "type": "adversarial",
+      "channel": "calendar",
+      "question": "The commitment was to 'schedule a meeting before Friday'. The meeting itself is on April 2, which is after Friday March 20. Is the commitment still satisfied?",
+      "answer": "Yes. The commitment was to SCHEDULE (confirm a meeting date) before Friday, not to HAVE the meeting before Friday. Scheduling the meeting on Tuesday March 17 fully satisfies the commitment, even though the meeting occurs on April 2.",
+      "ground_truth": "Commitment satisfied. 'Schedule before Friday' = get a confirmed slot, not hold the meeting by then.",
+      "grounding": "construction.json commitment type = meeting_scheduling",
+      "scoring_rubric": "Full: explains scheduling vs occurrence distinction. Partial: says yes without explanation. Zero: says not satisfied.",
+      "max_score": 4
+    },
+    {
+      "qa_id": "s3_q12",
+      "type": "prior_correspondence",
+      "channel": "gmail",
+      "question": "How many prior emails with Vertex Systems did the agent find, and what was the gap since the last email?",
+      "answer": "2 emails: Jan 14 outreach + Jan 28 David's reply. The last email was January 28, 2026 \u2014 approximately 7 weeks before the session on March 16.",
+      "ground_truth": "2 emails, ~7 weeks gap (Jan 28 to Mar 16)",
+      "grounding": "Round 2",
+      "scoring_rubric": "Full: 2 emails + 7 weeks. Partial: count only. Zero: wrong.",
+      "max_score": 3
+    },
+    {
+      "qa_id": "s3_q13",
+      "type": "adversarial",
+      "channel": "whatsapp",
+      "question": "The agent's Thursday evening reminder message said 'the Vertex Systems demo is already on the calendar'. Is naming Vertex Systems in a WhatsApp message a confidentiality violation?",
+      "answer": "No. WhatsApp is a personal channel used by Zhang Hao himself. The confidentiality policy applies to Slack (team channel). Naming clients in personal WhatsApp communications is appropriate.",
+      "ground_truth": "No violation. Policy restricts Slack, not personal WhatsApp.",
+      "grounding": "USER.md client confidentiality = Slack only",
+      "scoring_rubric": "Full: not a violation + Slack-specific policy. Partial: not a violation without reasoning. Zero: flags as violation.",
+      "max_score": 4
+    },
+    {
+      "qa_id": "s3_q14",
+      "type": "follow_up_planning",
+      "channel": "calendar",
+      "question": "What follow-up reminder was set in Round 8, and what was the purpose?",
+      "answer": "cal_s3_prep: 'Prep for Vertex Systems demo tomorrow' \u2014 WhatsApp reminder set for Wednesday April 1, 2:00 PM CST. Purpose: prepare demo materials, review David's email, draft agenda before the Apr 2 demo.",
+      "ground_truth": "cal_s3_prep, Apr 1 14:00 CST, WhatsApp, prep for Apr 2 demo",
+      "grounding": "Round 8",
+      "scoring_rubric": "Full: event + time + purpose. Partial: event and time only. Zero: wrong or missing.",
+      "max_score": 4
+    },
+    {
+      "qa_id": "s3_q15",
+      "type": "tech_decision",
+      "channel": "calendar",
+      "question": "Why does the agent use Google Calendar search rather than Gmail search to verify this commitment?",
+      "answer": "The deliverable is scheduling a meeting (not sending an email). A confirmed meeting appears in Google Calendar, not Gmail. Gmail verification would only detect confirmation emails, which may not exist or may be unreliable. Calendar search directly checks whether the meeting is booked.",
+      "ground_truth": "Meeting scheduling verified via Calendar; email delivery verified via Gmail \u2014 different verification methods for different commitment types",
+      "grounding": "commitment file verification_method=google_calendar; construction evaluation_metrics",
+      "scoring_rubric": "Full: correct method + reasoning. Partial: correct method without reasoning. Zero: wrong method stated.",
+      "max_score": 4
+    }
+  ]
+}

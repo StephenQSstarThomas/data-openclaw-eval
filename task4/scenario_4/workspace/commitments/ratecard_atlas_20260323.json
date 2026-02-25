@@ -1,0 +1,73 @@
+{
+  "commitment_id": "commit_20260323_001",
+  "type": "document_delivery",
+  "description": "Send Q2 rate card to Atlas Freight (James Thornton)",
+  "made_on": "2026-03-23",
+  "made_via": "WhatsApp",
+  "deadline_natural": "before Thursday EOD",
+  "original_deadline": "2026-03-26T18:00:00+08:00",
+  "deadline_parsed": "2026-03-27T18:00:00+08:00",
+  "rescheduled": true,
+  "reschedule_reason": "Pricing team needed until Friday to finalize Q2 rates",
+  "client": {
+    "name": "James Thornton",
+    "title": "Director of Logistics",
+    "company": "Atlas Freight",
+    "email": "j.thornton@atlasfreight.com"
+  },
+  "reminders": [
+    {
+      "label": "Wed evening",
+      "time": "2026-03-25T21:00:00+08:00",
+      "channel": "WhatsApp",
+      "cal_id": "cal_s4a",
+      "status": "cancelled"
+    },
+    {
+      "label": "Thu morning",
+      "time": "2026-03-26T09:00:00+08:00",
+      "channel": "WhatsApp",
+      "cal_id": "cal_s4b",
+      "status": "cancelled"
+    },
+    {
+      "label": "Thu evening (rescheduled)",
+      "time": "2026-03-26T21:00:00+08:00",
+      "channel": "WhatsApp",
+      "cal_id": "cal_s4c",
+      "status": "fired"
+    },
+    {
+      "label": "Fri morning (rescheduled)",
+      "time": "2026-03-27T09:00:00+08:00",
+      "channel": "WhatsApp",
+      "cal_id": "cal_s4d",
+      "status": "fired"
+    }
+  ],
+  "task_id": "gtask_s4_001",
+  "gmail_search_query": "from:me to:j.thornton@atlasfreight.com subject:rate card OR Q2 rates",
+  "prior_correspondence": [
+    {
+      "date": "2025-12-10",
+      "subject": "Q1 Rate Card \u2014 Atlas Freight Partnership",
+      "id": "msg_20251210_atlas"
+    },
+    {
+      "date": "2026-01-08",
+      "subject": "Re: Q1 Rate Card \u2014 Atlas Freight",
+      "id": "msg_20260108_atlas",
+      "client_request": "Break out fuel surcharge separately in Q2"
+    }
+  ],
+  "status": "completed-on-time",
+  "completed": true,
+  "sent_at": "2026-03-27T16:15:44+08:00",
+  "sent_email_id": "msg_20260327_atlas",
+  "sent_subject": "Atlas Freight \u2014 Q2 Rate Card 2026",
+  "deadline_met": true,
+  "deadline_used": "rescheduled",
+  "gmail_verified": true,
+  "slack_status_checked": true,
+  "notes": "Original Thu deadline rescheduled to Fri (pricing team delay). Sent 105 min before rescheduled 6 PM deadline. Gmail verified."
+}

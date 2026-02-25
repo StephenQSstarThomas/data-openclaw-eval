@@ -1,0 +1,52 @@
+{
+  "commitment_id": "commit_20260330_B",
+  "type": "document_delivery",
+  "label": "Integration spec to Stellar Dynamics",
+  "made_on": "2026-03-30",
+  "made_via": "WhatsApp",
+  "deadline_natural": "by Friday 5 PM",
+  "deadline_parsed": "2026-04-03T17:00:00+08:00",
+  "contact": {
+    "name": "Ben Nakamura",
+    "title": "Head of Engineering",
+    "company": "Stellar Dynamics",
+    "email": "b.nakamura@stellardynamics.io"
+  },
+  "reminders": [
+    {
+      "label": "Thu evening",
+      "time": "2026-04-02T21:00:00+08:00",
+      "channel": "WhatsApp",
+      "cal_id": "cal_s5_b1",
+      "status": "fired"
+    },
+    {
+      "label": "Fri morning",
+      "time": "2026-04-03T09:00:00+08:00",
+      "channel": "WhatsApp",
+      "cal_id": "cal_s5_b2",
+      "status": "fired"
+    }
+  ],
+  "task_id": "gtask_s5_002",
+  "gmail_search_query": "from:me to:b.nakamura@stellardynamics.io subject:integration OR spec",
+  "prior_correspondence": [
+    {
+      "date": "2026-02-18",
+      "subject": "Integration Partnership Inquiry \u2014 Stellar Dynamics",
+      "id": "msg_20260218_stellar"
+    }
+  ],
+  "status": "completed-late",
+  "completed": true,
+  "overdue_detected_at": "2026-04-03T17:00:00+08:00",
+  "sent_at": "2026-04-03T19:14:00+08:00",
+  "sent_email_id": "msg_20260403_spec",
+  "sent_subject": "Stellar Dynamics Integration Specification 2026",
+  "deadline_met": false,
+  "delay_minutes": 134,
+  "gmail_verified": true,
+  "follow_up_sent": true,
+  "slack_overdue_notified": true,
+  "notes": "Spec sent 134 min past Fri 5PM deadline. Two-pass Gmail search confirmed 0 at deadline. Gmail verified after user reported sending at 19:14."
+}

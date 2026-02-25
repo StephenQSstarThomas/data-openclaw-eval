@@ -1,0 +1,48 @@
+{
+  "commitment_id": "commit_20260330_A",
+  "type": "document_delivery",
+  "label": "NDA redline to Meridian Partners",
+  "made_on": "2026-03-30",
+  "made_via": "WhatsApp",
+  "deadline_natural": "by Wednesday 5 PM",
+  "deadline_parsed": "2026-04-01T17:00:00+08:00",
+  "contact": {
+    "name": "Rachel Kim",
+    "title": "Legal Counsel",
+    "company": "Meridian Partners",
+    "email": "r.kim@meridianpartners.com"
+  },
+  "reminders": [
+    {
+      "label": "Tue evening",
+      "time": "2026-03-31T21:00:00+08:00",
+      "channel": "WhatsApp",
+      "cal_id": "cal_s5_a1",
+      "status": "fired"
+    },
+    {
+      "label": "Wed morning",
+      "time": "2026-04-01T09:00:00+08:00",
+      "channel": "WhatsApp",
+      "cal_id": "cal_s5_a2",
+      "status": "fired"
+    }
+  ],
+  "task_id": "gtask_s5_001",
+  "gmail_search_query": "from:me to:r.kim@meridianpartners.com subject:NDA OR agreement",
+  "prior_correspondence": [
+    {
+      "date": "2026-03-15",
+      "subject": "NDA Draft v1.0 \u2014 Meridian Partners",
+      "id": "msg_20260315_meridian"
+    }
+  ],
+  "status": "completed-on-time",
+  "completed": true,
+  "sent_at": "2026-04-01T16:23:00+08:00",
+  "sent_email_id": "msg_20260401_nda",
+  "sent_subject": "Meridian Partners \u2014 NDA Redline v2.0 (Final)",
+  "deadline_met": true,
+  "gmail_verified": true,
+  "notes": "NDA sent 37 min before Wed 5PM deadline. Commitment B (Stellar) was the late one."
+}
