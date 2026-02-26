@@ -1,0 +1,162 @@
+{
+  "scenario_id": "e3_s2",
+  "construction_ref": "scenario_2_construction.json",
+  "user_persona": "Lay Chou: Full-stack developer, interacts with OpenClaw via Slack DM, SmartHome Dashboard project encounters an urgent temperature data anomaly event requiring cross-platform coordinated response.",
+  "task_event_graph": {
+    "nodes": [
+      {"id": "e1", "event": "Problem discovery: urgent email + Slack discussion correlation", "date": "2026-02-17", "caused_by": []},
+      {"id": "e2", "event": "GitHub investigation: new bug issue + historical issue correlation", "date": "2026-02-17", "caused_by": ["e1"]},
+      {"id": "e3", "event": "Root cause analysis: cross-platform correlation reasoning", "date": "2026-02-17", "caused_by": ["e1", "e2"]},
+      {"id": "e4", "event": "Fix progress tracking: Slack + GitHub", "date": "2026-02-17", "caused_by": ["e3"]},
+      {"id": "e5", "event": "Schedule coordination: Calendar + Gmail correlation", "date": "2026-02-17", "caused_by": ["e4"]},
+      {"id": "e6", "event": "Team notification: Slack action execution", "date": "2026-02-17", "caused_by": ["e5"]},
+      {"id": "e7", "event": "Post-mortem summary: full-platform timeline assembly", "date": "2026-02-17", "caused_by": ["e1","e2","e3","e4","e5","e6"]}
+    ],
+    "edges": [
+      {"from": "e1", "to": "e2", "relation": "investigation_deepening"},
+      {"from": "e1", "to": "e3", "relation": "cross_platform_correlation"},
+      {"from": "e2", "to": "e3", "relation": "cross_platform_correlation"},
+      {"from": "e3", "to": "e4", "relation": "progress_tracking"},
+      {"from": "e4", "to": "e5", "relation": "impact_assessment"},
+      {"from": "e5", "to": "e6", "relation": "action_execution"},
+      {"from": "e6", "to": "e7", "relation": "post_mortem"}
+    ]
+  },
+  "qa_annotations": [
+    {
+      "qa_id": "q1",
+      "round": 1,
+      "question_id": "S2_R1_Q1",
+      "type": "cross_platform_correlation",
+      "platforms": ["Gmail", "Slack"],
+      "question": "I received an urgent email earlier about temperature data issues. Help me check what the email says and whether there's any related discussion on Slack.",
+      "mc_question": "Regarding the temperature data anomaly, what information is found in the email and on Slack respectively?",
+      "mc_options": {
+        "A": "Email: multiple users reported temperature displaying -999, Charlie suspects MQTT message format change; Slack: team confirmed firmware upgrade caused payload to change from JSON to Protobuf",
+        "B": "Email: temperature sensor offline, unable to retrieve data; Slack: team is investigating network connection issues",
+        "C": "Email: multiple users reported temperature displaying -999, suspected database issue; Slack: team confirmed database connection timeout",
+        "D": "Email: temperature data severely delayed; Slack: team confirmed unstable WebSocket connection as the cause"
+      },
+      "correct_answer": "A",
+      "explanation": "Email E9 mentions multiple users reported temperature displaying -999, Charlie suspects MQTT message format change; Slack S9-S11 confirmed firmware upgrade caused payload format to change from JSON to Protobuf",
+      "source": "Gmail E9 + Slack S9-S11",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q2",
+      "round": 2,
+      "question_id": "S2_R2_Q1",
+      "type": "precise_retrieval",
+      "platforms": ["GitHub"],
+      "question": "Are there any related issues on GitHub? Is this problem related to the previous temperature sensor module?",
+      "mc_question": "What is the status of issues related to the temperature data anomaly on GitHub?",
+      "mc_options": {
+        "A": "A new bug issue 'Temperature data displays as negative numbers' (open) exists, related to historical issue #3 (temperature sensor data display) and PR #8, belonging to the same module",
+        "B": "A new bug issue 'Temperature data displays as negative numbers' (open) exists, related to historical issue #5 (mobile layout misalignment)",
+        "C": "No related bug issue exists, but issue #3 (temperature sensor data display) is closed and may need to be reopened",
+        "D": "A new bug issue 'Temperature data displays as negative numbers' (closed) exists, already fixed via PR"
+      },
+      "correct_answer": "A",
+      "explanation": "The injected bug issue 'Temperature data displays as negative numbers' has open status, related to issue #3 (implement temperature sensor data display) and PR #8 (temperature sensor data display), belonging to the same temperature sensor module",
+      "source": "GitHub injected issue + issue #3 + PR #8",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q3",
+      "round": 3,
+      "question_id": "S2_R3_Q1",
+      "type": "comprehensive_reasoning",
+      "platforms": ["Gmail", "Slack", "GitHub"],
+      "question": "Based on all the information, what is the root cause of this bug?",
+      "mc_question": "Based on combined information from Gmail, Slack, and GitHub, what is the root cause and causal chain of this bug?",
+      "mc_options": {
+        "A": "After sensor firmware upgrade, payload format changed from JSON to Protobuf -> backend parser still parses as JSON -> parsing failure returns -999",
+        "B": "MQTT broker deployment misconfiguration -> message transmission loss -> frontend displays default value -999",
+        "C": "TimescaleDB storage overflow -> temperature data truncated -> displays as negative numbers",
+        "D": "Unstable WebSocket connection -> real-time data push interrupted -> frontend cache expired displaying -999"
+      },
+      "correct_answer": "A",
+      "explanation": "E10 investigation result + S11 confirmation: after sensor firmware upgrade, payload format changed from JSON to Protobuf, backend parser was not adapted, causing -999 to be returned",
+      "source": "Gmail E10 + Slack S11",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q4",
+      "round": 4,
+      "question_id": "S2_R4_Q1",
+      "type": "cross_platform_correlation",
+      "platforms": ["Slack", "GitHub"],
+      "question": "How is the fix going? Has a PR been submitted?",
+      "mc_question": "What is the information on Slack and GitHub regarding the bug fix progress?",
+      "mc_options": {
+        "A": "Slack S12 announced writing a hotfix, S13 confirmed hotfix PR submitted (fixing Protobuf parsing); the corresponding hotfix PR exists on GitHub",
+        "B": "Slack S12 announced writing a hotfix, but PR has not been submitted yet; no new PR on GitHub",
+        "C": "No fix-related discussion on Slack; someone directly committed a fix on GitHub",
+        "D": "Slack S13 confirmed hotfix PR submitted and merged; PR status on GitHub is merged"
+      },
+      "correct_answer": "A",
+      "explanation": "S12 stated will write a hotfix, S13 confirmed hotfix PR submitted: fixing Protobuf parsing. The corresponding hotfix PR exists on GitHub",
+      "source": "Slack S12/S13 + GitHub hotfix PR",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q5",
+      "round": 5,
+      "question_id": "S2_R5_Q1",
+      "type": "cross_platform_correlation",
+      "platforms": ["Calendar", "Gmail"],
+      "question": "Will this bug affect our client demo next week? When is the client demo?",
+      "mc_question": "Regarding the client demo schedule and the bug's impact assessment on the demo, which of the following is correct?",
+      "mc_options": {
+        "A": "Client demo is on 2/17 10:00-11:30 (C8); bug has been identified and hotfix submitted, will not affect the demo if merged in time",
+        "B": "Client demo is on 2/19 14:00-15:00 (C9); ample time for bug fix, will not affect the demo",
+        "C": "Client demo is on 2/17 10:00-11:30 (C8); bug has not been identified yet, significant risk to the demo",
+        "D": "Client demo is on 2/14 16:00-17:00 (C7); demo has already passed, bug does not affect it"
+      },
+      "correct_answer": "A",
+      "explanation": "Calendar C8 client demo is on 2/17 10:00-11:30; bug has been identified (Protobuf format change) and hotfix PR submitted, will not affect the demo if merged in time",
+      "source": "Calendar C8 + Gmail E4 + Slack S13",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q6",
+      "round": 6,
+      "question_id": "S2_R6_Q1",
+      "type": "action_verification",
+      "platforms": ["Slack"],
+      "question": "Help me send a message on Slack to let everyone know the bug has been identified, fix is in progress, and it's not expected to affect the client demo.",
+      "mc_question": "After executing the operation to send a team notification on Slack, which of the following verification results is correct?",
+      "mc_options": {
+        "A": "Message should be sent to channel C0AEV8FFLTV, content includes: bug identified, fix in progress, not expected to affect client demo",
+        "B": "Message should be sent to channel C0AEV8FFLTV, content only needs to include: bug has been fully fixed",
+        "C": "Message should be sent via Gmail to all team members, not via Slack",
+        "D": "Message should be sent to a Slack private channel, notifying only the project lead"
+      },
+      "correct_answer": "A",
+      "explanation": "User requested sending a message on Slack, should be sent to the C0AEV8FFLTV general channel, message content needs to include three key points: bug identified, fix in progress, not affecting client demo",
+      "source": "Slack C0AEV8FFLTV",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q7",
+      "round": 7,
+      "question_id": "S2_R7_Q1",
+      "type": "cross_platform_correlation",
+      "platforms": ["Gmail", "Slack", "GitHub"],
+      "question": "Help me compile the complete timeline of this incident. I need to write it into the Notion meeting notes.",
+      "mc_question": "Which of the following most accurately describes the complete timeline of this temperature data anomaly incident?",
+      "mc_options": {
+        "A": "Discovery (user reports -999, S9) -> Initial investigation (Charlie points to firmware upgrade, S10/E9) -> Root cause identified (Protobuf format change, S11/E10) -> Fix (hotfix PR submitted, S12/S13) -> Pending verification",
+        "B": "Discovery (GitHub issue created) -> Investigation (email discussion) -> Root cause identified (Slack confirmation) -> Fix (PR merged) -> Verified",
+        "C": "Discovery (E9 email) -> Investigation (GitHub code review) -> Root cause identified (Calendar meeting discussion) -> Fix (Notion document updated) -> Pending verification",
+        "D": "Discovery (S9 Slack message) -> Investigation (S10-S11 discussion) -> Fix (S13 PR submitted) -> Merged and deployed"
+      },
+      "correct_answer": "A",
+      "explanation": "The complete timeline involves Gmail (E9 urgent email + E10 investigation result) + Slack (S9-S13 urgent discussion) + GitHub (bug issue + hotfix PR), covering 5 phases: discovery -> investigation -> root cause identification -> fix -> pending verification",
+      "source": "Gmail E9/E10 + Slack S9-S13 + GitHub issue/PR",
+      "max_score": 1
+    }
+  ],
+  "total_score": 7,
+  "event_summary_ground_truth": ""
+}

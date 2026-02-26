@@ -1,0 +1,296 @@
+{
+  "scenario_id": "e3_s3",
+  "construction_ref": "scenario_3_construction.json",
+  "user_persona": "Lay Chou: Full-stack developer, interacts with OpenClaw via Slack DM, testing the agent's long-term memory and context consistency including cross-round reasoning, contradiction detection, and information recall.",
+  "task_event_graph": {
+    "nodes": [
+      {
+        "id": "e1",
+        "event": "Information establishment: team member roles (Notion)",
+        "date": "2026-02-20",
+        "caused_by": []
+      },
+      {
+        "id": "e2",
+        "event": "Supplementary information: tech stack confirmation (Gmail)",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e1"
+        ]
+      },
+      {
+        "id": "e3",
+        "event": "Memory test 1: backreference Alice frontend → React",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e1",
+          "e2"
+        ]
+      },
+      {
+        "id": "e4",
+        "event": "Introduce contradictory information: Vue.js → should deny",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e2",
+          "e3"
+        ]
+      },
+      {
+        "id": "e5",
+        "event": "Memory test 2: Sprint retrospective details",
+        "date": "2026-02-20",
+        "caused_by": []
+      },
+      {
+        "id": "e6",
+        "event": "Cross-round reasoning: Charlie's contribution summary",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e1",
+          "e2",
+          "e4"
+        ]
+      },
+      {
+        "id": "e7",
+        "event": "Contradiction detection: PostgreSQL vs TimescaleDB",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e2"
+        ]
+      },
+      {
+        "id": "e8",
+        "event": "Comprehensive consistency check",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e1",
+          "e2",
+          "e3",
+          "e4",
+          "e5",
+          "e6",
+          "e7"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "from": "e1",
+        "to": "e2",
+        "relation": "information_supplement"
+      },
+      {
+        "from": "e1",
+        "to": "e3",
+        "relation": "backreference"
+      },
+      {
+        "from": "e2",
+        "to": "e3",
+        "relation": "backreference"
+      },
+      {
+        "from": "e2",
+        "to": "e4",
+        "relation": "contradiction_test"
+      },
+      {
+        "from": "e3",
+        "to": "e4",
+        "relation": "contradiction_test"
+      },
+      {
+        "from": "e1",
+        "to": "e6",
+        "relation": "cross_round_reasoning"
+      },
+      {
+        "from": "e2",
+        "to": "e7",
+        "relation": "contradiction_detection"
+      },
+      {
+        "from": "e7",
+        "to": "e8",
+        "relation": "consistency_check"
+      }
+    ]
+  },
+  "qa_annotations": [
+    {
+      "qa_id": "q1",
+      "round": 1,
+      "question_id": "S3_R1_Q1",
+      "type": "precise_retrieval",
+      "platforms": [
+        "Notion"
+      ],
+      "question": "Help me check the SmartHome project technical design on Notion. Who are the team members? What is each person responsible for?",
+      "mc_question": "According to the SmartHome project technical plan on Notion, which is the correct mapping of team members to their responsibilities?",
+      "mc_options": {
+        "A": "Alice-Frontend, Bob-Backend, Charlie-IoT, User-Fullstack",
+        "B": "Alice-Backend, Bob-Frontend, Charlie-IoT, User-Fullstack",
+        "C": "Alice-Frontend, Bob-IoT, Charlie-Backend, User-Project Manager",
+        "D": "Alice-Frontend, Bob-Backend, Charlie-Fullstack, User-IoT"
+      },
+      "correct_answer": "A",
+      "explanation": "Notion N1 records: Alice is responsible for frontend, Bob for backend, Charlie for IoT, and the user for fullstack",
+      "source": "Notion N1",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q2",
+      "round": 2,
+      "question_id": "S3_R2_Q1",
+      "type": "precise_retrieval",
+      "platforms": [
+        "Gmail"
+      ],
+      "question": "By the way, what was the confirmed tech stack from the last design review email?",
+      "mc_question": "According to the design review email, what is the confirmed tech stack combination?",
+      "mc_options": {
+        "A": "Frontend React+TailwindCSS, Backend FastAPI, Database TimescaleDB",
+        "B": "Frontend Vue.js+TailwindCSS, Backend FastAPI, Database PostgreSQL",
+        "C": "Frontend React+Bootstrap, Backend Django, Database TimescaleDB",
+        "D": "Frontend React+TailwindCSS, Backend Express.js, Database MongoDB"
+      },
+      "correct_answer": "A",
+      "explanation": "Gmail E3 design review meeting minutes confirm: React+TailwindCSS (frontend), FastAPI (backend), TimescaleDB (database)",
+      "source": "Gmail E3",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q3",
+      "round": 3,
+      "question_id": "S3_R3_Q1",
+      "type": "context_memory",
+      "platforms": [],
+      "question": "What framework is Alice's frontend using again?",
+      "mc_question": "Combining information from the first two rounds, what framework does Alice use for the frontend she is responsible for?",
+      "mc_options": {
+        "A": "React + TailwindCSS (Round 1: Alice=Frontend + Round 2: Tech stack=React)",
+        "B": "Vue.js + TailwindCSS",
+        "C": "Angular + Bootstrap",
+        "D": "React + Bootstrap"
+      },
+      "correct_answer": "A",
+      "explanation": "Requires correlating Round 1 (Alice responsible for frontend, from Notion N1) and Round 2 (tech stack React+TailwindCSS, from Gmail E3) for cross-round reasoning",
+      "source": "Notion N1 + Gmail E3 (cross-round reasoning)",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q4",
+      "round": 4,
+      "question_id": "S3_R4_Q1",
+      "type": "contradiction_detection",
+      "platforms": [
+        "Slack"
+      ],
+      "question": "I remember someone on Slack said the frontend should switch to Vue.js. Is that right?",
+      "mc_question": "The user claims someone on Slack proposed switching to Vue.js. What is the correct response?",
+      "mc_options": {
+        "A": "There is no discussion about switching to Vue.js on Slack. According to the design review email (E3) and Notion document (N1), the confirmed frontend framework is React",
+        "B": "Indeed someone on Slack proposed switching to Vue.js, but it was ultimately rejected",
+        "C": "Slack S7 discussed Vue.js vs React, and React was ultimately chosen",
+        "D": "There was indeed a discussion about switching to Vue.js on Slack, and it is currently under evaluation"
+      },
+      "correct_answer": "A",
+      "explanation": "There is no discussion about Vue.js on Slack. S7/S8 discuss WebSocket vs SSE, not frontend frameworks. Design review email E3 and Notion N1 both confirm the frontend framework is React",
+      "source": "Slack full messages + Gmail E3 + Notion N1",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q5",
+      "round": 5,
+      "question_id": "S3_R5_Q1",
+      "type": "cross_platform_correlation",
+      "platforms": [
+        "Calendar",
+        "Notion"
+      ],
+      "question": "What was discussed at the Sprint retrospective? What day was it held?",
+      "mc_question": "What are the time and discussion content of the Sprint retrospective meeting?",
+      "mc_options": {
+        "A": "2/14 16:00-17:00 (C7); Sprint 3 completed on time, MQTT deployment issues took considerable time",
+        "B": "2/12 14:00-15:00 (C6); Sprint 3 delayed, WebSocket implementation encountered difficulties",
+        "C": "2/14 16:00-17:00 (C7); Sprint 3 delayed, user authentication module not completed",
+        "D": "2/11 10:00-11:00 (C5); Sprint 3 completed on time, all tasks went smoothly"
+      },
+      "correct_answer": "A",
+      "explanation": "Calendar C7 records the Sprint retrospective on 2/14 16:00-17:00; Notion N2 meeting minutes record Sprint 3 completed on time, with MQTT deployment issues taking considerable time",
+      "source": "Calendar C7 + Notion N2",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q6",
+      "round": 6,
+      "question_id": "S3_R6_Q1",
+      "type": "cross_platform_correlation",
+      "platforms": [
+        "Notion",
+        "Slack",
+        "Gmail"
+      ],
+      "question": "Based on the previous information, what exactly has Charlie done in this project? Search across all platforms for me.",
+      "mc_question": "Regarding Charlie's involvement across platforms, which summary is the most complete and accurate?",
+      "mc_options": {
+        "A": "Notion (N1): IoT lead; Gmail (E3): design review attendee; Slack: mentioned in MQTT issue discussions",
+        "B": "Notion (N1): Backend lead; Gmail (E3): design review host; Slack: WebSocket discussion initiator",
+        "C": "Notion (N1): IoT lead; Gmail (E9): emergency email sender; Slack: not mentioned",
+        "D": "Notion (N1): IoT lead; Gmail: not present; Slack: mentioned in MQTT issue discussions"
+      },
+      "correct_answer": "A",
+      "explanation": "Notion N1 records Charlie responsible for IoT; Gmail E3 lists Charlie as one of the design review attendees; Slack S3/S4 related MQTT issue discussions mention Charlie",
+      "source": "Notion N1 + Gmail E3 + Slack S3/S4",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q7",
+      "round": 7,
+      "question_id": "S3_R7_Q1",
+      "type": "contradiction_detection",
+      "platforms": [
+        "Gmail"
+      ],
+      "question": "I see the email says the database uses PostgreSQL, right?",
+      "mc_question": "The user claims the email says the database is PostgreSQL. What is the correct response?",
+      "mc_options": {
+        "A": "The email (E3) explicitly states TimescaleDB, which is a time-series database extension based on PostgreSQL, but should not be simply equated with PostgreSQL",
+        "B": "Yes, the email confirms the database is PostgreSQL",
+        "C": "The email says MySQL, not PostgreSQL",
+        "D": "The email does not mention any database-related information"
+      },
+      "correct_answer": "A",
+      "explanation": "Gmail E3 design review email explicitly records the database as TimescaleDB. TimescaleDB is a time-series database extension of PostgreSQL, but one should not simply agree with the user's claim of PostgreSQL",
+      "source": "Gmail E3",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q8",
+      "round": 8,
+      "question_id": "S3_R8_Q1",
+      "type": "cross_verification",
+      "platforms": [
+        "Notion",
+        "Gmail",
+        "Slack"
+      ],
+      "question": "Help me confirm: are all the technical decisions we've discussed so far consistent across Notion documents, emails, and Slack records? Are there any contradictions?",
+      "mc_question": "After performing a consistency check on technical decision records across platforms, which conclusion is correct?",
+      "mc_options": {
+        "A": "The tech stack (React+FastAPI+TimescaleDB) is consistent across Notion N1, Gmail E3, and Slack S1; the WebSocket decision is verifiable in Slack S7/S8 and Notion N3; no major contradictions",
+        "B": "The tech stack is consistent across platforms, but the WebSocket decision is only recorded in Slack and not reflected in Notion",
+        "C": "The tech stack recorded in Notion is inconsistent with the Gmail email, with a contradiction regarding the frontend framework",
+        "D": "Records across platforms are generally consistent, but someone on Slack proposed switching to Vue.js, which contradicts other platforms"
+      },
+      "correct_answer": "A",
+      "explanation": "The tech stack is consistent across three platforms: Notion N1, Gmail E3, and Slack S1 all record React+FastAPI+TimescaleDB; the WebSocket decision is verifiable in both Slack S7/S8 discussions and Notion N3 API documentation; no major contradictions",
+      "source": "Notion N1/N3 + Gmail E3 + Slack S1/S7/S8",
+      "max_score": 1
+    }
+  ],
+  "total_score": 8,
+  "event_summary_ground_truth": ""
+}

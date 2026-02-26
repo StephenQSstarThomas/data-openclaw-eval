@@ -1,0 +1,298 @@
+{
+  "scenario_id": "e3_s5",
+  "construction_ref": "scenario_5_construction.json",
+  "user_persona": "Lay Chou: Full-stack developer, interacts with OpenClaw via Slack DM, testing multi-step task execution and verification across GitHub/Gmail/Calendar/Slack/Notion.",
+  "task_event_graph": {
+    "nodes": [
+      {
+        "id": "e1",
+        "event": "Create GitHub Issue (action verification)",
+        "date": "2026-02-20",
+        "caused_by": []
+      },
+      {
+        "id": "e2",
+        "event": "Send email notification (action verification)",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e1"
+        ]
+      },
+      {
+        "id": "e3",
+        "event": "Create calendar event (action verification)",
+        "date": "2026-02-20",
+        "caused_by": []
+      },
+      {
+        "id": "e4",
+        "event": "Slack notification (action verification)",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e1",
+          "e3"
+        ]
+      },
+      {
+        "id": "e5",
+        "event": "Notion document creation (action verification)",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e1",
+          "e3"
+        ]
+      },
+      {
+        "id": "e6",
+        "event": "Cross-platform verification",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e1",
+          "e2",
+          "e3",
+          "e4",
+          "e5"
+        ]
+      },
+      {
+        "id": "e7",
+        "event": "Information consistency verification",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e1",
+          "e2",
+          "e5"
+        ]
+      },
+      {
+        "id": "e8",
+        "event": "Modification and update",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e1"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "from": "e1",
+        "to": "e2",
+        "relation": "cross_round_memory"
+      },
+      {
+        "from": "e1",
+        "to": "e4",
+        "relation": "cross_round_memory"
+      },
+      {
+        "from": "e3",
+        "to": "e4",
+        "relation": "cross_round_memory"
+      },
+      {
+        "from": "e1",
+        "to": "e5",
+        "relation": "cross_round_memory"
+      },
+      {
+        "from": "e3",
+        "to": "e5",
+        "relation": "cross_round_memory"
+      },
+      {
+        "from": "e5",
+        "to": "e6",
+        "relation": "verification"
+      },
+      {
+        "from": "e6",
+        "to": "e7",
+        "relation": "consistency_check"
+      },
+      {
+        "from": "e1",
+        "to": "e8",
+        "relation": "modification"
+      }
+    ]
+  },
+  "qa_annotations": [
+    {
+      "qa_id": "e3_s5_q1",
+      "round": 1,
+      "question_id": "S5_R1_Q1",
+      "type": "action_verification",
+      "platforms": [
+        "GitHub"
+      ],
+      "question": "Create a new issue in the SmartHome repo with the title 'Add user preference settings feature'. In the description, include the requirements: support temperature unit switching (Celsius/Fahrenheit), theme color switching, and notification preference settings.",
+      "mc_question": "After executing the create GitHub Issue operation, what should the correct verification result be?",
+      "mc_options": {
+        "A": "Create an issue in the laychou666/smarthome-dashboard repository with the title '添加用户偏好设置功能', and the description includes 3 requirements: temperature unit switching, theme color switching, and notification preference settings",
+        "B": "Create an issue in the laychou666/smarthome-dashboard repository with the title '用户偏好设置', and the description only includes the temperature unit switching requirement",
+        "C": "Create a PR instead of an issue in the laychou666/smarthome-dashboard repository, containing code for the preference settings feature",
+        "D": "Create a requirements document on Notion instead of a GitHub issue"
+      },
+      "correct_answer": "A",
+      "explanation": "An issue should be created in the laychou666/smarthome-dashboard repository with the title exactly matching '添加用户偏好设置功能', and the description must include all 3 requirement points",
+      "source": "GitHub laychou666/smarthome-dashboard",
+      "max_score": 1
+    },
+    {
+      "qa_id": "e3_s5_q2",
+      "round": 2,
+      "question_id": "S5_R2_Q1",
+      "type": "action_verification",
+      "platforms": [
+        "Gmail"
+      ],
+      "question": "Send an email to laychou666@gmail.com with the subject '[SmartHome] New Feature Request - User Preference Settings'. In the body, include the issue number just created and the main requirement points.",
+      "mc_question": "After executing the send email operation, what should the correct verification result be?",
+      "mc_options": {
+        "A": "Email sent to laychou666@gmail.com with the subject '[SmartHome] 新功能需求 - 用户偏好设置', and the body includes the issue number created in round 1 and the 3 requirement points",
+        "B": "Email sent to laychou666@gmail.com with the correct subject, but the body does not reference the issue number",
+        "C": "Email sent to chenjing@company.com with the correct subject and content",
+        "D": "A message sent on Slack instead of sending an email"
+      },
+      "correct_answer": "A",
+      "explanation": "The email should be sent to the specified address with the subject exactly matching. The body must include the issue number created in round 1 (cross-round memory) and the 3 requirement points",
+      "source": "Gmail (cross-round memory of round 1 issue number)",
+      "max_score": 1
+    },
+    {
+      "qa_id": "e3_s5_q3",
+      "round": 3,
+      "question_id": "S5_R3_Q1",
+      "type": "action_verification",
+      "platforms": [
+        "Calendar"
+      ],
+      "question": "Create a meeting: '[SmartHome] User Preference Feature Review', scheduled for next Monday from 10 AM to 11 AM.",
+      "mc_question": "After executing the create calendar event operation, what should the correct verification result be?",
+      "mc_options": {
+        "A": "An event created on the primary calendar with the title '[SmartHome] 用户偏好功能评审', scheduled for next Monday 10:00-11:00",
+        "B": "An event created on the primary calendar with the correct title, but scheduled for next Monday 14:00-15:00",
+        "C": "An event created on the primary calendar with the title '用户偏好功能评审' (missing the [SmartHome] prefix), with the correct time",
+        "D": "An all-day event created instead of a meeting with a specified time slot"
+      },
+      "correct_answer": "A",
+      "explanation": "An event should be created on the primary calendar with the title exactly matching '[SmartHome] 用户偏好功能评审', scheduled for next Monday 10:00-11:00",
+      "source": "Calendar primary",
+      "max_score": 1
+    },
+    {
+      "qa_id": "e3_s5_q4",
+      "round": 4,
+      "question_id": "S5_R4_Q1",
+      "type": "action_verification",
+      "platforms": [
+        "Slack"
+      ],
+      "question": "Post a message in the Slack general channel telling everyone that a new user preference settings issue has been created and there's a review meeting next Monday.",
+      "mc_question": "After executing the Slack message sending operation, what should the correct verification result be?",
+      "mc_options": {
+        "A": "Message sent to channel C0AEV8FFLTV, including issue information (number and/or title) and meeting time (next Monday 10:00-11:00)",
+        "B": "Message sent to channel C0AEV8FFLTV, including only issue information without mentioning the meeting time",
+        "C": "Message sent via direct messages to individual team members instead of the general channel",
+        "D": "Message sent to channel C0AEV8FFLTV, including meeting time but without mentioning issue information"
+      },
+      "correct_answer": "A",
+      "explanation": "The message should be sent to the C0AEV8FFLTV general channel and must include issue information (number + title, cross-round memory from round 1) and meeting time (cross-round memory from round 3)",
+      "source": "Slack C0AEV8FFLTV (cross-round memory of rounds 1 and 3)",
+      "max_score": 1
+    },
+    {
+      "qa_id": "e3_s5_q5",
+      "round": 5,
+      "question_id": "S5_R5_Q1",
+      "type": "action_verification",
+      "platforms": [
+        "Notion"
+      ],
+      "question": "Create a page on Notion with the title 'SmartHome - User Preference Settings PRD'. Include: feature description, requirements list (the 3 requirements from earlier), related issue number, and review meeting time.",
+      "mc_question": "After executing the Notion page creation operation, what should the correct verification result be?",
+      "mc_options": {
+        "A": "Page titled 'SmartHome - 用户偏好设置 PRD', content includes: feature description, 3 requirements (temperature unit/theme color/notification preferences), issue number from round 1, and meeting time from round 3",
+        "B": "Page title is correct, but content only includes feature description and requirements list, missing issue number and meeting time",
+        "C": "Page title is correct, content includes requirements list and issue number, but meeting time is incorrect",
+        "D": "A PRD document sent via Gmail instead of creating a Notion page"
+      },
+      "correct_answer": "A",
+      "explanation": "The Notion page title must exactly match. The content must include feature description, 3 requirements, issue number (cross-round memory of dynamic value from round 1), and review meeting time (cross-round memory from round 3)",
+      "source": "Notion (cross-round memory of rounds 1 and 3)",
+      "max_score": 1
+    },
+    {
+      "qa_id": "e3_s5_q6",
+      "round": 6,
+      "question_id": "S5_R6_Q1",
+      "type": "cross_verification",
+      "platforms": [
+        "GitHub",
+        "Gmail",
+        "Calendar",
+        "Slack",
+        "Notion"
+      ],
+      "question": "Help me confirm whether everything we just created was successful. Check each platform one by one.",
+      "mc_question": "For cross-platform verification of the content created in the first 5 rounds, what is the correct verification approach?",
+      "mc_options": {
+        "A": "Check all 5 platforms one by one: GitHub (verify via gh issue list), Gmail (verify via search), Calendar (verify via event list), Slack (verify via readMessages), Notion (verify via search), and report the verification result for each platform",
+        "B": "Only check the two key platforms GitHub and Gmail",
+        "C": "Indirectly verify all platforms through the records in the Notion document",
+        "D": "Simply confirm that no errors occurred during the operations, no need for per-platform verification"
+      },
+      "correct_answer": "A",
+      "explanation": "Each of the 5 platforms should be checked for creation results: GitHub via gh issue list, Gmail via search, Calendar via event list, Slack via readMessages, and Notion via search",
+      "source": "GitHub + Gmail + Calendar + Slack + Notion",
+      "max_score": 1
+    },
+    {
+      "qa_id": "e3_s5_q7",
+      "round": 7,
+      "question_id": "S5_R7_Q1",
+      "type": "cross_verification",
+      "platforms": [
+        "Notion",
+        "GitHub",
+        "Gmail"
+      ],
+      "question": "Does the issue number in the Notion document match the one on GitHub? Are the requirements mentioned in the email consistent with the issue description?",
+      "mc_question": "For consistency verification of information across Notion, GitHub, and Gmail, what is the correct verification approach and expected result?",
+      "mc_options": {
+        "A": "Compare the issue number recorded in Notion with the actual number on GitHub (should be consistent), and compare the requirements list in the email with the issue description (should be consistent), since all were created by the agent itself",
+        "B": "Only compare the issue numbers between Notion and GitHub; email content does not need verification",
+        "C": "Information across the three platforms may be inconsistent because they were created at different times",
+        "D": "Consistency verification is not possible because the data formats differ across platforms"
+      },
+      "correct_answer": "A",
+      "explanation": "Two sets of comparisons should be performed: issue number in Notion vs. actual number on GitHub, and requirements list in email vs. issue description. Since all were created by the agent itself, they should be fully consistent",
+      "source": "Notion + GitHub + Gmail (cross-platform comparison)",
+      "max_score": 1
+    },
+    {
+      "qa_id": "e3_s5_q8",
+      "round": 8,
+      "question_id": "S5_R8_Q1",
+      "type": "action_verification",
+      "platforms": [
+        "GitHub",
+        "Slack"
+      ],
+      "question": "The client just added a new requirement: support data export to CSV. Help me update the GitHub issue description and notify everyone on Slack.",
+      "mc_question": "After executing the update GitHub issue and Slack notification operations, what should the correct verification result be?",
+      "mc_options": {
+        "A": "The GitHub issue description has a 4th requirement added: 'support data export to CSV', with the original 3 requirements preserved; a new requirement notification has been sent to Slack channel C0AEV8FFLTV",
+        "B": "The GitHub issue description has been replaced to only contain 'support data export to CSV', with the original requirements lost; Slack notification has been sent",
+        "C": "A new GitHub issue was created instead of updating the original one; Slack notification has been sent",
+        "D": "The GitHub issue description has been updated, but the Slack notification was sent to the wrong channel"
+      },
+      "correct_answer": "A",
+      "explanation": "The original issue description should be updated by adding the 4th requirement (support data export to CSV) while preserving the original 3 requirements (temperature unit switching, theme color switching, notification preference settings). The Slack notification should be sent to the C0AEV8FFLTV general channel",
+      "source": "GitHub issue + Slack C0AEV8FFLTV",
+      "max_score": 1
+    }
+  ],
+  "total_score": 8,
+  "event_summary_ground_truth": "This scenario tests OpenClaw's ability to execute multi-step tasks across 5 platforms (GitHub, Gmail, Calendar, Slack, Notion) with cross-round memory. The agent must create a GitHub issue, send an email referencing the issue number, create a calendar event, notify via Slack with issue and meeting info, create a Notion PRD page aggregating all prior information, perform cross-platform verification, check information consistency, and handle incremental updates while preserving existing data."
+}

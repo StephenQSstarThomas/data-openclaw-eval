@@ -1,0 +1,305 @@
+{
+  "scenario_id": "e3_s1",
+  "construction_ref": "scenario_1_construction.json",
+  "user_persona": "Lay Chou: Full-stack developer, interacts with OpenClaw via Slack DM, manages the SmartHome Dashboard project using GitHub/Gmail/Calendar/Slack/Notion.",
+  "task_event_graph": {
+    "nodes": [
+      {
+        "id": "e1",
+        "event": "User requests a work overview for the past two weeks (GitHub commits + emails + meetings)",
+        "date": "2026-02-20",
+        "caused_by": []
+      },
+      {
+        "id": "e2",
+        "event": "Deep dive into GitHub activity: issue statuses, PR merge status",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e1"
+        ]
+      },
+      {
+        "id": "e3",
+        "event": "Email content correlation: blocker identification and resolution",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e1"
+        ]
+      },
+      {
+        "id": "e4",
+        "event": "Slack discussion analysis: technical decision (WebSocket vs SSE)",
+        "date": "2026-02-20",
+        "caused_by": []
+      },
+      {
+        "id": "e5",
+        "event": "MQTT issue cross-platform timeline assembly (Slack+Gmail+GitHub)",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e3",
+          "e4"
+        ]
+      },
+      {
+        "id": "e6",
+        "event": "Notion progress verification and cross-platform cross-verification",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e2",
+          "e5"
+        ]
+      },
+      {
+        "id": "e7",
+        "event": "Schedule conflict detection (Calendar+Gmail correlation)",
+        "date": "2026-02-20",
+        "caused_by": []
+      },
+      {
+        "id": "e8",
+        "event": "Comprehensive risk analysis and recommendations (all-platform reasoning)",
+        "date": "2026-02-20",
+        "caused_by": [
+          "e1",
+          "e2",
+          "e3",
+          "e4",
+          "e5",
+          "e6",
+          "e7"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "from": "e1",
+        "to": "e2",
+        "relation": "deep query"
+      },
+      {
+        "from": "e1",
+        "to": "e3",
+        "relation": "context_memory"
+      },
+      {
+        "from": "e3",
+        "to": "e5",
+        "relation": "cross_platform_correlation"
+      },
+      {
+        "from": "e4",
+        "to": "e5",
+        "relation": "cross_platform_correlation"
+      },
+      {
+        "from": "e2",
+        "to": "e6",
+        "relation": "cross_verification"
+      },
+      {
+        "from": "e5",
+        "to": "e6",
+        "relation": "cross_verification"
+      },
+      {
+        "from": "e1",
+        "to": "e8",
+        "relation": "comprehensive_reasoning"
+      },
+      {
+        "from": "e6",
+        "to": "e8",
+        "relation": "comprehensive_reasoning"
+      },
+      {
+        "from": "e7",
+        "to": "e8",
+        "relation": "comprehensive_reasoning"
+      }
+    ]
+  },
+  "qa_annotations": [
+    {
+      "qa_id": "q1",
+      "round": 1,
+      "question_id": "S1_R1_Q1",
+      "type": "counting",
+      "platforms": [
+        "GitHub",
+        "Gmail",
+        "Calendar"
+      ],
+      "question": "Help me review my work over the past 3 weeks. How many code commits did I make on GitHub? How many emails related to the SmartHome project did I receive? How many meetings did I attend?",
+      "mc_question": "Regarding the work data from the past 3 weeks, which set of statistics is correct? (GitHub commit count / SmartHome-related email count / total meetings)",
+      "mc_options": {
+        "A": "7 commits / 6 emails / 9 meetings",
+        "B": "7 commits / 8 emails / 9 meetings",
+        "C": "5 commits / 6 emails / 7 meetings",
+        "D": "9 commits / 8 emails / 6 meetings"
+      },
+      "correct_answer": "A",
+      "explanation": "GitHub commits #6-#12 total 7; SmartHome-related emails E1-E6 total 6 (excluding E7 AWS billing and E8 Rust sharing); meetings C1-C9 total 9",
+      "source": "GitHub commits + Gmail E1-E8 + Calendar C1-C9",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q2",
+      "round": 2,
+      "question_id": "S1_R2_Q1",
+      "type": "precise_retrieval",
+      "platforms": [
+        "GitHub"
+      ],
+      "question": "Tell me more about the GitHub SmartHome activity. Which issues have been closed? Are there any unmerged PRs?",
+      "mc_question": "Regarding the issue and PR statuses in the GitHub SmartHome repository, which description is entirely correct?",
+      "mc_options": {
+        "A": "Closed issues: #3 and #5; Open issues: #4, #6, #7; PR #8 and #9 are both merged; no unmerged PRs",
+        "B": "Closed issues: #3 and #4; Open issues: #5, #6, #7; PR #8 is merged, #9 is unmerged",
+        "C": "Closed issues: #3, #5, and #6; Open issues: #4 and #7; PR #8 and #9 are both merged",
+        "D": "Closed issues: #3 and #5; Open issues: #4, #6, #7; PR #8 is merged, #9 is pending review"
+      },
+      "correct_answer": "A",
+      "explanation": "Closed: #3 implement temperature sensor data display, #5 fix mobile layout misalignment; Open: #4 user authentication module, #6 add device offline alert, #7 performance optimization; PR #8 and #9 are both merged, no unmerged PRs",
+      "source": "GitHub issues + PRs",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q3",
+      "round": 3,
+      "question_id": "S1_R3_Q1",
+      "type": "context_memory",
+      "platforms": [
+        "Gmail"
+      ],
+      "question": "In those emails you just mentioned, were there any blockers or issues mentioned?",
+      "mc_question": "According to the email records, what are the blockers mentioned in the project and their resolution status?",
+      "mc_options": {
+        "A": "The blocker is MQTT broker deployment delay (E1 weekly report), later confirmed to be Docker network configuration error and port mapping conflict, resolved (E5)",
+        "B": "The blocker is WebSocket connection instability (E1 weekly report), later confirmed to be a server configuration issue, resolved (E5)",
+        "C": "The blocker is MQTT broker deployment delay (E3 review), still unresolved",
+        "D": "The blocker is database connection timeout (E1 weekly report), later confirmed to be connection pool configuration error, resolved (E5)"
+      },
+      "correct_answer": "A",
+      "explanation": "E1 weekly report mentioned MQTT broker deployment delay as a blocker, E5 confirmed it was resolved, the cause was Docker network configuration error and port mapping conflict",
+      "source": "Gmail E1 + E5",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q4",
+      "round": 4,
+      "question_id": "S1_R4_Q1",
+      "type": "precise_retrieval",
+      "platforms": [
+        "Slack"
+      ],
+      "question": "What was the most discussed topic on Slack? Were any technical decisions made on Slack?",
+      "mc_question": "What was the key technical decision made on Slack? What was the final conclusion and the reason?",
+      "mc_options": {
+        "A": "WebSocket vs SSE discussion, ultimately chose WebSocket because SSE is unstable in certain proxy environments",
+        "B": "WebSocket vs SSE discussion, ultimately chose SSE because WebSocket has higher implementation complexity",
+        "C": "MQTT vs RabbitMQ discussion, ultimately chose MQTT because it is more suitable for IoT scenarios",
+        "D": "REST vs GraphQL discussion, ultimately chose REST because the team is more familiar with it"
+      },
+      "correct_answer": "A",
+      "explanation": "S7 raised the WebSocket vs SSE discussion, S8 made the final decision to use WebSocket because SSE is unstable in certain proxy environments",
+      "source": "Slack S7 + S8",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q5",
+      "round": 5,
+      "question_id": "S1_R5_Q1",
+      "type": "cross_platform_correlation",
+      "platforms": [
+        "Slack",
+        "Gmail",
+        "GitHub"
+      ],
+      "question": "How was the MQTT issue discussed and resolved across different platforms? Help me piece together the timeline.",
+      "mc_question": "Regarding the cross-platform timeline of the MQTT issue, which sequence and content is correct?",
+      "mc_options": {
+        "A": "Slack(S3) raised deployment issue -> Gmail(E1) weekly report listed as blocker -> Gmail(E5) confirmed Docker port mapping conflict resolved -> Slack(S4) confirmed resolution",
+        "B": "Gmail(E1) weekly report raised issue -> Slack(S3) team discussion -> GitHub submitted fix PR -> Slack(S4) confirmed resolution",
+        "C": "GitHub created issue -> Slack(S3) discussion -> Gmail(E5) confirmed network configuration issue -> Slack(S4) confirmed resolution",
+        "D": "Slack(S3) raised deployment issue -> Gmail(E1) weekly report listed as blocker -> GitHub submitted hotfix -> Gmail(E5) confirmed resolution"
+      },
+      "correct_answer": "A",
+      "explanation": "Slack S3 raised the MQTT broker deployment issue, E1 weekly report mentioned it as a blocker, E5 confirmed Docker network configuration error/port mapping conflict was resolved, S4 confirmed resolution. GitHub temperature sensor issue #3/PR #8 is an indirect correlation",
+      "source": "Slack S3/S4 + Gmail E1/E5 + GitHub #3/#8",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q6",
+      "round": 6,
+      "question_id": "S1_R6_Q1",
+      "type": "cross_verification",
+      "platforms": [
+        "Notion",
+        "GitHub",
+        "Gmail"
+      ],
+      "question": "What's the current project progress according to the technical design document on Notion? Is it consistent with the information you collected from other platforms?",
+      "mc_question": "Regarding the project milestone statuses recorded in Notion and their cross-verification results with other platforms, which is correct?",
+      "mc_options": {
+        "A": "M1 Basic Framework completed; M2 Sensor Data completed; M3 User Authentication in progress; M4 Alert System planned; M5 Performance Optimization planned; M2 can be verified through GitHub PR #8 merged, M3 can be verified through Sprint 4 planning email (E6)",
+        "B": "M1 Basic Framework completed; M2 Sensor Data in progress; M3 User Authentication planned; M4 Alert System planned; M5 Performance Optimization planned; M2 is still in progress, GitHub PR #8 pending review",
+        "C": "M1 Basic Framework completed; M2 Sensor Data completed; M3 User Authentication completed; M4 Alert System in progress; M5 Performance Optimization planned; all completed items can be verified through GitHub",
+        "D": "M1 Basic Framework completed; M2 Sensor Data completed; M3 User Authentication in progress; M4 Alert System planned; M5 Performance Optimization planned; but M2 is inconsistent with GitHub records, PR #8 not merged"
+      },
+      "correct_answer": "A",
+      "explanation": "Notion N1 records 5 milestone statuses correctly; M2 is confirmed completed through GitHub PR #8 merged and Sprint retrospective; M3 is confirmed in progress through E6 Sprint 4 planning email",
+      "source": "Notion N1 + GitHub PR #8 + Gmail E6",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q7",
+      "round": 7,
+      "question_id": "S1_R7_Q1",
+      "type": "cross_platform_correlation",
+      "platforms": [
+        "Calendar",
+        "Gmail"
+      ],
+      "question": "What's my schedule for the past 3 weeks? Are there any conflicts with items mentioned in the emails?",
+      "mc_question": "Regarding next week's schedule and its correlation with emails, which description is correct?",
+      "mc_options": {
+        "A": "C8 Client Demo (2/17) + C9 Rust Tech Sharing (2/19); the Rust sharing mentioned in E8 email corresponds to C9, no time conflict",
+        "B": "C8 Client Demo (2/17) + C9 Rust Tech Sharing (2/18); the Rust sharing mentioned in E8 email corresponds to C9, conflicts with client demo time",
+        "C": "C8 Client Demo (2/17) + C9 Sprint Planning (2/19); the Sprint 4 mentioned in E6 email corresponds to C9, no time conflict",
+        "D": "C8 Code Review (2/17) + C9 Rust Tech Sharing (2/19); the Rust sharing mentioned in E8 email corresponds to C9, no time conflict"
+      },
+      "correct_answer": "A",
+      "explanation": "C8 Client Demo 2/17 10:00-11:30, C9 Rust Tech Sharing 2/19 14:00-15:00; E8 email mentions Rust tech sharing (next Wednesday 14:00) corresponding to C9, they are not on the same day so no conflict",
+      "source": "Calendar C8/C9 + Gmail E8",
+      "max_score": 1
+    },
+    {
+      "qa_id": "q8",
+      "round": 8,
+      "question_id": "S1_R8_Q1",
+      "type": "comprehensive_reasoning",
+      "platforms": [
+        "GitHub",
+        "Gmail",
+        "Calendar",
+        "Slack",
+        "Notion"
+      ],
+      "question": "Based on all the information you've collected, what do you think is the biggest risk for this project right now? What should we prioritize next?",
+      "mc_question": "Based on all platform information combined, which risk analysis and priority recommendation is most reasonable?",
+      "mc_options": {
+        "A": "Biggest risk: M5 Performance Optimization has not started and M3 User Authentication is still in progress, while client requirements (multilingual, data export, mobile adaptation) are not yet scheduled; should prioritize completing M3 and evaluating client requirement priorities",
+        "B": "Biggest risk: MQTT deployment issue may recur; should prioritize strengthening MQTT module stability testing",
+        "C": "Biggest risk: team is understaffed, 4 people cannot complete all milestones; should prioritize recruiting new members",
+        "D": "Biggest risk: technology stack choice (WebSocket) may not be suitable for production; should prioritize technical validation"
+      },
+      "correct_answer": "A",
+      "explanation": "M5 Performance Optimization has not started, M3 User Authentication is in progress but Sprint 4 has many goals, client requirements (multilingual, data export, mobile adaptation) are not yet scheduled. MQTT issue is already resolved, WebSocket has been confirmed through team discussion",
+      "source": "Notion N1 + Gmail E4/E6 + GitHub issues + Slack S7/S8",
+      "max_score": 1
+    }
+  ],
+  "total_score": 8,
+  "event_summary_ground_truth": ""
+}

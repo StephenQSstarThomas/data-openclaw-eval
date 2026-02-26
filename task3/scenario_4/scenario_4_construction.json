@@ -1,0 +1,206 @@
+{
+  "scenario_id": 4,
+  "title": "Cross-platform Search and Information Locating",
+  "difficulty": "medium",
+  "platforms": [
+    "GitHub",
+    "Gmail",
+    "Calendar",
+    "Slack",
+    "Notion"
+  ],
+  "total_rounds": 7,
+  "total_questions": 7,
+  "extra_injection": null,
+  "rounds": [
+    {
+      "round": 1,
+      "description": "Precise search (single platform, 2 sub-questions)",
+      "platforms_involved": [
+        "Notion",
+        "Gmail"
+      ],
+      "user_message": "Help me find the WebSocket endpoint path in the API documentation. Also, how much did AWS cost last month? What were the main expenses?",
+      "questions": [
+        {
+          "question_id": "S4_R1_Q1",
+          "type": "single_choice",
+          "ability_tag": "precise_retrieval",
+          "question": "Regarding the WebSocket endpoint path in the API documentation and the AWS billing details, which set of data is entirely correct?",
+          "options": {
+            "A": "Endpoint: WS /ws/sensors (Notion N3); AWS total $47.23, breakdown: EC2 $32.10, S3 $8.50, RDS $6.63 (Gmail E7)",
+            "B": "Endpoint: WS /ws/data (Notion N3); AWS total $47.23, breakdown: EC2 $32.10, S3 $8.50, RDS $6.63 (Gmail E7)",
+            "C": "Endpoint: WS /ws/sensors (Notion N1); AWS total $52.30, breakdown: EC2 $35.00, S3 $10.50, RDS $6.80 (Gmail E7)",
+            "D": "Endpoint: WS /ws/sensors (Notion N3); AWS total $47.23, breakdown: EC2 $28.10, S3 $12.50, RDS $6.63 (Gmail E7)"
+          },
+          "answer": "A",
+          "explanation": "Notion N3 API design document records the WebSocket endpoint as WS /ws/sensors; Gmail E7 AWS billing email records a total of $47.23, with breakdown EC2 $32.10, S3 $8.50, RDS $6.63",
+          "source": "Notion N3 + Gmail E7"
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "description": "Fuzzy search (Docker-related -> Gmail+Slack)",
+      "platforms_involved": [
+        "Gmail",
+        "Slack"
+      ],
+      "user_message": "Has anyone mentioned any Docker-related issues? Where was it mentioned?",
+      "questions": [
+        {
+          "question_id": "S4_R2_Q1",
+          "type": "single_choice",
+          "ability_tag": "fuzzy_retrieval",
+          "question": "Regarding mentions of Docker, in which entries on which platforms does it appear?",
+          "options": {
+            "A": "Gmail E5 (Docker network configuration error, port mapping conflict) + Slack S3 (MQTT broker deployment issue, Docker network configuration); both related to MQTT deployment",
+            "B": "Only Gmail E5 (Docker network configuration error); Docker not mentioned in Slack",
+            "C": "Gmail E5 + Slack S3 + Docker-related modifications in GitHub commits",
+            "D": "Only Slack S3 (Docker network configuration issue); Docker not mentioned in Gmail"
+          },
+          "answer": "A",
+          "explanation": "Gmail E5 mentions Docker network configuration error and port mapping conflict (MQTT broker deployment issue); Slack S3 mentions MQTT broker deployment issue and asks if anyone is familiar with Docker network configuration. Both are related to MQTT deployment",
+          "source": "Gmail E5 + Slack S3"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "description": "Negation search (database migration -> does not exist)",
+      "platforms_involved": [
+        "Gmail",
+        "Slack"
+      ],
+      "user_message": "Has anyone discussed database migration in emails or Slack?",
+      "questions": [
+        {
+          "question_id": "S4_R3_Q1",
+          "type": "single_choice",
+          "ability_tag": "negation_judgment",
+          "question": "What is the search result regarding discussions about database migration?",
+          "options": {
+            "A": "No discussion about database migration exists on any platform; non-existent information should not be fabricated",
+            "B": "Gmail E3 design review discussed migrating from PostgreSQL to TimescaleDB",
+            "C": "Someone in Slack S7 proposed a database migration",
+            "D": "Gmail E5 mentioned issues caused by database migration"
+          },
+          "answer": "A",
+          "explanation": "After searching all Gmail and Slack messages, there is no discussion about database migration. The mention of TimescaleDB in E3 is about initial technology selection, not migration. Other topics should not be mistaken for database migration",
+          "source": "Gmail full + Slack full (negative result)"
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "description": "Time range search (2/10-2/14)",
+      "platforms_involved": [
+        "Calendar",
+        "GitHub",
+        "Gmail",
+        "Slack"
+      ],
+      "user_message": "What important events happened between February 10th and February 14th? Summarize from all platforms.",
+      "questions": [
+        {
+          "question_id": "S4_R4_Q1",
+          "type": "single_choice",
+          "ability_tag": "time_range_retrieval",
+          "question": "For the event summary across all platforms from February 10 to February 14, which option is the most complete and accurate?",
+          "options": {
+            "A": "Calendar: C4 Daily Standup (2/10) + C5 Team Lunch (2/11) + C6 Code Review (2/12) + C7 Sprint Retrospective (2/14); GitHub: commit#9 (2/10) + #10 (2/12) + #11 (2/14); Slack: S5-S8",
+            "B": "Calendar: C4 (2/10) + C5 (2/11) + C6 (2/12); GitHub: commit#9 (2/10) + #10 (2/12); Slack: S5-S6",
+            "C": "Calendar: C4 (2/10) + C7 Sprint Retrospective (2/14); GitHub: commit#9-#12; Slack: S5-S8",
+            "D": "Calendar: C5 (2/11) + C6 (2/12) + C7 (2/14); GitHub: commit#10 (2/12) + #11 (2/14); Slack: S7-S8"
+          },
+          "answer": "A",
+          "explanation": "Calendar: C4 Daily Standup (2/10), C5 Team Lunch (2/11), C6 Code Review - Temperature Module (2/12), C7 Sprint Retrospective (2/14); GitHub: #9 (2/10 fix: mobile sidebar), #10 (2/12 feat: WebSocket), #11 (2/14 refactor: API error handling); Slack: S5 (Sprint 3 completed), S6 (customer feedback), S7/S8 (WebSocket vs SSE discussion)",
+          "source": "Calendar C4-C7 + GitHub #9-#11 + Slack S5-S8"
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "description": "Person-related search (Charlie occurrence count)",
+      "platforms_involved": [
+        "Notion",
+        "Gmail",
+        "Slack"
+      ],
+      "user_message": "How many times does Charlie appear across all platforms? In what context?",
+      "questions": [
+        {
+          "question_id": "S4_R5_Q1",
+          "type": "single_choice",
+          "ability_tag": "fuzzy_retrieval",
+          "question": "Regarding Charlie's appearances across platforms (base data), which statistic is correct?",
+          "options": {
+            "A": "At least 2 times: Notion N1 (team member, responsible for IoT) + Gmail E3 (design review attendee); distributed across at least 2 platforms",
+            "B": "Only 1 time: Notion N1 (team member, responsible for IoT)",
+            "C": "At least 3 times: Notion N1 + Gmail E3 + Slack S3 (directly spoke about Docker issue)",
+            "D": "At least 2 times: Gmail E3 (design review attendee) + Slack S4 (confirmed MQTT issue resolved)"
+          },
+          "answer": "A",
+          "explanation": "In the base data, Charlie appears at least 2 times: in the Notion N1 team member list (responsible for IoT) and as a Gmail E3 design review attendee. More appearances exist if Scenario 2 data has been injected",
+          "source": "Notion N1 + Gmail E3"
+        }
+      ]
+    },
+    {
+      "round": 6,
+      "description": "Keyword cross-platform search (WebSocket)",
+      "platforms_involved": [
+        "Slack",
+        "Notion",
+        "GitHub"
+      ],
+      "user_message": "Search all platforms for content containing 'WebSocket'.",
+      "questions": [
+        {
+          "question_id": "S4_R6_Q1",
+          "type": "single_choice",
+          "ability_tag": "fuzzy_retrieval",
+          "question": "When searching all platforms for content containing 'WebSocket', which result is the most complete?",
+          "options": {
+            "A": "Slack S7 (WebSocket vs SSE discussion) + S8 (chose WebSocket); Notion N1 (architecture: WebSocket real-time push) + N3 (WS /ws/sensors endpoint); GitHub commit#10 (WebSocket real-time push endpoint)",
+            "B": "Slack S7 + S8; Notion N3 (WS endpoint); GitHub commit#10",
+            "C": "Slack S7 + S8; Notion N1 (architecture) + N3 (endpoint); no related content in GitHub",
+            "D": "Only Slack S7 + S8 contain WebSocket-related discussion; not mentioned on other platforms"
+          },
+          "answer": "A",
+          "explanation": "WebSocket appears across 3 platforms in 5 places: Slack S7 (discussion) + S8 (decision); Notion N1 (architecture description) + N3 (API endpoint WS /ws/sensors); GitHub commit#10 (feat: WebSocket real-time push endpoint)",
+          "source": "Slack S7/S8 + Notion N1/N3 + GitHub commit#10"
+        }
+      ]
+    },
+    {
+      "round": 7,
+      "description": "Statistical search (5 sub-questions)",
+      "platforms_involved": [
+        "GitHub",
+        "Gmail",
+        "Calendar",
+        "Slack",
+        "Notion"
+      ],
+      "user_message": "Help me with some statistics:\n1. How many open issues are there on GitHub?\n2. How many emails were received in total?\n3. How many meetings were there between February 3rd and February 19th?\n4. How many messages are there in the Slack general channel?\n5. How many SmartHome-related pages are on Notion?",
+      "questions": [
+        {
+          "question_id": "S4_R7_Q1",
+          "type": "single_choice",
+          "ability_tag": "counting",
+          "question": "For the following 5 statistics (base data), which set is entirely correct? (open issues / total emails / meetings / Slack messages / Notion pages)",
+          "options": {
+            "A": "3 (#4, #6, #7) / 8 / 9 / 8 / 3",
+            "B": "2 (#4, #6) / 8 / 9 / 8 / 3",
+            "C": "3 (#4, #6, #7) / 6 / 7 / 8 / 3",
+            "D": "3 (#4, #6, #7) / 8 / 9 / 10 / 4"
+          },
+          "answer": "A",
+          "explanation": "GitHub open issues: 3 (#4 user authentication, #6 device offline alert, #7 performance optimization); emails: 8 (E1-E8); meetings: 9 (C1-C9); Slack general channel: 8 messages (S1-S8); Notion SmartHome pages: 3 (N1-N3)",
+          "source": "GitHub issues + Gmail E1-E8 + Calendar C1-C9 + Slack S1-S8 + Notion N1-N3"
+        }
+      ]
+    }
+  ]
+}
