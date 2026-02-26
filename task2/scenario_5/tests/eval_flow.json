@@ -1,0 +1,1096 @@
+{
+  "scenario_id": "e2_s5",
+  "title": "Product Release Coordination",
+  "user_persona": "Product Director Emily Wang at Nexus Software: Slack is the primary channel for cross-team coordination and release updates; Telegram is used for executive alerts and personal reminders; Gmail is used for stakeholder communication and release documentation.",
+  "task_event_graph": {
+    "nodes": [
+      {
+        "id": "r1",
+        "event": "Emily sends release notes draft to marketing",
+        "day": 1,
+        "channel": "gmail"
+      },
+      {
+        "id": "r2",
+        "event": "Marketing replies with copy review feedback",
+        "day": 2,
+        "channel": "gmail"
+      },
+      {
+        "id": "r3",
+        "event": "Emily sends executive stakeholder update",
+        "day": 2,
+        "channel": "gmail"
+      },
+      {
+        "id": "r4",
+        "event": "Sprint Review meeting",
+        "day": 1,
+        "channel": "calendar"
+      },
+      {
+        "id": "r5",
+        "event": "Code Freeze window",
+        "day": 1,
+        "channel": "calendar"
+      },
+      {
+        "id": "r6",
+        "event": "QA Sign-off Review",
+        "day": 2,
+        "channel": "calendar"
+      },
+      {
+        "id": "r7",
+        "event": "Staging Deployment",
+        "day": 2,
+        "channel": "calendar"
+      },
+      {
+        "id": "r8",
+        "event": "Go/No-Go Decision Meeting",
+        "day": 3,
+        "channel": "calendar"
+      },
+      {
+        "id": "r9",
+        "event": "Launch Day Event",
+        "day": 3,
+        "channel": "calendar"
+      }
+    ],
+    "edges": [
+      {
+        "from": "r4",
+        "to": "r5",
+        "relation": "Sprint review confirms features before code freeze"
+      },
+      {
+        "from": "r5",
+        "to": "r6",
+        "relation": "Code freeze enables QA testing"
+      },
+      {
+        "from": "r6",
+        "to": "r7",
+        "relation": "QA sign-off triggers staging deployment"
+      },
+      {
+        "from": "r7",
+        "to": "r8",
+        "relation": "Staging validation feeds Go/No-Go"
+      },
+      {
+        "from": "r8",
+        "to": "r9",
+        "relation": "Go decision triggers launch"
+      },
+      {
+        "from": "r1",
+        "to": "r2",
+        "relation": "Marketing reviews release notes"
+      }
+    ]
+  },
+  "injection_config": {
+    "signal_emails": [
+      {
+        "id": "E1",
+        "direction": "outbound",
+        "from_email": "zihangzhou26@gmail.com",
+        "to_email": "marketing-team@nexus.example.com",
+        "subject": "v3.0 Release Notes Draft - Please Review",
+        "date": "2026-02-18T10:00:00-05:00",
+        "body": "Hi Marketing Team,\n\nAttached is the draft of our v3.0 release notes for your review before we publish to customers. Target publish date is February 20 (launch day).\n\n**v3.0 Release Highlights:**\n\n1. **Collaborative Workspaces** — Real-time multi-user editing with presence indicators, @mentions, and inline comments. Supports up to 50 concurrent editors per workspace. Built on operational transformation (OT) algorithm for conflict resolution.\n\n2. **Advanced Analytics Dashboard** — Customizable KPI widgets, drag-and-drop layout builder, 15+ new chart types including waterfall and funnel charts. Data refresh interval configurable from 5 seconds to 24 hours. Export to PDF, CSV, and PowerPoint.\n\n3. **Enterprise SSO Expansion** — Added support for PingFederate and CyberArk in addition to existing Okta, Azure AD, and Google Workspace SSO. SCIM 2.0 provisioning now supports group sync.\n\n4. **Performance Improvements** — Dashboard load time reduced by 40% (from 3.2s to 1.9s avg). API response time improved by 25%. Memory usage reduced by 30% through lazy loading optimization.\n\n5. **Mobile App v2.0** — Complete redesign with native SwiftUI (iOS) and Jetpack Compose (Android). Offline mode with background sync. Biometric authentication (Face ID, fingerprint). Push notification customization.\n\n**Known Issues (to include in notes):**\n- Waterfall chart export to PowerPoint has formatting issues (fix in v3.0.1)\n- SCIM group sync has 500-member group limit (fix in v3.1)\n\n**Customer Impact:**\n- All features available to Enterprise and Business plans\n- Mobile v2.0 available to all plans\n- Estimated 12,000 active enterprise users affected by SSO changes (positive — more options)\n\nPlease review the copy, suggest any marketing-friendly language changes, and confirm the highlight order makes sense for our audience.\n\nDeadline for feedback: EOD Wednesday Feb 18.\n\nThanks,\nEmily Wang\nProduct Director, Nexus Software"
+      },
+      {
+        "id": "E2",
+        "direction": "inbound",
+        "from_email": "lisa.park@nexus.example.com",
+        "to_email": "zihangzhou26@gmail.com",
+        "subject": "Re: v3.0 Release Notes Draft - Please Review",
+        "date": "2026-02-19T09:30:00-05:00",
+        "body": "Hi Emily,\n\nGreat work on the release notes! Here's our marketing review:\n\n**Approved as-is:**\n- Collaborative Workspaces section (great messaging)\n- Performance Improvements (customers love concrete numbers)\n- Mobile App v2.0 (the redesign angle is compelling)\n\n**Suggested Changes:**\n\n1. **Analytics Dashboard** — Can we add a customer quote? We have one from Acme Corp: \"The new dashboard cut our reporting time by 60%\" — Sarah Chen, VP Analytics at Acme Corp. Also suggest reordering: move Analytics to #1 position since it's our most requested feature.\n\n2. **SSO Expansion** — Suggest simplifying to \"Added support for PingFederate and CyberArk SSO\" — the SCIM 2.0 detail is too technical for the release blog. Keep the technical details in the changelog instead.\n\n3. **Known Issues section** — Recommend NOT including known issues in the customer-facing release notes. Move them to the internal changelog. Customers don't need to know about the waterfall chart export bug before they even try the feature.\n\n**Additional Requests:**\n- Can we get 3 screenshots for the blog post? (Workspace collaboration, new dashboard, mobile app)\n- Need a 60-second product demo video for social media\n- Please confirm the launch webinar speaker lineup by Thursday\n\n**Marketing Launch Plan:**\n- Blog post: 8 AM EST Feb 20\n- Email blast to 45,000 subscribers: 10 AM EST Feb 20\n- Social media campaign: 12 PM EST Feb 20 (LinkedIn, Twitter/X, YouTube)\n- Product Hunt launch: 6 AM EST Feb 20\n- Press release to 12 tech publications\n\nOverall great draft — just a few tweaks and we're ready!\n\nLisa Park\nMarketing Director, Nexus Software"
+      },
+      {
+        "id": "E3",
+        "direction": "outbound",
+        "from_email": "zihangzhou26@gmail.com",
+        "to_email": "executive-team@nexus.example.com",
+        "subject": "v3.0 Launch Status Update - Feb 19",
+        "date": "2026-02-19T14:00:00-05:00",
+        "body": "Executive Team,\n\nHere's the v3.0 launch status update as of Feb 19:\n\n**Release Readiness: ON TRACK**\n\n1. **Engineering Status:**\n   - Code freeze completed Feb 18 at 17:00 EST\n   - 47 features merged, 3 deferred to v3.1\n   - Critical bug count: 0 (down from 4 at sprint start)\n   - Test coverage: 94.2% (target: >90%)\n\n2. **QA Status:**\n   - Regression suite: 1,847 tests passing, 12 skipped (known flaky), 0 failures\n   - Performance benchmarks: all green (dashboard load 1.9s, API p99 < 200ms)\n   - Security scan: clean (Snyk, SonarQube, OWASP ZAP)\n   - Remaining: staging smoke tests scheduled for Thursday afternoon\n\n3. **Marketing Readiness:**\n   - Release notes: reviewed and approved (minor edits in progress)\n   - Blog post: draft complete, publishing Feb 20 8 AM\n   - Email blast: 45,000 subscriber list confirmed\n   - 3 pending items: screenshots, demo video, webinar speakers\n\n4. **Customer Success:**\n   - Top 20 enterprise accounts notified of upgrade\n   - Migration guide published for SSO changes\n   - Support team trained on new features (2-hour session completed)\n\n5. **Risk Items:**\n   - SCIM group sync 500-member limit affects 3 enterprise accounts (Meridian, GlobalTech, Apex)\n   - Workaround documented; permanent fix in v3.1 (March)\n   - Go/No-Go decision meeting: Friday Feb 20 at 09:00\n\n**Key Decision Needed:**\nApprove the launch timeline at Friday's Go/No-Go meeting. All stakeholders must attend.\n\nEmily Wang\nProduct Director, Nexus Software"
+      }
+    ],
+    "signal_calendar_events": [
+      {
+        "id": "evt_sprint_review",
+        "summary": "Sprint Review - v3.0 Feature Demo",
+        "start": "2026-02-18T09:00:00-05:00",
+        "end": "2026-02-18T10:30:00-05:00",
+        "description": "Sprint Review: v3.0 Feature Demonstrations\n\nAgenda:\n1. (20 min) Collaborative Workspaces demo — Alex Rivera (Frontend Lead)\n2. (20 min) Analytics Dashboard demo — Priya Patel (Data Team Lead)\n3. (15 min) SSO Expansion & SCIM — Carlos Mendez (Security Engineer)\n4. (15 min) Mobile v2.0 demo — Yuki Tanaka (Mobile Lead)\n5. (20 min) Stakeholder feedback and questions\n\nDemo Environment: https://staging.nexus.example.com (credentials in 1Password)\n\nAttendees:\n- Emily Wang (Product Director) — meeting facilitator\n- Alex Rivera (Frontend Lead)\n- Priya Patel (Data Team Lead)\n- Carlos Mendez (Security Engineer)\n- Yuki Tanaka (Mobile Lead)\n- Mike Santos (VP Engineering)\n- Lisa Park (Marketing Director)\n\nSuccess Criteria: All 4 feature areas demo successfully with no critical bugs.",
+        "location": "Zoom - https://zoom.us/j/1112223333",
+        "attendees": [
+          "alex.rivera@nexus.example.com",
+          "priya.patel@nexus.example.com",
+          "carlos.mendez@nexus.example.com",
+          "yuki.tanaka@nexus.example.com",
+          "mike.santos@nexus.example.com",
+          "lisa.park@nexus.example.com"
+        ]
+      },
+      {
+        "id": "evt_code_freeze",
+        "summary": "CODE FREEZE: v3.0 Release Branch",
+        "start": "2026-02-18T17:00:00-05:00",
+        "end": "2026-02-18T18:00:00-05:00",
+        "description": "Code Freeze for v3.0 Release\n\nEffective: Wednesday Feb 18 at 17:00 EST\n\nRules During Freeze:\n- No new feature merges to release/v3.0 branch\n- Only P0/P1 bug fixes allowed (requires Emily + Mike approval)\n- All changes require 2 reviewer approvals (up from standard 1)\n- CI/CD pipeline locked to release branch\n\nRelease Branch: release/v3.0\nRelease Manager: Emily Wang\nEngineering Approver: Mike Santos (VP Engineering)\n\nPost-Freeze Checklist:\n- [ ] All feature branches merged\n- [ ] Release branch green on CI\n- [ ] Version bumped to 3.0.0\n- [ ] Changelog generated\n- [ ] Database migration scripts tested\n\nAny exceptions must be approved in #release-v3 Slack channel.",
+        "location": "N/A (async)",
+        "attendees": [
+          "mike.santos@nexus.example.com"
+        ]
+      },
+      {
+        "id": "evt_qa_signoff",
+        "summary": "QA Sign-off Review: v3.0",
+        "start": "2026-02-19T10:00:00-05:00",
+        "end": "2026-02-19T11:00:00-05:00",
+        "description": "QA Sign-off Review for v3.0 Release\n\nAgenda:\n1. (15 min) Regression test results — Nina Kowalski (QA Lead)\n2. (10 min) Performance benchmark review — dashboard load, API latency\n3. (10 min) Security scan results — Snyk, SonarQube, OWASP ZAP\n4. (10 min) Known issues and risk assessment\n5. (15 min) QA sign-off decision\n\nSign-off Criteria:\n- 0 P0 bugs, <3 P1 bugs (all with documented workarounds)\n- Regression suite pass rate >99%\n- Performance within SLA targets (dashboard <3s, API p99 <500ms)\n- No critical security findings\n\nAttendees:\n- Emily Wang (Product Director)\n- Nina Kowalski (QA Lead) — sign-off authority\n- Mike Santos (VP Engineering)\n- Alex Rivera (Frontend Lead) — for any UI-related questions\n\nDeliverable: Written QA sign-off document with test summary.",
+        "location": "Conference Room C",
+        "attendees": [
+          "nina.kowalski@nexus.example.com",
+          "mike.santos@nexus.example.com",
+          "alex.rivera@nexus.example.com"
+        ]
+      },
+      {
+        "id": "evt_staging_deploy",
+        "summary": "Staging Deployment & Smoke Tests: v3.0",
+        "start": "2026-02-19T14:00:00-05:00",
+        "end": "2026-02-19T15:30:00-05:00",
+        "description": "Staging Deployment and Smoke Testing\n\nDeployment Plan:\n1. (15 min) Deploy v3.0 release candidate to staging environment\n2. (30 min) Automated smoke test suite execution (247 critical path tests)\n3. (15 min) Manual exploratory testing on key user flows\n4. (15 min) Performance validation — compare against production baseline\n5. (15 min) Rollback plan verification\n\nStaging URL: https://staging.nexus.example.com\nDeployment Lead: Carlos Mendez (DevOps/Security)\n\nAttendees:\n- Emily Wang (Product Director) — deployment approval\n- Carlos Mendez (DevOps) — deployment execution\n- Nina Kowalski (QA Lead) — smoke test validation\n\nRollback Plan:\n- Automated rollback trigger if >5% error rate in first 10 minutes\n- Manual rollback command: `nx deploy rollback v2.9.3`\n- RTO: 5 minutes\n\nGo Criteria for Production:\n- All 247 smoke tests pass\n- Error rate <0.1% for 30 minutes\n- No P0/P1 issues discovered",
+        "location": "Zoom - https://zoom.us/j/4445556666",
+        "attendees": [
+          "carlos.mendez@nexus.example.com",
+          "nina.kowalski@nexus.example.com"
+        ]
+      },
+      {
+        "id": "evt_go_nogo",
+        "summary": "Go/No-Go Decision: v3.0 Production Launch",
+        "start": "2026-02-20T09:00:00-05:00",
+        "end": "2026-02-20T10:00:00-05:00",
+        "description": "Go/No-Go Decision Meeting for v3.0 Production Launch\n\nDecision Framework:\n1. (10 min) QA summary — Nina Kowalski\n2. (10 min) Staging deployment results — Carlos Mendez\n3. (10 min) Marketing readiness — Lisa Park\n4. (10 min) Customer Success readiness — Diana Chen\n5. (10 min) Risk review and mitigation\n6. (10 min) DECISION: Go or No-Go (requires unanimous approval)\n\nRequired Approvers (all must say GO):\n- Emily Wang (Product Director) — product readiness\n- Mike Santos (VP Engineering) — engineering readiness\n- Nina Kowalski (QA Lead) — quality gate\n- Lisa Park (Marketing Director) — marketing readiness\n- Diana Chen (Customer Success) — support readiness\n\nIf NO-GO: Define remediation plan and reschedule for Monday Feb 23.\n\nIf GO: Production deployment begins at 11:00 EST, blog post at 8:00 AM was pre-scheduled.",
+        "location": "Executive Conference Room",
+        "attendees": [
+          "mike.santos@nexus.example.com",
+          "nina.kowalski@nexus.example.com",
+          "lisa.park@nexus.example.com",
+          "diana.chen@nexus.example.com"
+        ]
+      },
+      {
+        "id": "evt_launch",
+        "summary": "v3.0 LAUNCH DAY - Production Deployment",
+        "start": "2026-02-20T11:00:00-05:00",
+        "end": "2026-02-20T13:00:00-05:00",
+        "description": "v3.0 Production Launch\n\nDeployment Timeline:\n- 11:00 — Begin canary deployment (5% traffic)\n- 11:15 — Monitor error rates and latency (15 min hold)\n- 11:30 — Expand to 25% traffic\n- 11:45 — Monitor (15 min hold)\n- 12:00 — Full rollout (100% traffic)\n- 12:00-13:00 — Post-deployment monitoring and incident watch\n\nWar Room Participants:\n- Emily Wang (Product Director) — launch commander\n- Carlos Mendez (DevOps) — deployment execution\n- Alex Rivera (Frontend) — UI monitoring\n- Priya Patel (Data) — analytics pipeline monitoring\n- Nina Kowalski (QA) — production smoke tests\n\nMonitoring Dashboards:\n- Datadog: https://app.datadoghq.com/nexus-v3\n- PagerDuty: on-call rotation active\n- StatusPage: prepared, auto-update on incident\n\nRollback Trigger:\n- Error rate >1% for 5+ minutes\n- P99 latency >1s for 5+ minutes\n- Any data integrity issue\n\nPost-Launch:\n- All-hands celebration at 14:00 (if successful)\n- Retrospective scheduled for Monday Feb 23",
+        "location": "War Room / Zoom - https://zoom.us/j/7778889999",
+        "attendees": [
+          "carlos.mendez@nexus.example.com",
+          "alex.rivera@nexus.example.com",
+          "priya.patel@nexus.example.com",
+          "nina.kowalski@nexus.example.com"
+        ]
+      }
+    ],
+    "signal_tasks": [],
+    "noise_config": {
+      "emails": {
+        "count": 0,
+        "types": [],
+        "avg_body_words": 0
+      },
+      "calendar_events": {
+        "count": 0,
+        "types": [],
+        "avg_description_words": 0
+      }
+    }
+  },
+  "qa_annotations": [
+    {
+      "qa_id": "q1",
+      "type": "email_retrieval",
+      "channel": "slack",
+      "question": "Find the release notes email I sent to the marketing team. What are the 5 release highlights for v3.0?",
+      "answer": "Email to marketing-team@nexus.example.com, subject 'v3.0 Release Notes Draft'. 5 highlights: 1) Collaborative Workspaces (real-time multi-user editing, up to 50 concurrent editors), 2) Advanced Analytics Dashboard (customizable KPI widgets, 15+ chart types), 3) Enterprise SSO Expansion (PingFederate, CyberArk added), 4) Performance Improvements (40% faster dashboard, 25% faster API, 30% less memory), 5) Mobile App v2.0 (SwiftUI/Jetpack Compose redesign, offline mode).",
+      "ground_truth": "5 highlights: Collaborative Workspaces, Analytics Dashboard, SSO Expansion, Performance Improvements, Mobile App v2.0.",
+      "grounding": [
+        "E1"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Found email in sent folder",
+          "points": 1,
+          "keywords": [
+            "sent",
+            "marketing",
+            "release notes"
+          ]
+        },
+        {
+          "criterion": "Collaborative Workspaces identified",
+          "points": 2,
+          "keywords": [
+            "collaborative",
+            "workspace",
+            "real-time",
+            "50 concurrent"
+          ]
+        },
+        {
+          "criterion": "Analytics Dashboard identified",
+          "points": 2,
+          "keywords": [
+            "analytics",
+            "dashboard",
+            "kpi",
+            "chart"
+          ]
+        },
+        {
+          "criterion": "SSO Expansion identified",
+          "points": 1,
+          "keywords": [
+            "sso",
+            "pingfederate",
+            "cyberark"
+          ]
+        },
+        {
+          "criterion": "Performance Improvements identified",
+          "points": 2,
+          "keywords": [
+            "40%",
+            "performance",
+            "dashboard load",
+            "1.9s"
+          ]
+        },
+        {
+          "criterion": "Mobile App v2.0 identified",
+          "points": 2,
+          "keywords": [
+            "mobile",
+            "swiftui",
+            "jetpack",
+            "offline"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q2",
+      "type": "email_retrieval",
+      "channel": "slack",
+      "question": "Lisa Park from marketing replied to the release notes. What were her suggested changes? What did she approve as-is?",
+      "answer": "Approved as-is: Collaborative Workspaces, Performance Improvements, Mobile App v2.0. Suggested changes: 1) Analytics Dashboard — add Acme Corp customer quote, reorder to #1 position. 2) SSO Expansion — simplify, move SCIM detail to changelog. 3) Known Issues — don't include in customer-facing notes, move to internal changelog. Additional requests: 3 screenshots, 60-second demo video, webinar speaker lineup by Thursday.",
+      "ground_truth": "Approved: Workspaces, Performance, Mobile. Changes: Analytics reorder+quote, SSO simplify, remove Known Issues from customer notes. Extra: screenshots, video, speakers.",
+      "grounding": [
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Approved sections listed correctly",
+          "points": 2,
+          "keywords": [
+            "collaborative",
+            "performance",
+            "mobile",
+            "approved"
+          ]
+        },
+        {
+          "criterion": "Analytics reorder suggestion",
+          "points": 2,
+          "keywords": [
+            "analytics",
+            "reorder",
+            "#1",
+            "acme",
+            "quote"
+          ]
+        },
+        {
+          "criterion": "SSO simplification suggestion",
+          "points": 2,
+          "keywords": [
+            "sso",
+            "simplify",
+            "scim",
+            "changelog"
+          ]
+        },
+        {
+          "criterion": "Known Issues removal suggestion",
+          "points": 2,
+          "keywords": [
+            "known issues",
+            "remove",
+            "internal",
+            "changelog"
+          ]
+        },
+        {
+          "criterion": "Additional requests mentioned",
+          "points": 2,
+          "keywords": [
+            "screenshots",
+            "demo video",
+            "webinar",
+            "speakers"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q3",
+      "type": "cross_email_reasoning",
+      "channel": "telegram",
+      "question": "In my executive update email, what did I say about test coverage and bug count? How does that compare to the QA sign-off criteria in the calendar event?",
+      "answer": "Executive email: test coverage 94.2% (target >90%), critical bug count 0. QA sign-off criteria from calendar: 0 P0 bugs, <3 P1 bugs with workarounds, regression pass rate >99%, dashboard <3s, API p99 <500ms. The test coverage exceeds the target, and 0 critical bugs meets the P0 requirement.",
+      "ground_truth": "Email: 94.2% coverage, 0 critical bugs. QA criteria: 0 P0, <3 P1, >99% regression, perf SLAs. Currently meeting all criteria.",
+      "grounding": [
+        "E3",
+        "evt_qa_signoff"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Test coverage from email (94.2%)",
+          "points": 2,
+          "keywords": [
+            "94.2",
+            "coverage"
+          ]
+        },
+        {
+          "criterion": "Bug count from email (0 critical)",
+          "points": 2,
+          "keywords": [
+            "0",
+            "critical",
+            "bug"
+          ]
+        },
+        {
+          "criterion": "QA criteria referenced (P0, P1, regression)",
+          "points": 3,
+          "keywords": [
+            "p0",
+            "p1",
+            "regression",
+            "99%"
+          ]
+        },
+        {
+          "criterion": "Cross-reference analysis (meets/exceeds criteria)",
+          "points": 3,
+          "keywords": [
+            "meets",
+            "exceeds",
+            "target",
+            "criteria"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q4",
+      "type": "action_execution",
+      "channel": "slack",
+      "question": "Send a reply to Lisa Park at zihangzhou26+lisa.park@gmail.com addressing her 3 suggested changes — accept the Analytics reorder and customer quote, accept removing Known Issues from customer notes, but keep the SSO SCIM detail as-is because enterprise customers need it. Send the email now.",
+      "answer": "Email sent to zihangzhou26+lisa.park@gmail.com addressing all 3 suggestions: 1) Analytics reorder to #1 + Acme Corp quote — accepted. 2) Known Issues removal from customer notes — accepted. 3) SSO SCIM detail — keeping as-is for enterprise customers.",
+      "ground_truth": "Reply sent to Lisa (zihangzhou26+lisa.park@gmail.com). Accepted: analytics reorder+quote, known issues removal. Rejected: SSO simplification (keeping SCIM for enterprise).",
+      "grounding": [
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Email sent or acknowledged as already sent earlier in session",
+          "points": 3,
+          "keywords": [
+            "sent",
+            "email",
+            "lisa",
+            "already"
+          ]
+        },
+        {
+          "criterion": "Analytics reorder accepted",
+          "points": 2,
+          "keywords": [
+            "analytics",
+            "accept",
+            "reorder",
+            "quote"
+          ]
+        },
+        {
+          "criterion": "Known Issues removal accepted",
+          "points": 2,
+          "keywords": [
+            "known issues",
+            "accept",
+            "remove"
+          ]
+        },
+        {
+          "criterion": "SSO SCIM kept as-is with reasoning",
+          "points": 3,
+          "keywords": [
+            "sso",
+            "scim",
+            "keep",
+            "enterprise"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q5",
+      "type": "calendar_detail",
+      "channel": "telegram",
+      "question": "What's the complete deployment timeline for launch day? List every step with exact times.",
+      "answer": "v3.0 Launch Day deployment timeline (Feb 20): 11:00 — Begin canary deployment (5% traffic). 11:15 — Monitor error rates and latency (15 min hold). 11:30 — Expand to 25% traffic. 11:45 — Monitor (15 min hold). 12:00 — Full rollout (100% traffic). 12:00-13:00 — Post-deployment monitoring and incident watch.",
+      "ground_truth": "11:00 canary 5%, 11:15 monitor, 11:30 expand 25%, 11:45 monitor, 12:00 full 100%, 12:00-13:00 monitoring.",
+      "grounding": [
+        "evt_launch"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Canary at 11:00 (5%)",
+          "points": 2,
+          "keywords": [
+            "11:00",
+            "canary",
+            "5%"
+          ]
+        },
+        {
+          "criterion": "25% expansion at 11:30",
+          "points": 2,
+          "keywords": [
+            "11:30",
+            "25%"
+          ]
+        },
+        {
+          "criterion": "Full rollout at 12:00 (100%)",
+          "points": 2,
+          "keywords": [
+            "12:00",
+            "100%",
+            "full"
+          ]
+        },
+        {
+          "criterion": "Post-deployment monitoring",
+          "points": 2,
+          "keywords": [
+            "monitoring",
+            "13:00",
+            "incident"
+          ]
+        },
+        {
+          "criterion": "At least 5 timeline steps",
+          "points": 2,
+          "keywords": [
+            "11:15",
+            "11:45",
+            "hold"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q6",
+      "type": "content_extraction_and_action",
+      "channel": "slack",
+      "question": "From Lisa's email, what's the marketing launch plan? List all the items with times. Then add each as a Google Task.",
+      "answer": "Marketing launch plan (Feb 20): 1) Blog post at 8 AM EST, 2) Email blast to 45,000 subscribers at 10 AM EST, 3) Social media campaign at 12 PM EST (LinkedIn, Twitter/X, YouTube), 4) Product Hunt launch at 6 AM EST, 5) Press release to 12 tech publications. All 5 created as Google Tasks.",
+      "ground_truth": "5 items: Blog 8AM, Email blast 10AM (45K subscribers), Social media 12PM, Product Hunt 6AM, Press release. All added to Tasks.",
+      "grounding": [
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Blog post at 8 AM",
+          "points": 1,
+          "keywords": [
+            "blog",
+            "8 am",
+            "8:00"
+          ]
+        },
+        {
+          "criterion": "Email blast at 10 AM (45,000)",
+          "points": 1,
+          "keywords": [
+            "email blast",
+            "10 am",
+            "45,000"
+          ]
+        },
+        {
+          "criterion": "Social media at 12 PM",
+          "points": 1,
+          "keywords": [
+            "social media",
+            "12 pm",
+            "linkedin"
+          ]
+        },
+        {
+          "criterion": "Product Hunt at 6 AM",
+          "points": 1,
+          "keywords": [
+            "product hunt",
+            "6 am"
+          ]
+        },
+        {
+          "criterion": "Press release to 12 publications",
+          "points": 1,
+          "keywords": [
+            "press release",
+            "12",
+            "publications"
+          ]
+        },
+        {
+          "criterion": "All 5 tasks in Google Tasks (created now or confirmed existing from earlier in session)",
+          "points": 5,
+          "keywords": [
+            "tasks",
+            "created",
+            "added",
+            "5",
+            "already",
+            "exist"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q7",
+      "type": "time_calculation",
+      "channel": "slack",
+      "question": "On Thursday Feb 19, how many total minutes of meetings do I have? List each meeting and its duration.",
+      "answer": "Thursday Feb 19 has 2 meetings: QA Sign-off Review 10:00-11:00 (60 minutes) and Staging Deployment 14:00-15:30 (90 minutes). Total: 150 minutes.",
+      "ground_truth": "QA Sign-off 60 min + Staging Deploy 90 min = 150 minutes total.",
+      "grounding": [
+        "evt_qa_signoff",
+        "evt_staging_deploy"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "QA Sign-off identified (60 min)",
+          "points": 3,
+          "keywords": [
+            "qa",
+            "sign-off",
+            "60",
+            "10:00",
+            "11:00"
+          ]
+        },
+        {
+          "criterion": "Staging Deployment identified (90 min)",
+          "points": 3,
+          "keywords": [
+            "staging",
+            "deployment",
+            "90",
+            "14:00",
+            "15:30"
+          ]
+        },
+        {
+          "criterion": "Total correct (150 minutes)",
+          "points": 4,
+          "keywords": [
+            "150"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q8",
+      "type": "comprehensive_summary_and_action",
+      "channel": "slack",
+      "question": "Generate a complete v3.0 launch readiness report covering: engineering status, QA status, marketing status, upcoming meetings, and risk items. Send it to Slack channel C0AFGBS1EQ1 and email it to myself at zihangzhou26@gmail.com.",
+      "answer": "v3.0 Launch Readiness: Engineering — code freeze complete, 47 features merged, 0 critical bugs, 94.2% coverage. QA — 1,847 tests passing, 0 failures, security scans clean. Marketing — release notes reviewed, blog draft ready, 45K email list confirmed, 3 pending items. Meetings — QA Sign-off (Feb 19 10:00), Staging Deploy (Feb 19 14:00), Go/No-Go (Feb 20 09:00), Launch (Feb 20 11:00). Risks — SCIM 500-member limit affects 3 accounts. Sent to Slack and Gmail.",
+      "ground_truth": "Complete readiness report with eng, QA, marketing status, meeting schedule, risks. Sent to Slack and Gmail.",
+      "grounding": [
+        "E1",
+        "E2",
+        "E3",
+        "evt_qa_signoff",
+        "evt_staging_deploy",
+        "evt_go_nogo",
+        "evt_launch"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Engineering status (code freeze, 47 features, 0 bugs)",
+          "points": 1,
+          "keywords": [
+            "code freeze",
+            "47",
+            "0 bugs",
+            "94.2"
+          ]
+        },
+        {
+          "criterion": "QA status (1,847 tests, clean scans)",
+          "points": 1,
+          "keywords": [
+            "1,847",
+            "tests",
+            "security",
+            "clean"
+          ]
+        },
+        {
+          "criterion": "Marketing status (blog, email blast)",
+          "points": 1,
+          "keywords": [
+            "blog",
+            "email blast",
+            "45,000"
+          ]
+        },
+        {
+          "criterion": "Meeting schedule included",
+          "points": 2,
+          "keywords": [
+            "qa sign-off",
+            "staging",
+            "go/no-go",
+            "launch"
+          ]
+        },
+        {
+          "criterion": "Risk items (SCIM limit, 3 accounts)",
+          "points": 1,
+          "keywords": [
+            "scim",
+            "500",
+            "3 accounts"
+          ]
+        },
+        {
+          "criterion": "Slack sent or acknowledged as already sent",
+          "points": 2,
+          "keywords": [
+            "slack",
+            "sent",
+            "already"
+          ]
+        },
+        {
+          "criterion": "Gmail sent or acknowledged as already sent",
+          "points": 2,
+          "keywords": [
+            "gmail",
+            "email",
+            "sent",
+            "already"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q9",
+      "type": "detail_recall",
+      "channel": "telegram",
+      "question": "Who are the 5 required approvers for the Go/No-Go decision? What does each person approve?",
+      "answer": "5 required approvers: 1) Emily Wang (Product Director) — product readiness, 2) Mike Santos (VP Engineering) — engineering readiness, 3) Nina Kowalski (QA Lead) — quality gate, 4) Lisa Park (Marketing Director) — marketing readiness, 5) Diana Chen (Customer Success) — support readiness. All must say GO (unanimous).",
+      "ground_truth": "Emily Wang (product), Mike Santos (engineering), Nina Kowalski (QA), Lisa Park (marketing), Diana Chen (customer success). Unanimous required.",
+      "grounding": [
+        "evt_go_nogo"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "All 5 names correct",
+          "points": 3,
+          "keywords": [
+            "emily",
+            "mike",
+            "nina",
+            "lisa",
+            "diana"
+          ]
+        },
+        {
+          "criterion": "Roles/responsibilities correct",
+          "points": 1,
+          "keywords": [
+            "product",
+            "engineering",
+            "quality",
+            "marketing",
+            "support"
+          ]
+        },
+        {
+          "criterion": "Unanimous requirement mentioned",
+          "points": 1,
+          "keywords": [
+            "unanimous",
+            "all must"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q10",
+      "type": "detail_recall",
+      "channel": "slack",
+      "question": "What are the rollback triggers for the launch deployment? What's the RTO?",
+      "answer": "Rollback triggers: 1) Error rate >1% for 5+ minutes, 2) P99 latency >1s for 5+ minutes, 3) Any data integrity issue. RTO: 5 minutes. Manual rollback command: nx deploy rollback v2.9.3.",
+      "ground_truth": "Triggers: >1% error rate for 5 min, p99 >1s for 5 min, data integrity. RTO: 5 min. Command: nx deploy rollback v2.9.3.",
+      "grounding": [
+        "evt_launch",
+        "evt_staging_deploy"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Error rate trigger (>1% for 5 min)",
+          "points": 1,
+          "keywords": [
+            "1%",
+            "error",
+            "5 min"
+          ]
+        },
+        {
+          "criterion": "Latency trigger (p99 >1s)",
+          "points": 1,
+          "keywords": [
+            "p99",
+            "1s",
+            "latency"
+          ]
+        },
+        {
+          "criterion": "Data integrity trigger",
+          "points": 1,
+          "keywords": [
+            "data integrity"
+          ]
+        },
+        {
+          "criterion": "RTO correct (5 minutes)",
+          "points": 1,
+          "keywords": [
+            "5 minutes",
+            "rto"
+          ]
+        },
+        {
+          "criterion": "Rollback command",
+          "points": 1,
+          "keywords": [
+            "nx deploy rollback",
+            "v2.9.3"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q11",
+      "type": "cross_email_reasoning",
+      "channel": "telegram",
+      "question": "Which enterprise accounts are affected by the SCIM group sync limit? Where was this mentioned?",
+      "answer": "3 enterprise accounts: Meridian, GlobalTech, and Apex. This was mentioned in the executive stakeholder update email (v3.0 Launch Status Update). The SCIM group sync has a 500-member group limit, with a permanent fix planned for v3.1 in March.",
+      "ground_truth": "Meridian, GlobalTech, Apex — from executive update email. SCIM 500-member limit, fix in v3.1.",
+      "grounding": [
+        "E3"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "All 3 accounts named (Meridian, GlobalTech, Apex)",
+          "points": 2,
+          "keywords": [
+            "meridian",
+            "globaltech",
+            "apex"
+          ]
+        },
+        {
+          "criterion": "Source correct (executive update email)",
+          "points": 1,
+          "keywords": [
+            "executive",
+            "update",
+            "email"
+          ]
+        },
+        {
+          "criterion": "SCIM limit detail (500-member)",
+          "points": 1,
+          "keywords": [
+            "500",
+            "scim",
+            "limit"
+          ]
+        },
+        {
+          "criterion": "Fix timeline (v3.1, March)",
+          "points": 1,
+          "keywords": [
+            "v3.1",
+            "march"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q12",
+      "type": "detail_recall",
+      "channel": "slack",
+      "question": "What's the code freeze rule about approvals? How is it different from the standard process?",
+      "answer": "During code freeze: all changes require 2 reviewer approvals, up from the standard 1. Only P0/P1 bug fixes are allowed (requires Emily + Mike approval). No new feature merges to release/v3.0 branch. Exceptions must be approved in #release-v3 Slack channel.",
+      "ground_truth": "2 reviewer approvals (up from standard 1). Only P0/P1 fixes. Needs Emily + Mike approval. Exceptions via #release-v3 Slack.",
+      "grounding": [
+        "evt_code_freeze"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "2 reviewers (up from 1)",
+          "points": 2,
+          "keywords": [
+            "2",
+            "reviewer",
+            "up from",
+            "standard 1"
+          ]
+        },
+        {
+          "criterion": "Only P0/P1 fixes allowed",
+          "points": 1,
+          "keywords": [
+            "p0",
+            "p1",
+            "bug fix"
+          ]
+        },
+        {
+          "criterion": "Emily + Mike approval",
+          "points": 1,
+          "keywords": [
+            "emily",
+            "mike",
+            "approval"
+          ]
+        },
+        {
+          "criterion": "Exception channel (#release-v3)",
+          "points": 1,
+          "keywords": [
+            "release-v3",
+            "slack",
+            "exception"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q13",
+      "type": "adversarial",
+      "channel": "telegram",
+      "question": "Didn't the marketing team ask for 5 screenshots for the blog post? I remember Lisa requested quite a few images.",
+      "answer": "No, Lisa Park requested 3 screenshots (not 5). The 3 screenshots are for: workspace collaboration, new dashboard, and mobile app. She also requested a 60-second demo video for social media, but the screenshot count was specifically 3.",
+      "ground_truth": "3 screenshots (not 5): workspace, dashboard, mobile app. Also requested 60-second demo video.",
+      "grounding": [
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Correctly rejects 5 screenshots",
+          "points": 2,
+          "keywords": [
+            "no",
+            "not 5",
+            "3"
+          ]
+        },
+        {
+          "criterion": "Lists correct screenshot subjects",
+          "points": 2,
+          "keywords": [
+            "workspace",
+            "dashboard",
+            "mobile"
+          ]
+        },
+        {
+          "criterion": "Mentions demo video as separate request",
+          "points": 1,
+          "keywords": [
+            "demo video",
+            "60-second",
+            "60 second"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q14",
+      "type": "cross_service_memory",
+      "channel": "slack",
+      "question": "What Google Tasks have been created during this session? List them all.",
+      "answer": "5 marketing launch tasks: 1) Blog post (8 AM EST), 2) Email blast to 45,000 subscribers (10 AM EST), 3) Social media campaign (12 PM EST), 4) Product Hunt launch (6 AM EST), 5) Press release to 12 publications.",
+      "ground_truth": "5 tasks: blog post, email blast, social media, Product Hunt, press release.",
+      "grounding": [
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Correct count (5 tasks)",
+          "points": 1,
+          "keywords": [
+            "5",
+            "five"
+          ]
+        },
+        {
+          "criterion": "At least 3 tasks named correctly",
+          "points": 2,
+          "keywords": [
+            "blog",
+            "email blast",
+            "social media",
+            "product hunt",
+            "press release"
+          ]
+        },
+        {
+          "criterion": "Tasks associated with marketing launch",
+          "points": 2,
+          "keywords": [
+            "marketing",
+            "launch",
+            "lisa"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q15",
+      "type": "comprehensive_summary",
+      "channel": "telegram",
+      "question": "Give me the complete meeting schedule across Feb 18-20 grouped by day, with attendees and key agenda items for each.",
+      "answer": "Feb 18 (Wed): Sprint Review 09:00-10:30 (feature demos, 7 attendees including Emily, Alex, Priya, Carlos, Yuki, Mike, Lisa), Code Freeze 17:00-18:00 (freeze rules, Emily+Mike). Feb 19 (Thu): QA Sign-off 10:00-11:00 (test results, sign-off decision, Emily+Nina+Mike+Alex), Staging Deploy 14:00-15:30 (deployment+smoke tests, Emily+Carlos+Nina). Feb 20 (Fri): Go/No-Go 09:00-10:00 (unanimous decision, 5 approvers), Launch 11:00-13:00 (canary→full deployment, 5 war room participants).",
+      "ground_truth": "Wed: Sprint Review + Code Freeze. Thu: QA Sign-off + Staging Deploy. Fri: Go/No-Go + Launch. 6 events total.",
+      "grounding": [
+        "evt_sprint_review",
+        "evt_code_freeze",
+        "evt_qa_signoff",
+        "evt_staging_deploy",
+        "evt_go_nogo",
+        "evt_launch"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Wed events correct (Sprint Review, Code Freeze)",
+          "points": 1,
+          "keywords": [
+            "sprint review",
+            "code freeze",
+            "09:00",
+            "17:00"
+          ]
+        },
+        {
+          "criterion": "Thu events correct (QA Sign-off, Staging)",
+          "points": 1,
+          "keywords": [
+            "qa sign-off",
+            "staging",
+            "10:00",
+            "14:00"
+          ]
+        },
+        {
+          "criterion": "Fri events correct (Go/No-Go, Launch)",
+          "points": 1,
+          "keywords": [
+            "go/no-go",
+            "launch",
+            "09:00",
+            "11:00"
+          ]
+        },
+        {
+          "criterion": "Attendees listed for at least 2 meetings",
+          "points": 1,
+          "keywords": [
+            "emily",
+            "nina",
+            "carlos",
+            "mike",
+            "lisa"
+          ]
+        },
+        {
+          "criterion": "Key agenda items included",
+          "points": 1,
+          "keywords": [
+            "canary",
+            "decision",
+            "sign-off",
+            "demo"
+          ]
+        },
+        {
+          "criterion": "All 6 events included and grouped by day",
+          "points": 1,
+          "keywords": [
+            "6",
+            "wednesday",
+            "thursday",
+            "friday"
+          ]
+        }
+      ],
+      "max_score": 6
+    }
+  ],
+  "event_summary_ground_truth": "v3.0 product release coordination across Feb 18-20. Wed Feb 18: Sprint Review (09:00-10:30, 4 feature demos, 7 attendees) and Code Freeze at 17:00 (no new features, 2 reviewer requirement). Thu Feb 19: QA Sign-off (10:00-11:00, regression 1847 tests, sign-off criteria: 0 P0/<3 P1/>99% pass) and Staging Deploy (14:00-15:30, 247 smoke tests, rollback plan with 5 min RTO). Fri Feb 20: Go/No-Go (09:00-10:00, 5 unanimous approvers) and Launch (11:00-13:00, canary 5%→25%→100% deployment). 3 emails: release notes to marketing (5 features), Lisa's marketing review (reorder analytics, 5 launch items), executive status update (on track, 94.2% coverage, 0 critical bugs, SCIM limit affects 3 accounts).",
+  "user_preferences": [
+    "Cross-team coordination via Slack",
+    "Executive alerts and personal reminders via Telegram",
+    "Stakeholder communication and documentation via Gmail",
+    "Tracks marketing launch items via Google Tasks",
+    "Prefers detailed deployment timelines with canary rollout"
+  ],
+  "construction_ref": "scenario_5_construction.json"
+}

@@ -1,0 +1,946 @@
+{
+  "scenario_id": "e2_s3",
+  "title": "Production Incident Response & Post-Mortem",
+  "user_persona": "DevOps Lead David Park at NovaStar Technologies: Slack is the primary channel for team coordination and incident response; Telegram is used for personal alerts and urgent notifications; Gmail is used for incident reports and vendor communication.",
+  "task_event_graph": {
+    "nodes": [
+      {
+        "id": "r1",
+        "event": "Production database outage occurs, David sends incident report email",
+        "day": 1,
+        "channel": "gmail"
+      },
+      {
+        "id": "r2",
+        "event": "DBA team replies with root cause analysis",
+        "day": 1,
+        "channel": "gmail"
+      },
+      {
+        "id": "r3",
+        "event": "Incident War Room meeting",
+        "day": 1,
+        "channel": "calendar"
+      },
+      {
+        "id": "r4",
+        "event": "Post-Mortem Review meeting",
+        "day": 2,
+        "channel": "calendar"
+      },
+      {
+        "id": "r5",
+        "event": "Infrastructure Planning meeting",
+        "day": 3,
+        "channel": "calendar"
+      }
+    ],
+    "edges": [
+      {
+        "from": "r1",
+        "to": "r2",
+        "relation": "DBA team responds to incident report"
+      },
+      {
+        "from": "r1",
+        "to": "r3",
+        "relation": "War room convened for incident"
+      },
+      {
+        "from": "r2",
+        "to": "r4",
+        "relation": "Root cause drives post-mortem discussion"
+      },
+      {
+        "from": "r4",
+        "to": "r5",
+        "relation": "Post-mortem action items feed infrastructure planning"
+      }
+    ]
+  },
+  "injection_config": {
+    "signal_emails": [
+      {
+        "id": "E1",
+        "direction": "outbound",
+        "from_email": "zihangzhou26@gmail.com",
+        "to_email": "engineering-all@novastar.example.com",
+        "subject": "URGENT: Production Database Outage - Incident #INC-2026-0312",
+        "date": "2026-02-18T08:30:00-05:00",
+        "body": "Team,\n\nWe have a P1 production incident.\n\n**Incident Summary:**\nProduction PostgreSQL primary node failed at 07:45 EST this morning. The database server ran out of available connections in the connection pool, causing cascading failures.\n\n**Impact:**\n- Affected endpoints: /api/orders and /api/inventory returning 502 errors\n- Customer impact: approximately 2,300 active users affected\n- Revenue impact: estimated $15,000/hour in lost transactions\n- Automatic failover to read replica was triggered, but all write operations are currently queued\n\n**Current Status:**\n- DBA team is actively investigating the root cause\n- Read-only operations are partially restored via replica\n- ETA for full resolution: 2 hours from now (target 10:30 EST)\n\n**War Room:**\n- Zoom: https://zoom.us/j/1234567890\n- Incident Commander: David Park\n- Status updates every 15 minutes in #incident-response Slack channel\n\n**Immediate Actions Needed:**\n1. Backend team: implement circuit breaker for database connections\n2. SRE team: increase connection pool monitoring alerts\n3. Support team: prepare customer communication template\n\nPlease join the war room if you are on the SRE, DBA, or Backend teams.\n\nDavid Park\nDevOps Lead, NovaStar Technologies"
+      },
+      {
+        "id": "E2",
+        "direction": "inbound",
+        "from_email": "kevin.zhang@novastar.example.com",
+        "to_email": "zihangzhou26@gmail.com",
+        "subject": "Re: URGENT: Production Database Outage - Incident #INC-2026-0312",
+        "date": "2026-02-18T11:15:00-05:00",
+        "body": "David,\n\nRoot cause has been identified and the incident is now resolved.\n\n**Root Cause Analysis:**\nA long-running analytics query from the BI team's automated report pipeline locked the `transactions` table for 47 minutes. This query was running with elevated privileges under the `bi_analytics` database role, which has no statement timeout configured. The table lock caused cascading connection pool exhaustion as all incoming write queries queued behind the lock, eventually consuming all 200 available connections.\n\n**Resolution Timeline:**\n- 07:45 — First alerts fired (connection pool utilization >95%)\n- 08:02 — Automatic failover to read replica triggered\n- 08:15 — Incident commander (David) declared P1, war room opened\n- 09:30 — Identified blocking query via pg_stat_activity (PID 48291)\n- 09:35 — Killed blocking query, connection pools began draining\n- 10:15 — Connection pools recycled, write traffic resuming\n- 10:52 — Full service restoration confirmed, all health checks green\n\n**Total Downtime:** 3 hours 7 minutes (07:45 — 10:52 EST)\n\n**Remediation Recommendations:**\n1. Set `statement_timeout = 300s` for the `bi_analytics` database role\n2. Move all analytics/reporting queries to the read replica exclusively\n3. Add pg_stat_activity monitoring alert for any query running longer than 5 minutes\n4. Implement connection pool overflow queue with configurable timeout (suggest 30s)\n5. Create runbook for connection pool exhaustion scenario\n\n**Affected Customers:**\nTotal unique users impacted: 2,347\nFailed API calls during outage: 18,429\nEstimated revenue loss: $47,100 (3.14 hours × $15,000/hour)\n\nI'll prepare the detailed incident timeline document for the post-mortem meeting tomorrow.\n\nKevin Zhang\nDBA Team Lead, NovaStar Technologies"
+      }
+    ],
+    "signal_calendar_events": [
+      {
+        "id": "evt_war_room",
+        "summary": "INCIDENT: Production DB Outage War Room",
+        "start": "2026-02-18T08:00:00-05:00",
+        "end": "2026-02-18T10:30:00-05:00",
+        "description": "Emergency War Room — Production Database Outage (INC-2026-0312)\n\nStatus: P1 CRITICAL\n\nRequired Teams:\n- SRE Team: Sarah Kim (SRE Lead), Tom Rivera (On-Call SRE)\n- DBA Team: Kevin Zhang (DBA Lead), Lin Huang (Senior DBA)\n- Backend Team: Mike Chen (Backend Lead)\n- DevOps: David Park (Incident Commander)\n\nProtocol:\n- Status updates every 15 minutes\n- All communication via #incident-response Slack channel\n- Zoom link: https://zoom.us/j/1234567890\n- Post-resolution: prepare incident timeline for post-mortem\n\nEscalation Path:\n1. David Park (IC) → 2. VP Engineering (if >2hr) → 3. CTO (if customer data affected)",
+        "location": "Zoom - https://zoom.us/j/1234567890",
+        "attendees": [
+          "sarah.kim@novastar.example.com",
+          "kevin.zhang@novastar.example.com",
+          "mike.chen@novastar.example.com"
+        ]
+      },
+      {
+        "id": "evt_post_mortem",
+        "summary": "Incident Post-Mortem: INC-2026-0312",
+        "start": "2026-02-19T14:00:00-05:00",
+        "end": "2026-02-19T15:30:00-05:00",
+        "description": "Post-Mortem Review for Production Database Outage (INC-2026-0312)\n\nAgenda:\n1. (15 min) Timeline reconstruction — walk through exact sequence of events\n2. (20 min) Root cause analysis — 5 Whys exercise on the BI query issue\n3. (20 min) What went well / what didn't go well\n4. (15 min) Action items and ownership assignment\n5. (20 min) Process improvements — monitoring, alerting, runbooks\n\nRequired Attendees:\n- David Park (DevOps Lead / Incident Commander)\n- Kevin Zhang (DBA Lead) — root cause presenter\n- Sarah Kim (SRE Lead) — monitoring improvements\n- Mike Chen (Backend Lead) — circuit breaker implementation\n\nPre-read:\n- Incident timeline document (Kevin to distribute by EOD Tuesday)\n- Current monitoring dashboard screenshots\n- Connection pool configuration documentation\n\nBlameless Post-Mortem Policy: Focus on systems and processes, not individuals.",
+        "location": "Conference Room B",
+        "attendees": [
+          "kevin.zhang@novastar.example.com",
+          "sarah.kim@novastar.example.com",
+          "mike.chen@novastar.example.com"
+        ]
+      },
+      {
+        "id": "evt_infra_planning",
+        "summary": "Infrastructure Planning - Q1 Review",
+        "start": "2026-02-20T10:00:00-05:00",
+        "end": "2026-02-20T11:30:00-05:00",
+        "description": "Q1 Infrastructure Planning Review\n\nAgenda:\n1. Database failover improvements — review current RTO/RPO targets\n2. Connection pool tuning — optimal pool size, overflow handling\n3. Monitoring gap analysis — identify blind spots exposed by INC-2026-0312\n4. Q2 capacity planning — projected growth vs current infrastructure\n\nBudget:\n- $45,000 allocated for monitoring tools (Datadog upgrade vs Grafana Cloud)\n- $12,000 for additional read replica provisioning\n- $8,000 for chaos engineering tooling (Gremlin license)\n\nAttendees:\n- David Park (DevOps Lead)\n- Sarah Kim (SRE Lead)\n- Kevin Zhang (DBA Lead)\n- Rachel Adams (VP Engineering) — budget approval authority\n\nDeliverables:\n- Updated infrastructure roadmap for Q2\n- Monitoring tool selection decision\n- Chaos engineering pilot plan",
+        "location": "Conference Room A",
+        "attendees": [
+          "sarah.kim@novastar.example.com",
+          "kevin.zhang@novastar.example.com",
+          "rachel.adams@novastar.example.com"
+        ]
+      }
+    ],
+    "signal_tasks": [],
+    "noise_config": {
+      "emails": {
+        "count": 0,
+        "types": [],
+        "avg_body_words": 0
+      },
+      "calendar_events": {
+        "count": 0,
+        "types": [],
+        "avg_description_words": 0
+      }
+    }
+  },
+  "qa_annotations": [
+    {
+      "qa_id": "q1",
+      "type": "email_retrieval",
+      "channel": "slack",
+      "question": "Find the incident report email I sent about the production database outage. What was the incident number, and what endpoints were affected?",
+      "answer": "Incident #INC-2026-0312. The production PostgreSQL primary failed, causing 502 errors on /api/orders and /api/inventory endpoints. Approximately 2,300 users were affected with an estimated revenue impact of $15,000/hour.",
+      "ground_truth": "Incident #INC-2026-0312. Affected endpoints: /api/orders and /api/inventory. 2,300 users affected. $15,000/hour revenue impact.",
+      "grounding": [
+        "E1"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Correct incident number (INC-2026-0312)",
+          "points": 2,
+          "keywords": [
+            "inc-2026-0312"
+          ]
+        },
+        {
+          "criterion": "Both affected endpoints identified (/api/orders, /api/inventory)",
+          "points": 3,
+          "keywords": [
+            "/api/orders",
+            "/api/inventory",
+            "502"
+          ]
+        },
+        {
+          "criterion": "User impact correct (~2,300)",
+          "points": 2,
+          "keywords": [
+            "2,300",
+            "2300"
+          ]
+        },
+        {
+          "criterion": "Revenue impact ($15,000/hour)",
+          "points": 2,
+          "keywords": [
+            "15,000",
+            "15000"
+          ]
+        },
+        {
+          "criterion": "Found in sent/outbound email",
+          "points": 1,
+          "keywords": [
+            "sent",
+            "outbound",
+            "gmail"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q2",
+      "type": "email_retrieval",
+      "channel": "slack",
+      "question": "Kevin Zhang from the DBA team replied to my incident report. Find his email and tell me: what was the root cause of the outage?",
+      "answer": "Root cause: A long-running analytics query from the BI team locked the transactions table for 47 minutes. The query was running under the bi_analytics database role with no statement timeout configured. This caused cascading connection pool exhaustion, consuming all 200 available connections.",
+      "ground_truth": "BI team analytics query locked transactions table for 47 minutes, causing connection pool exhaustion (200 connections consumed). bi_analytics role had no statement timeout.",
+      "grounding": [
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "BI team / analytics query identified",
+          "points": 2,
+          "keywords": [
+            "bi",
+            "analytics",
+            "query"
+          ]
+        },
+        {
+          "criterion": "Table lock duration (47 minutes)",
+          "points": 2,
+          "keywords": [
+            "47",
+            "minutes",
+            "lock"
+          ]
+        },
+        {
+          "criterion": "Connection pool exhaustion mentioned",
+          "points": 2,
+          "keywords": [
+            "connection pool",
+            "exhaustion",
+            "200"
+          ]
+        },
+        {
+          "criterion": "No statement timeout on bi_analytics role",
+          "points": 2,
+          "keywords": [
+            "statement_timeout",
+            "bi_analytics",
+            "no timeout"
+          ]
+        },
+        {
+          "criterion": "Found Kevin Zhang's reply email",
+          "points": 2,
+          "keywords": [
+            "kevin",
+            "zhang",
+            "reply",
+            "dba"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q3",
+      "type": "cross_email_reasoning",
+      "channel": "telegram",
+      "question": "Compare my initial incident report with Kevin's root cause analysis. Was my initial estimated revenue impact accurate? What was the actual loss?",
+      "answer": "Initial estimate was $15,000/hour. Actual total revenue loss was $47,100 based on 3.14 hours of downtime (3 hours 7 minutes). The per-hour rate estimate was accurate, but total downtime exceeded the initial 2-hour ETA.",
+      "ground_truth": "Initial: $15,000/hour. Actual total: $47,100 (3.14 hrs × $15K). Downtime exceeded 2-hour ETA (actual: 3h 7m).",
+      "grounding": [
+        "E1",
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Initial estimate correct ($15,000/hour)",
+          "points": 2,
+          "keywords": [
+            "15,000",
+            "hour"
+          ]
+        },
+        {
+          "criterion": "Actual total loss ($47,100)",
+          "points": 3,
+          "keywords": [
+            "47,100",
+            "47100"
+          ]
+        },
+        {
+          "criterion": "Actual downtime (3 hours 7 minutes)",
+          "points": 3,
+          "keywords": [
+            "3 hours",
+            "7 minutes",
+            "3h 7m"
+          ]
+        },
+        {
+          "criterion": "Cross-email comparison (ETA vs actual)",
+          "points": 2,
+          "keywords": [
+            "exceeded",
+            "eta",
+            "2 hour"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q4",
+      "type": "action_execution",
+      "channel": "slack",
+      "question": "Send a follow-up email to zihangzhou26+engineering-all@gmail.com with subject 'RESOLVED: INC-2026-0312 - Post-Incident Summary' summarizing the root cause and total downtime. Send it now.",
+      "answer": "Email sent to zihangzhou26+engineering-all@gmail.com with subject 'RESOLVED: INC-2026-0312 - Post-Incident Summary' summarizing root cause (BI analytics query table lock 47 min) and total downtime (3h 7m).",
+      "ground_truth": "Follow-up email sent to zihangzhou26+engineering-all@gmail.com with incident resolution details including root cause and downtime.",
+      "grounding": [
+        "E1",
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Email sent or acknowledged as already sent earlier in session",
+          "points": 3,
+          "keywords": [
+            "sent",
+            "email",
+            "send",
+            "already"
+          ]
+        },
+        {
+          "criterion": "Correct recipient (Gmail+ alias)",
+          "points": 2,
+          "keywords": [
+            "engineering-all",
+            "gmail"
+          ]
+        },
+        {
+          "criterion": "Subject includes RESOLVED and incident number",
+          "points": 2,
+          "keywords": [
+            "resolved",
+            "inc-2026-0312"
+          ]
+        },
+        {
+          "criterion": "Root cause mentioned in body or draft",
+          "points": 2,
+          "keywords": [
+            "analytics",
+            "query",
+            "lock",
+            "connection pool"
+          ]
+        },
+        {
+          "criterion": "Downtime mentioned",
+          "points": 1,
+          "keywords": [
+            "3 hours",
+            "downtime"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q5",
+      "type": "calendar_detail",
+      "channel": "telegram",
+      "question": "What meetings do I have between Feb 18-20 related to the incident? Give me dates, times, and what each one is about.",
+      "answer": "3 incident-related meetings: 1) INCIDENT War Room - Feb 18, 08:00-10:30 (emergency response, Zoom). 2) Post-Mortem Review - Feb 19, 14:00-15:30 (timeline reconstruction, root cause 5-whys, Conference Room B). 3) Infrastructure Planning - Feb 20, 10:00-11:30 (failover improvements, monitoring gaps, budget review, Conference Room A).",
+      "ground_truth": "War Room (Feb 18 08:00-10:30), Post-Mortem (Feb 19 14:00-15:30), Infrastructure Planning (Feb 20 10:00-11:30).",
+      "grounding": [
+        "evt_war_room",
+        "evt_post_mortem",
+        "evt_infra_planning"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "War Room correct (Feb 18, 08:00-10:30)",
+          "points": 3,
+          "keywords": [
+            "war room",
+            "08:00",
+            "10:30",
+            "feb 18"
+          ]
+        },
+        {
+          "criterion": "Post-Mortem correct (Feb 19, 14:00-15:30)",
+          "points": 3,
+          "keywords": [
+            "post-mortem",
+            "14:00",
+            "15:30",
+            "feb 19"
+          ]
+        },
+        {
+          "criterion": "Infrastructure Planning correct (Feb 20, 10:00-11:30)",
+          "points": 3,
+          "keywords": [
+            "infrastructure",
+            "10:00",
+            "11:30",
+            "feb 20"
+          ]
+        },
+        {
+          "criterion": "All 3 meetings identified",
+          "points": 1,
+          "keywords": [
+            "3",
+            "three"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q6",
+      "type": "content_extraction_and_action",
+      "channel": "slack",
+      "question": "What are Kevin's 5 remediation recommendations from his root cause email? Add each one as a Google Task.",
+      "answer": "5 recommendations: 1) Set statement_timeout=300s for bi_analytics role, 2) Move analytics queries to read replica, 3) Add pg_stat_activity alert for queries >5 min, 4) Implement connection pool overflow queue (30s timeout), 5) Create runbook for connection pool exhaustion. All 5 exist as Google Tasks (created earlier in session or created now).",
+      "ground_truth": "5 items: statement_timeout 300s, analytics to read replica, pg_stat_activity alert, connection pool overflow queue, connection pool exhaustion runbook. All 5 should be in Google Tasks (tasks may have been created earlier in the session; agent may confirm they exist rather than re-create).",
+      "grounding": [
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "statement_timeout=300s recommendation",
+          "points": 1,
+          "keywords": [
+            "statement_timeout",
+            "300"
+          ]
+        },
+        {
+          "criterion": "Move analytics to read replica",
+          "points": 1,
+          "keywords": [
+            "read replica",
+            "analytics"
+          ]
+        },
+        {
+          "criterion": "pg_stat_activity monitoring alert",
+          "points": 1,
+          "keywords": [
+            "pg_stat_activity",
+            "monitoring",
+            "5 min"
+          ]
+        },
+        {
+          "criterion": "Connection pool overflow queue",
+          "points": 1,
+          "keywords": [
+            "overflow",
+            "queue",
+            "30s"
+          ]
+        },
+        {
+          "criterion": "Create runbook",
+          "points": 1,
+          "keywords": [
+            "runbook",
+            "connection pool"
+          ]
+        },
+        {
+          "criterion": "All 5 tasks in Google Tasks (created now or confirmed existing)",
+          "points": 5,
+          "keywords": [
+            "tasks",
+            "created",
+            "added",
+            "5",
+            "already",
+            "exist"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q7",
+      "type": "time_calculation",
+      "channel": "slack",
+      "question": "Based on Kevin's timeline, how many minutes passed between the first alert firing and the blocking query being identified?",
+      "answer": "First alert fired at 07:45. Blocking query identified at 09:30 via pg_stat_activity. That's 1 hour 45 minutes = 105 minutes.",
+      "ground_truth": "07:45 to 09:30 = 1 hour 45 minutes = 105 minutes.",
+      "grounding": [
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Start time correct (07:45)",
+          "points": 2,
+          "keywords": [
+            "07:45"
+          ]
+        },
+        {
+          "criterion": "Identification time correct (09:30)",
+          "points": 3,
+          "keywords": [
+            "09:30"
+          ]
+        },
+        {
+          "criterion": "Duration correct (105 minutes / 1h 45m)",
+          "points": 5,
+          "keywords": [
+            "105",
+            "1 hour 45",
+            "1h 45m"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q8",
+      "type": "comprehensive_summary_and_action",
+      "channel": "slack",
+      "question": "Generate a complete incident summary covering: root cause, timeline, impact, remediation items, and upcoming meetings. Send it to Slack channel C0AFGBS1EQ1 and email it to myself at zihangzhou26@gmail.com for archiving.",
+      "answer": "Incident INC-2026-0312 summary: Root cause was BI analytics query locking transactions table for 47 min. Timeline: 07:45 alert → 09:30 identified → 10:52 resolved (3h 7m total). Impact: 2,347 users, 18,429 failed API calls, $47,100 revenue loss. 5 remediation items from DBA team. Upcoming: Post-Mortem Feb 19 14:00, Infra Planning Feb 20 10:00. Sent to Slack and archived via Gmail (summary may have been sent earlier in the session; content filter may affect generation).",
+      "ground_truth": "Complete summary with root cause, timeline, impact numbers, remediations, upcoming meetings. Sent to Slack and Gmail. Note: summary was already sent to Slack and Gmail earlier in the session; agent may reference the prior send. Content management filters may affect response generation.",
+      "grounding": [
+        "E1",
+        "E2",
+        "evt_war_room",
+        "evt_post_mortem",
+        "evt_infra_planning"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Root cause included (BI query, table lock)",
+          "points": 2,
+          "keywords": [
+            "analytics",
+            "query",
+            "lock",
+            "transactions"
+          ]
+        },
+        {
+          "criterion": "Key timeline points included",
+          "points": 1,
+          "keywords": [
+            "07:45",
+            "10:52",
+            "3 hours"
+          ]
+        },
+        {
+          "criterion": "Impact numbers included",
+          "points": 2,
+          "keywords": [
+            "2,347",
+            "18,429",
+            "47,100"
+          ]
+        },
+        {
+          "criterion": "Remediation items mentioned",
+          "points": 1,
+          "keywords": [
+            "remediation",
+            "statement_timeout",
+            "read replica"
+          ]
+        },
+        {
+          "criterion": "Upcoming meetings included",
+          "points": 1,
+          "keywords": [
+            "post-mortem",
+            "infrastructure",
+            "feb 19",
+            "feb 20"
+          ]
+        },
+        {
+          "criterion": "Slack sent or acknowledged as already sent",
+          "points": 1,
+          "keywords": [
+            "slack",
+            "sent",
+            "already",
+            "done"
+          ]
+        },
+        {
+          "criterion": "Gmail archive sent or acknowledged as already sent",
+          "points": 2,
+          "keywords": [
+            "gmail",
+            "email",
+            "archive",
+            "already",
+            "done"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q9",
+      "type": "detail_recall",
+      "channel": "telegram",
+      "question": "Who are the required attendees for the post-mortem meeting? What's each person's role?",
+      "answer": "4 required attendees: David Park (DevOps Lead / Incident Commander), Kevin Zhang (DBA Lead — root cause presenter), Sarah Kim (SRE Lead — monitoring improvements), Mike Chen (Backend Lead — circuit breaker implementation).",
+      "ground_truth": "David Park (DevOps/IC), Kevin Zhang (DBA Lead), Sarah Kim (SRE Lead), Mike Chen (Backend Lead).",
+      "grounding": [
+        "evt_post_mortem"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Kevin Zhang identified with DBA role",
+          "points": 1,
+          "keywords": [
+            "kevin zhang",
+            "dba"
+          ]
+        },
+        {
+          "criterion": "Sarah Kim identified with SRE role",
+          "points": 1,
+          "keywords": [
+            "sarah kim",
+            "sre"
+          ]
+        },
+        {
+          "criterion": "Mike Chen identified with Backend role",
+          "points": 1,
+          "keywords": [
+            "mike chen",
+            "backend"
+          ]
+        },
+        {
+          "criterion": "David Park identified as IC",
+          "points": 1,
+          "keywords": [
+            "david park",
+            "incident commander"
+          ]
+        },
+        {
+          "criterion": "All 4 attendees listed",
+          "points": 1,
+          "keywords": [
+            "4",
+            "four"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q10",
+      "type": "detail_recall",
+      "channel": "slack",
+      "question": "What's the budget allocated for monitoring tools in the Infrastructure Planning meeting? What are the options being considered?",
+      "answer": "$45,000 allocated for monitoring tools. Options: Datadog upgrade vs Grafana Cloud. Additional budget: $12,000 for read replica provisioning and $8,000 for chaos engineering tooling (Gremlin license).",
+      "ground_truth": "$45,000 for monitoring (Datadog upgrade vs Grafana Cloud), $12,000 for read replica, $8,000 for chaos engineering (Gremlin).",
+      "grounding": [
+        "evt_infra_planning"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Monitoring budget correct ($45,000)",
+          "points": 2,
+          "keywords": [
+            "45,000",
+            "45000"
+          ]
+        },
+        {
+          "criterion": "Options mentioned (Datadog/Grafana)",
+          "points": 1,
+          "keywords": [
+            "datadog",
+            "grafana"
+          ]
+        },
+        {
+          "criterion": "Read replica budget ($12,000)",
+          "points": 1,
+          "keywords": [
+            "12,000",
+            "12000",
+            "read replica"
+          ]
+        },
+        {
+          "criterion": "Chaos engineering budget ($8,000 / Gremlin)",
+          "points": 1,
+          "keywords": [
+            "8,000",
+            "8000",
+            "gremlin",
+            "chaos"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q11",
+      "type": "cross_service_memory",
+      "channel": "telegram",
+      "question": "How many total failed API calls occurred during the outage? And how many unique users were impacted?",
+      "answer": "18,429 failed API calls and 2,347 unique users impacted during the 3 hour 7 minute outage.",
+      "ground_truth": "18,429 failed API calls, 2,347 unique users.",
+      "grounding": [
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Failed API calls correct (18,429)",
+          "points": 2,
+          "keywords": [
+            "18,429",
+            "18429"
+          ]
+        },
+        {
+          "criterion": "Unique users correct (2,347)",
+          "points": 2,
+          "keywords": [
+            "2,347",
+            "2347"
+          ]
+        },
+        {
+          "criterion": "Source attribution (Kevin's email)",
+          "points": 1,
+          "keywords": [
+            "kevin",
+            "email",
+            "root cause"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q12",
+      "type": "time_calculation",
+      "channel": "slack",
+      "question": "What's the escalation path listed in the War Room event? At what point should VP Engineering be escalated to?",
+      "answer": "Escalation path: 1) David Park (IC) → 2) VP Engineering (if outage exceeds 2 hours) → 3) CTO (if customer data is affected).",
+      "ground_truth": "David Park (IC) → VP Engineering (if >2hr) → CTO (if customer data affected).",
+      "grounding": [
+        "evt_war_room"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "3-level escalation path identified",
+          "points": 2,
+          "keywords": [
+            "david",
+            "vp engineering",
+            "cto"
+          ]
+        },
+        {
+          "criterion": "VP Engineering trigger (>2 hours)",
+          "points": 2,
+          "keywords": [
+            "2 hour",
+            "2hr",
+            ">2"
+          ]
+        },
+        {
+          "criterion": "CTO trigger (customer data)",
+          "points": 1,
+          "keywords": [
+            "customer data",
+            "cto"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q13",
+      "type": "adversarial",
+      "channel": "telegram",
+      "question": "Wasn't the root cause a hardware failure on the database server? I remember Kevin saying the disk controller failed.",
+      "answer": "No, the root cause was NOT hardware failure. Kevin Zhang's root cause analysis identified a software issue: a long-running BI analytics query that locked the transactions table for 47 minutes, causing connection pool exhaustion. No hardware failure was involved.",
+      "ground_truth": "No hardware failure. Root cause was BI analytics query locking transactions table for 47 min.",
+      "grounding": [
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Correctly rejects hardware failure premise",
+          "points": 2,
+          "keywords": [
+            "no",
+            "not",
+            "wasn't",
+            "hardware"
+          ]
+        },
+        {
+          "criterion": "States correct root cause (BI query / table lock)",
+          "points": 2,
+          "keywords": [
+            "analytics",
+            "query",
+            "lock",
+            "bi"
+          ]
+        },
+        {
+          "criterion": "References Kevin's analysis as source",
+          "points": 1,
+          "keywords": [
+            "kevin",
+            "root cause",
+            "analysis"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q14",
+      "type": "cross_service_memory",
+      "channel": "slack",
+      "question": "What Google Tasks have been created so far? List them all.",
+      "answer": "5 remediation tasks from Kevin's recommendations: 1) Set statement_timeout=300s for bi_analytics role, 2) Move analytics queries to read replica, 3) Add pg_stat_activity monitoring alert for queries >5 min, 4) Implement connection pool overflow queue (30s timeout), 5) Create runbook for connection pool exhaustion.",
+      "ground_truth": "5 tasks: statement_timeout, read replica migration, pg_stat_activity alert, overflow queue, runbook.",
+      "grounding": [
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Correct count (5 tasks)",
+          "points": 1,
+          "keywords": [
+            "5",
+            "five"
+          ]
+        },
+        {
+          "criterion": "At least 3 specific tasks named correctly",
+          "points": 2,
+          "keywords": [
+            "statement_timeout",
+            "read replica",
+            "pg_stat_activity",
+            "runbook",
+            "overflow"
+          ]
+        },
+        {
+          "criterion": "Tasks associated with Kevin's recommendations",
+          "points": 2,
+          "keywords": [
+            "kevin",
+            "recommendation",
+            "remediation"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q15",
+      "type": "comprehensive_summary",
+      "channel": "telegram",
+      "question": "Give me a complete timeline of the incident from first alert to full resolution, with exact times for each step.",
+      "answer": "Complete timeline: 07:45 — First alerts fired (connection pool >95%). 08:02 — Automatic failover to read replica. 08:15 — P1 declared, war room opened. 09:30 — Blocking query identified (PID 48291). 09:35 — Blocking query killed, pools draining. 10:15 — Connection pools recycled, writes resuming. 10:52 — Full service restored, all health checks green. Total downtime: 3 hours 7 minutes.",
+      "ground_truth": "07:45 alert → 08:02 failover → 08:15 P1/war room → 09:30 query identified → 09:35 query killed → 10:15 pools recycled → 10:52 full restoration. Total: 3h 7m.",
+      "grounding": [
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "07:45 first alerts",
+          "points": 1,
+          "keywords": [
+            "07:45"
+          ]
+        },
+        {
+          "criterion": "08:02 failover",
+          "points": 1,
+          "keywords": [
+            "08:02",
+            "failover"
+          ]
+        },
+        {
+          "criterion": "09:30 query identified",
+          "points": 1,
+          "keywords": [
+            "09:30",
+            "identified"
+          ]
+        },
+        {
+          "criterion": "10:52 full restoration",
+          "points": 1,
+          "keywords": [
+            "10:52",
+            "restored",
+            "restoration"
+          ]
+        },
+        {
+          "criterion": "Total downtime (3h 7m)",
+          "points": 1,
+          "keywords": [
+            "3 hours 7",
+            "3h 7m"
+          ]
+        },
+        {
+          "criterion": "At least 5 timeline steps included",
+          "points": 1,
+          "keywords": [
+            "08:15",
+            "09:35",
+            "10:15"
+          ]
+        }
+      ],
+      "max_score": 6
+    }
+  ],
+  "event_summary_ground_truth": "There are 3 calendar events for Feb 18-20, all related to production database outage INC-2026-0312. Feb 18: Incident War Room (08:00-10:30, Zoom, 6 attendees from SRE/DBA/Backend). Feb 19: Post-Mortem Review (14:00-15:30, Conference Room B, 4 required attendees, 5-part agenda including timeline, root cause 5-whys, and action items). Feb 20: Infrastructure Planning Q1 Review (10:00-11:30, Conference Room A, $45K monitoring budget, $12K replica, $8K chaos engineering). Two emails: outbound incident report to engineering-all (impact: 2,300 users, $15K/hr) and inbound root cause from Kevin Zhang (BI query locked transactions table 47 min, total downtime 3h 7m, actual revenue loss $47,100).",
+  "user_preferences": [
+    "Incident updates posted to Slack #incident-response channel",
+    "Personal alerts and deadline reminders via Telegram",
+    "Follow-up summaries archived to Gmail",
+    "Prefers blameless post-mortem approach",
+    "Status updates every 15 minutes during incidents"
+  ],
+  "construction_ref": "scenario_3_construction.json"
+}

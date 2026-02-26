@@ -1,0 +1,984 @@
+{
+  "scenario_id": "e2_s4",
+  "title": "Client Onboarding & Contract Management",
+  "user_persona": "Account Manager Rachel Torres at BrightPath Solutions: Telegram is the primary channel for client communication and task tracking; Slack is used for internal team coordination; Gmail is used for formal client correspondence and contract management.",
+  "task_event_graph": {
+    "nodes": [
+      {
+        "id": "r1",
+        "event": "Rachel sends welcome onboarding email to new client",
+        "day": 1,
+        "channel": "gmail"
+      },
+      {
+        "id": "r2",
+        "event": "Client replies with onboarding questions",
+        "day": 2,
+        "channel": "gmail"
+      },
+      {
+        "id": "r3",
+        "event": "Rachel sends internal legal review request",
+        "day": 2,
+        "channel": "gmail"
+      },
+      {
+        "id": "r4",
+        "event": "Client Kickoff Meeting",
+        "day": 1,
+        "channel": "calendar"
+      },
+      {
+        "id": "r5",
+        "event": "Legal Review Sync",
+        "day": 2,
+        "channel": "calendar"
+      },
+      {
+        "id": "r6",
+        "event": "Technical Setup Walkthrough",
+        "day": 3,
+        "channel": "calendar"
+      },
+      {
+        "id": "r7",
+        "event": "Quarterly Business Review",
+        "day": 3,
+        "channel": "calendar"
+      }
+    ],
+    "edges": [
+      {
+        "from": "r1",
+        "to": "r2",
+        "relation": "Client responds to onboarding email"
+      },
+      {
+        "from": "r2",
+        "to": "r3",
+        "relation": "Client questions trigger internal legal review"
+      },
+      {
+        "from": "r4",
+        "to": "r5",
+        "relation": "Kickoff surfaces legal items for review"
+      },
+      {
+        "from": "r5",
+        "to": "r6",
+        "relation": "Legal clearance enables technical setup"
+      }
+    ]
+  },
+  "injection_config": {
+    "signal_emails": [
+      {
+        "id": "E1",
+        "direction": "outbound",
+        "from_email": "zihangzhou26@gmail.com",
+        "to_email": "anna.mueller@meridian-group.example.com",
+        "subject": "Welcome to BrightPath - Meridian Group Onboarding Package",
+        "date": "2026-02-18T09:00:00-05:00",
+        "body": "Dear Anna,\n\nWelcome to BrightPath Solutions! We're thrilled to have Meridian Group as our newest enterprise client. I'm Rachel Torres, your dedicated Account Manager, and I'll be your primary point of contact throughout the onboarding process and beyond.\n\n**Onboarding Timeline:**\n- Week 1 (Feb 18-21): Account setup, legal review, and access provisioning\n- Week 2 (Feb 24-28): Technical integration and data migration\n- Week 3 (Mar 3-7): User training and go-live preparation\n- Go-live target: March 10, 2026\n\n**Your Onboarding Package Includes:**\n1. **Enterprise Dashboard Access** — Admin portal with SSO integration (SAML 2.0)\n2. **API Integration Kit** — REST API documentation, sandbox environment, and sample code\n3. **Data Migration Support** — Dedicated data engineer for 2 weeks to assist with migration from your current Salesforce instance\n4. **Training Program** — 3 instructor-led sessions (admin training, end-user training, advanced reporting)\n5. **Dedicated Support Channel** — Priority support with 4-hour SLA during business hours\n\n**Contract Details (for your reference):**\n- Contract ID: BPS-MG-2026-0089\n- Plan: Enterprise Plus ($24,500/month)\n- Term: 24 months (Feb 2026 - Jan 2028)\n- Data retention: 7 years\n- User licenses: 150 seats\n- Storage allocation: 500 GB\n\n**Immediate Next Steps:**\n1. Please confirm your IT admin contact for SSO setup\n2. Sign and return the Data Processing Agreement (DPA) attached\n3. Schedule the Technical Setup Walkthrough (suggested: Friday Feb 20)\n\nLooking forward to a successful partnership!\n\nBest regards,\nRachel Torres\nAccount Manager, BrightPath Solutions\nrachel.torres@brightpath.example.com | +1-415-555-0234"
+      },
+      {
+        "id": "E2",
+        "direction": "inbound",
+        "from_email": "anna.mueller@meridian-group.example.com",
+        "to_email": "zihangzhou26@gmail.com",
+        "subject": "Re: Welcome to BrightPath - Meridian Group Onboarding Package",
+        "date": "2026-02-19T10:30:00-05:00",
+        "body": "Hi Rachel,\n\nThank you for the warm welcome and the detailed onboarding package. Our team is excited to get started!\n\nI have a few questions before we proceed:\n\n**Q1 - SSO Integration:**\nOur IT team uses Okta as our identity provider. Does BrightPath support Okta SAML integration natively, or will we need a custom connector? Also, do you support SCIM provisioning for automated user management? We have 150 users and managing them manually would be a significant overhead.\n\n**Q2 - Data Migration Scope:**\nWe currently have approximately 2.3 million customer records and 890,000 transaction records in Salesforce. What's the maximum data volume your migration tool supports in a single batch? Also, will the migration preserve our custom field mappings and Salesforce formula fields, or will those need to be recreated?\n\n**Q3 - Compliance & Data Residency:**\nMeridian Group operates under GDPR (we have EU customers) and SOC 2 Type II requirements. Can you confirm BrightPath's compliance certifications? Also, we need data residency in the EU — is that available on the Enterprise Plus plan, or does it require an add-on?\n\n**Q4 - Contract Amendment:**\nWe'd like to add 50 additional user licenses (200 total) and increase storage to 1 TB. Can you send us a revised pricing proposal?\n\nOur IT admin for SSO setup is Marcus Weber (marcus.weber@meridian-group.example.com).\n\nRegarding the Technical Setup Walkthrough, Friday Feb 20 works for us. Could we do 11:00 AM EST?\n\nBest regards,\nAnna Mueller\nVP Operations, Meridian Group\nanna.mueller@meridian-group.example.com"
+      },
+      {
+        "id": "E3",
+        "direction": "outbound",
+        "from_email": "zihangzhou26@gmail.com",
+        "to_email": "legal-team@brightpath.example.com",
+        "subject": "Legal Review Request: Meridian Group - GDPR & Data Residency",
+        "date": "2026-02-19T14:00:00-05:00",
+        "body": "Hi Legal Team,\n\nUrgent review request for our new enterprise client, Meridian Group (Contract ID: BPS-MG-2026-0089).\n\nAnna Mueller (VP Operations) has raised the following compliance questions that need legal sign-off:\n\n**1. GDPR Compliance Confirmation:**\nMeridian has EU customers and requires GDPR compliance documentation. Please confirm our current certification status and provide the relevant compliance attestation documents.\n\n**2. Data Residency in EU:**\nClient requests EU data residency. Is this available on Enterprise Plus, or does it require an upgrade/add-on? What are the additional costs if any?\n\n**3. SOC 2 Type II:**\nClient requires SOC 2 Type II certification. Please confirm our audit status and provide the most recent report (or executive summary suitable for client sharing).\n\n**4. DPA Review:**\nAnna will be returning the signed DPA. Please review and countersign once received. Flag any non-standard terms.\n\n**Timeline:** Client kickoff was today and they need answers before the Technical Setup Walkthrough on Friday Feb 20.\n\nPlease prioritize this — Meridian Group is a $588,000 ARR account.\n\nThanks,\nRachel Torres\nAccount Manager"
+      }
+    ],
+    "signal_calendar_events": [
+      {
+        "id": "evt_client_kickoff",
+        "summary": "Client Kickoff: Meridian Group",
+        "start": "2026-02-18T14:00:00-05:00",
+        "end": "2026-02-18T15:00:00-05:00",
+        "description": "Client Kickoff Meeting — Meridian Group (Enterprise Plus)\n\nAgenda:\n1. (10 min) Welcome and team introductions\n2. (15 min) Onboarding timeline and milestones review\n3. (15 min) Technical requirements discussion (SSO, API, data migration)\n4. (10 min) Compliance requirements overview\n5. (10 min) Q&A and immediate action items\n\nBrightPath Attendees:\n- Rachel Torres (Account Manager) — meeting lead\n- Jake Wilson (Solutions Engineer) — technical questions\n- Diana Lopez (Customer Success) — training coordination\n\nMeridian Group Attendees:\n- Anna Mueller (VP Operations) — executive sponsor\n- Marcus Weber (IT Admin) — SSO and technical setup\n\nPre-meeting Preparation:\n- Review Meridian Group's Salesforce data schema (shared in Drive)\n- Prepare sandbox environment credentials\n- Have DPA template ready for review",
+        "location": "Zoom - https://zoom.us/j/5551234567",
+        "attendees": [
+          "jake.wilson@brightpath.example.com",
+          "diana.lopez@brightpath.example.com",
+          "anna.mueller@meridian-group.example.com",
+          "marcus.weber@meridian-group.example.com"
+        ]
+      },
+      {
+        "id": "evt_legal_review",
+        "summary": "Internal: Legal Review - Meridian GDPR & Data Residency",
+        "start": "2026-02-19T15:30:00-05:00",
+        "end": "2026-02-19T16:30:00-05:00",
+        "description": "Internal Legal Review for Meridian Group Account\n\nTopics:\n1. GDPR compliance documentation review — what can we share?\n2. EU data residency options — feasibility and pricing\n3. SOC 2 Type II report sharing — redacted version for client\n4. DPA countersign process — standard vs custom terms\n\nAttendees:\n- Rachel Torres (Account Manager)\n- Patricia Huang (General Counsel)\n- Sofia Reyes (Compliance Officer)\n\nBackground:\n- Contract: BPS-MG-2026-0089 ($24,500/month, 24-month term)\n- Client raised GDPR, SOC 2, and EU data residency requirements\n- Technical Setup Walkthrough scheduled for Friday — need answers before then\n\nDeliverable: Written compliance summary for client by EOD Thursday.",
+        "location": "Office Room 3A",
+        "attendees": [
+          "patricia.huang@brightpath.example.com",
+          "sofia.reyes@brightpath.example.com"
+        ]
+      },
+      {
+        "id": "evt_tech_setup",
+        "summary": "Technical Setup Walkthrough: Meridian Group",
+        "start": "2026-02-20T11:00:00-05:00",
+        "end": "2026-02-20T12:30:00-05:00",
+        "description": "Technical Setup Walkthrough — Meridian Group\n\nAgenda:\n1. (20 min) SSO/SAML integration with Okta — configuration walkthrough\n2. (20 min) API sandbox environment demo and credentials handover\n3. (20 min) Data migration plan review — Salesforce schema mapping\n4. (15 min) SCIM provisioning setup for user management\n5. (15 min) Timeline confirmation and next steps\n\nBrightPath:\n- Rachel Torres (Account Manager)\n- Jake Wilson (Solutions Engineer) — leading technical demo\n- Lin Park (Data Engineer) — migration planning\n\nMeridian Group:\n- Anna Mueller (VP Operations)\n- Marcus Weber (IT Admin) — SSO setup lead\n\nPre-requisites:\n- Okta admin credentials from Marcus Weber\n- Salesforce export schema from Meridian\n- Sandbox environment provisioned and seeded\n\nNote: Client confirmed Friday Feb 20 at 11:00 AM EST.",
+        "location": "Zoom - https://zoom.us/j/5559876543",
+        "attendees": [
+          "jake.wilson@brightpath.example.com",
+          "lin.park@brightpath.example.com",
+          "anna.mueller@meridian-group.example.com",
+          "marcus.weber@meridian-group.example.com"
+        ]
+      },
+      {
+        "id": "evt_qbr",
+        "summary": "Q1 Quarterly Business Review - Internal",
+        "start": "2026-02-20T14:00:00-05:00",
+        "end": "2026-02-20T15:30:00-05:00",
+        "description": "Q1 Quarterly Business Review (Internal)\n\nAgenda:\n1. (20 min) New client pipeline review — Q1 closings and Q2 forecast\n2. (20 min) Churn analysis — 3 accounts at risk (TechFlow, DataBridge, QuantumLeap)\n3. (20 min) Expansion revenue — upsell opportunities across existing accounts\n4. (15 min) NPS results — current score 72, target 80\n5. (15 min) Q2 goals and resource allocation\n\nKey Metrics:\n- New ARR this quarter: $1.2M (target: $1.5M, 80% attainment)\n- Gross churn rate: 4.2% (target: <3%)\n- Net revenue retention: 112%\n- Active accounts: 47\n\nAt-Risk Accounts:\n- TechFlow Inc: Contract expires March 15, no renewal commitment yet\n- DataBridge Corp: Reported 3 P1 support tickets in January\n- QuantumLeap Labs: Budget cuts announced, may downgrade plan\n\nAttendees:\n- Rachel Torres (Account Manager)\n- Diana Lopez (Customer Success Lead)\n- Mike Santos (VP Sales) — executive review\n\nAction: Prepare account-level summaries for at-risk clients.",
+        "location": "Conference Room D",
+        "attendees": [
+          "diana.lopez@brightpath.example.com",
+          "mike.santos@brightpath.example.com"
+        ]
+      }
+    ],
+    "signal_tasks": [],
+    "noise_config": {
+      "emails": {
+        "count": 0,
+        "types": [],
+        "avg_body_words": 0
+      },
+      "calendar_events": {
+        "count": 0,
+        "types": [],
+        "avg_description_words": 0
+      }
+    }
+  },
+  "qa_annotations": [
+    {
+      "qa_id": "q1",
+      "type": "email_retrieval",
+      "channel": "telegram",
+      "question": "Find the onboarding welcome email I sent to Meridian Group. What's the contract ID and monthly cost?",
+      "answer": "Email sent to anna.mueller@meridian-group.example.com with subject 'Welcome to BrightPath - Meridian Group Onboarding Package'. Contract ID: BPS-MG-2026-0089. Plan: Enterprise Plus at $24,500/month. Term: 24 months. 150 user licenses, 500 GB storage.",
+      "ground_truth": "Contract ID: BPS-MG-2026-0089. $24,500/month Enterprise Plus, 24-month term, 150 seats, 500 GB.",
+      "grounding": [
+        "E1"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Contract ID correct (BPS-MG-2026-0089)",
+          "points": 2,
+          "keywords": [
+            "bps-mg-2026-0089"
+          ]
+        },
+        {
+          "criterion": "Monthly cost correct ($24,500)",
+          "points": 2,
+          "keywords": [
+            "24,500",
+            "24500"
+          ]
+        },
+        {
+          "criterion": "Plan name (Enterprise Plus)",
+          "points": 2,
+          "keywords": [
+            "enterprise plus"
+          ]
+        },
+        {
+          "criterion": "Term correct (24 months)",
+          "points": 1,
+          "keywords": [
+            "24 month"
+          ]
+        },
+        {
+          "criterion": "License count (150 seats)",
+          "points": 1,
+          "keywords": [
+            "150"
+          ]
+        },
+        {
+          "criterion": "Found in sent folder",
+          "points": 2,
+          "keywords": [
+            "sent",
+            "outbound",
+            "gmail"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q2",
+      "type": "email_retrieval",
+      "channel": "telegram",
+      "question": "Anna Mueller replied to the onboarding email. Find her reply and list all the questions she asked.",
+      "answer": "Anna asked 4 questions: Q1 - SSO Integration (Okta SAML support? SCIM provisioning?), Q2 - Data Migration Scope (2.3M customer records, 890K transaction records, batch limits, custom field preservation), Q3 - Compliance & Data Residency (GDPR, SOC 2 Type II, EU data residency), Q4 - Contract Amendment (add 50 licenses to 200 total, increase storage to 1 TB).",
+      "ground_truth": "4 questions: SSO/Okta/SCIM, Data migration scope (2.3M+890K records), GDPR/SOC2/EU residency, Contract amendment (200 licenses, 1TB).",
+      "grounding": [
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Total question count (4)",
+          "points": 1,
+          "keywords": [
+            "4",
+            "four"
+          ]
+        },
+        {
+          "criterion": "Q1 about SSO/Okta/SCIM",
+          "points": 2,
+          "keywords": [
+            "okta",
+            "saml",
+            "scim",
+            "sso"
+          ]
+        },
+        {
+          "criterion": "Q2 about data migration volume",
+          "points": 2,
+          "keywords": [
+            "2.3 million",
+            "890,000",
+            "migration",
+            "salesforce"
+          ]
+        },
+        {
+          "criterion": "Q3 about GDPR/SOC2/EU residency",
+          "points": 3,
+          "keywords": [
+            "gdpr",
+            "soc 2",
+            "eu",
+            "data residency"
+          ]
+        },
+        {
+          "criterion": "Q4 about contract amendment",
+          "points": 2,
+          "keywords": [
+            "200",
+            "1 tb",
+            "additional",
+            "licenses"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q3",
+      "type": "cross_email_reasoning",
+      "channel": "telegram",
+      "question": "I also sent an internal email to the legal team about Meridian. Find it and tell me what I asked them to review. How does it relate to Anna's questions?",
+      "answer": "Email to legal-team@brightpath.example.com requesting review of: 1) GDPR compliance documentation, 2) EU data residency options and pricing, 3) SOC 2 Type II report for sharing, 4) DPA countersign process. These directly address Anna's Q3 (compliance and data residency). You noted Meridian is a $588,000 ARR account and answers are needed before the Friday technical setup.",
+      "ground_truth": "Legal review email addresses Anna's Q3 (GDPR, SOC 2, EU residency). $588K ARR. Need answers by Friday tech setup.",
+      "grounding": [
+        "E2",
+        "E3"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Found legal team email",
+          "points": 2,
+          "keywords": [
+            "legal",
+            "legal-team@brightpath"
+          ]
+        },
+        {
+          "criterion": "GDPR review item",
+          "points": 1,
+          "keywords": [
+            "gdpr"
+          ]
+        },
+        {
+          "criterion": "EU data residency item",
+          "points": 1,
+          "keywords": [
+            "eu",
+            "data residency"
+          ]
+        },
+        {
+          "criterion": "SOC 2 Type II item",
+          "points": 1,
+          "keywords": [
+            "soc 2",
+            "type ii"
+          ]
+        },
+        {
+          "criterion": "Links to Anna's Q3",
+          "points": 2,
+          "keywords": [
+            "anna",
+            "q3",
+            "compliance"
+          ]
+        },
+        {
+          "criterion": "ARR value ($588,000)",
+          "points": 2,
+          "keywords": [
+            "588,000",
+            "588000",
+            "arr"
+          ]
+        },
+        {
+          "criterion": "Friday deadline mentioned",
+          "points": 1,
+          "keywords": [
+            "friday",
+            "before",
+            "technical setup"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q4",
+      "type": "action_execution",
+      "channel": "telegram",
+      "question": "Send a reply to Anna at zihangzhou26+anna.mueller@gmail.com answering her Q1: we support Okta SAML natively and yes we support SCIM provisioning. CC Marcus Weber at zihangzhou26+marcus.weber@gmail.com. Send it now.",
+      "answer": "Email sent to zihangzhou26+anna.mueller@gmail.com (CC: zihangzhou26+marcus.weber@gmail.com) answering Q1: BrightPath supports Okta SAML integration natively, and SCIM provisioning is available for automated user management.",
+      "ground_truth": "Reply sent to Anna (zihangzhou26+anna.mueller@gmail.com) with CC to Marcus (zihangzhou26+marcus.weber@gmail.com). Confirms Okta SAML native support and SCIM provisioning.",
+      "grounding": [
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Email sent or acknowledged as already sent earlier in session",
+          "points": 3,
+          "keywords": [
+            "sent",
+            "email",
+            "already"
+          ]
+        },
+        {
+          "criterion": "Correct recipient (anna.mueller Gmail+ alias)",
+          "points": 2,
+          "keywords": [
+            "anna.mueller",
+            "gmail"
+          ]
+        },
+        {
+          "criterion": "Marcus Weber in CC (Gmail+ alias)",
+          "points": 2,
+          "keywords": [
+            "marcus.weber",
+            "cc"
+          ]
+        },
+        {
+          "criterion": "Okta SAML native support confirmed",
+          "points": 2,
+          "keywords": [
+            "okta",
+            "saml",
+            "native"
+          ]
+        },
+        {
+          "criterion": "SCIM provisioning confirmed",
+          "points": 1,
+          "keywords": [
+            "scim",
+            "provisioning"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q5",
+      "type": "calendar_detail",
+      "channel": "slack",
+      "question": "What meetings do I have Feb 18-20 related to Meridian Group? Give me the full schedule with times and attendees.",
+      "answer": "3 Meridian-related meetings: 1) Client Kickoff (Feb 18, 14:00-15:00, Zoom) — Rachel, Jake Wilson, Diana Lopez, Anna Mueller, Marcus Weber. 2) Legal Review (Feb 19, 15:30-16:30, Office Room 3A) — Rachel, Patricia Huang, Sofia Reyes. 3) Technical Setup Walkthrough (Feb 20, 11:00-12:30, Zoom) — Rachel, Jake Wilson, Lin Park, Anna Mueller, Marcus Weber. Plus the internal QBR on Feb 20 14:00-15:30 (not Meridian-specific).",
+      "ground_truth": "Client Kickoff (Feb 18 14:00-15:00), Legal Review (Feb 19 15:30-16:30), Tech Setup (Feb 20 11:00-12:30). Plus internal QBR (Feb 20 14:00-15:30).",
+      "grounding": [
+        "evt_client_kickoff",
+        "evt_legal_review",
+        "evt_tech_setup",
+        "evt_qbr"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Client Kickoff correct (Feb 18, 14:00-15:00)",
+          "points": 2,
+          "keywords": [
+            "kickoff",
+            "14:00",
+            "15:00",
+            "feb 18"
+          ]
+        },
+        {
+          "criterion": "Legal Review correct (Feb 19, 15:30-16:30)",
+          "points": 2,
+          "keywords": [
+            "legal review",
+            "15:30",
+            "16:30",
+            "feb 19"
+          ]
+        },
+        {
+          "criterion": "Tech Setup correct (Feb 20, 11:00-12:30)",
+          "points": 2,
+          "keywords": [
+            "technical setup",
+            "11:00",
+            "12:30",
+            "feb 20"
+          ]
+        },
+        {
+          "criterion": "QBR mentioned (Feb 20, 14:00-15:30)",
+          "points": 2,
+          "keywords": [
+            "qbr",
+            "quarterly",
+            "14:00",
+            "15:30"
+          ]
+        },
+        {
+          "criterion": "Attendees listed for at least one meeting",
+          "points": 2,
+          "keywords": [
+            "jake",
+            "diana",
+            "anna",
+            "marcus"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q6",
+      "type": "content_extraction_and_action",
+      "channel": "slack",
+      "question": "From the onboarding email, what are the 5 items in the onboarding package? Add each as a Google Task for tracking.",
+      "answer": "5 onboarding package items: 1) Enterprise Dashboard Access (SSO/SAML 2.0), 2) API Integration Kit (REST API docs, sandbox, sample code), 3) Data Migration Support (dedicated data engineer for 2 weeks), 4) Training Program (3 sessions), 5) Dedicated Support Channel (4-hour SLA). All 5 created as Google Tasks.",
+      "ground_truth": "5 items: Dashboard Access, API Kit, Data Migration Support, Training Program, Dedicated Support. All added to Tasks.",
+      "grounding": [
+        "E1"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Enterprise Dashboard Access",
+          "points": 1,
+          "keywords": [
+            "dashboard",
+            "sso",
+            "saml"
+          ]
+        },
+        {
+          "criterion": "API Integration Kit",
+          "points": 1,
+          "keywords": [
+            "api",
+            "integration",
+            "sandbox"
+          ]
+        },
+        {
+          "criterion": "Data Migration Support",
+          "points": 1,
+          "keywords": [
+            "data migration",
+            "data engineer"
+          ]
+        },
+        {
+          "criterion": "Training Program",
+          "points": 1,
+          "keywords": [
+            "training",
+            "3 sessions"
+          ]
+        },
+        {
+          "criterion": "Dedicated Support Channel",
+          "points": 1,
+          "keywords": [
+            "support",
+            "4-hour",
+            "sla"
+          ]
+        },
+        {
+          "criterion": "All 5 tasks in Google Tasks (created now or confirmed existing from earlier in session)",
+          "points": 5,
+          "keywords": [
+            "tasks",
+            "created",
+            "added",
+            "5",
+            "already",
+            "exist"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q7",
+      "type": "time_calculation",
+      "channel": "telegram",
+      "question": "On Friday Feb 20, how much gap do I have between the Technical Setup Walkthrough and the QBR?",
+      "answer": "Technical Setup Walkthrough ends at 12:30. QBR starts at 14:00. Gap = 1 hour 30 minutes (90 minutes).",
+      "ground_truth": "Tech setup ends 12:30, QBR starts 14:00. Gap = 90 minutes.",
+      "grounding": [
+        "evt_tech_setup",
+        "evt_qbr"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Tech Setup end time (12:30)",
+          "points": 2,
+          "keywords": [
+            "12:30"
+          ]
+        },
+        {
+          "criterion": "QBR start time (14:00)",
+          "points": 3,
+          "keywords": [
+            "14:00"
+          ]
+        },
+        {
+          "criterion": "Gap correct (90 minutes / 1h 30m)",
+          "points": 5,
+          "keywords": [
+            "90",
+            "1 hour 30",
+            "1h 30m"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q8",
+      "type": "comprehensive_summary_and_action",
+      "channel": "slack",
+      "question": "Generate a Meridian Group account status report: onboarding progress, open questions, upcoming meetings, action items. Send it to Slack channel C0AFGBS1EQ1 and archive via Gmail to zihangzhou26@gmail.com.",
+      "answer": "Meridian Group account status: Contract BPS-MG-2026-0089, $24,500/mo Enterprise Plus. Onboarding started Feb 18. Anna Mueller asked 4 questions (SSO/Okta, data migration, compliance, contract amendment). Q1 answered (Okta SAML + SCIM). Q2-Q4 pending. Legal review request sent. Upcoming: Legal Review Feb 19, Tech Setup Feb 20, QBR Feb 20. Sent to Slack and archived via Gmail.",
+      "ground_truth": "Account status with contract details, onboarding progress, open Qs, meetings, and action items. Sent to Slack and Gmail.",
+      "grounding": [
+        "E1",
+        "E2",
+        "E3",
+        "evt_client_kickoff",
+        "evt_legal_review",
+        "evt_tech_setup"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Contract details included",
+          "points": 1,
+          "keywords": [
+            "bps-mg-2026-0089",
+            "24,500"
+          ]
+        },
+        {
+          "criterion": "Open questions status (Q1 answered, Q2-Q4 pending)",
+          "points": 2,
+          "keywords": [
+            "answered",
+            "pending",
+            "q1",
+            "okta"
+          ]
+        },
+        {
+          "criterion": "Upcoming meetings listed",
+          "points": 2,
+          "keywords": [
+            "legal review",
+            "technical setup",
+            "qbr"
+          ]
+        },
+        {
+          "criterion": "Legal review email referenced",
+          "points": 1,
+          "keywords": [
+            "legal",
+            "team",
+            "internal"
+          ]
+        },
+        {
+          "criterion": "Slack sent or acknowledged as already sent",
+          "points": 2,
+          "keywords": [
+            "slack",
+            "sent",
+            "already"
+          ]
+        },
+        {
+          "criterion": "Gmail archive sent or acknowledged as already sent",
+          "points": 2,
+          "keywords": [
+            "gmail",
+            "email",
+            "archive",
+            "already"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q9",
+      "type": "detail_recall",
+      "channel": "telegram",
+      "question": "What are the 3 at-risk accounts mentioned in the QBR agenda? What's the issue with each?",
+      "answer": "3 at-risk accounts: 1) TechFlow Inc — contract expires March 15, no renewal commitment. 2) DataBridge Corp — 3 P1 support tickets in January. 3) QuantumLeap Labs — budget cuts announced, may downgrade plan.",
+      "ground_truth": "TechFlow (contract expiring Mar 15), DataBridge (3 P1 tickets), QuantumLeap (budget cuts, may downgrade).",
+      "grounding": [
+        "evt_qbr"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "TechFlow identified with correct issue",
+          "points": 2,
+          "keywords": [
+            "techflow",
+            "march 15",
+            "renewal",
+            "expires"
+          ]
+        },
+        {
+          "criterion": "DataBridge identified with correct issue",
+          "points": 2,
+          "keywords": [
+            "databridge",
+            "p1",
+            "support",
+            "tickets"
+          ]
+        },
+        {
+          "criterion": "QuantumLeap identified with correct issue",
+          "points": 1,
+          "keywords": [
+            "quantumleap",
+            "budget",
+            "downgrade"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q10",
+      "type": "detail_recall",
+      "channel": "slack",
+      "question": "What's the current NPS score mentioned in the QBR? What's the target? And what's the net revenue retention rate?",
+      "answer": "Current NPS: 72, target: 80. Net revenue retention: 112%. New ARR this quarter: $1.2M (target $1.5M, 80% attainment). Gross churn rate: 4.2% (target <3%).",
+      "ground_truth": "NPS: 72 (target 80). Net revenue retention: 112%.",
+      "grounding": [
+        "evt_qbr"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "NPS score correct (72)",
+          "points": 1,
+          "keywords": [
+            "72"
+          ]
+        },
+        {
+          "criterion": "NPS target correct (80)",
+          "points": 1,
+          "keywords": [
+            "80",
+            "target"
+          ]
+        },
+        {
+          "criterion": "Net revenue retention (112%)",
+          "points": 2,
+          "keywords": [
+            "112%",
+            "retention"
+          ]
+        },
+        {
+          "criterion": "Any additional metric mentioned",
+          "points": 1,
+          "keywords": [
+            "1.2m",
+            "4.2%",
+            "churn",
+            "arr"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q11",
+      "type": "cross_email_reasoning",
+      "channel": "telegram",
+      "question": "What's the total annual revenue from the Meridian Group contract? How did I describe the account value in the legal review email?",
+      "answer": "Monthly: $24,500. Annual (ARR): $294,000. But in the legal review email, I described it as a $588,000 ARR account — this reflects the full 24-month contract value ($24,500 × 24 = $588,000).",
+      "ground_truth": "$24,500/month. Described as $588,000 ARR in legal email. $588K = full contract value ($24,500 × 24 months).",
+      "grounding": [
+        "E1",
+        "E3"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Monthly amount ($24,500)",
+          "points": 1,
+          "keywords": [
+            "24,500"
+          ]
+        },
+        {
+          "criterion": "$588,000 from legal email",
+          "points": 2,
+          "keywords": [
+            "588,000",
+            "588000"
+          ]
+        },
+        {
+          "criterion": "Explanation of the calculation",
+          "points": 2,
+          "keywords": [
+            "24",
+            "month",
+            "contract"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q12",
+      "type": "detail_recall",
+      "channel": "slack",
+      "question": "Who is Anna Mueller's IT admin contact? Where was this information provided?",
+      "answer": "Marcus Weber (marcus.weber@meridian-group.example.com). This was provided in Anna's reply email for SSO setup.",
+      "ground_truth": "Marcus Weber, marcus.weber@meridian-group.example.com. From Anna's reply email.",
+      "grounding": [
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Name correct (Marcus Weber)",
+          "points": 2,
+          "keywords": [
+            "marcus weber"
+          ]
+        },
+        {
+          "criterion": "Email correct",
+          "points": 2,
+          "keywords": [
+            "marcus.weber@meridian"
+          ]
+        },
+        {
+          "criterion": "Source correct (Anna's reply)",
+          "points": 1,
+          "keywords": [
+            "anna",
+            "reply",
+            "email"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q13",
+      "type": "adversarial",
+      "channel": "telegram",
+      "question": "Didn't Anna ask about integrating with Azure AD for SSO? I thought she mentioned Microsoft authentication.",
+      "answer": "No, Anna did not mention Azure AD or Microsoft authentication. She specifically asked about Okta SAML integration and SCIM provisioning. Her IT team uses Okta as their identity provider, not Azure AD.",
+      "ground_truth": "No Azure AD mentioned. Anna uses Okta, not Microsoft. Q1 was about Okta SAML and SCIM.",
+      "grounding": [
+        "E2"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Correctly rejects Azure AD premise",
+          "points": 2,
+          "keywords": [
+            "no",
+            "not",
+            "azure",
+            "didn't"
+          ]
+        },
+        {
+          "criterion": "Correctly states Okta",
+          "points": 2,
+          "keywords": [
+            "okta"
+          ]
+        },
+        {
+          "criterion": "Mentions SCIM",
+          "points": 1,
+          "keywords": [
+            "scim"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q14",
+      "type": "cross_service_memory",
+      "channel": "slack",
+      "question": "What Google Tasks have been created so far? List them all.",
+      "answer": "5 onboarding tracking tasks: 1) Enterprise Dashboard Access (SSO/SAML 2.0), 2) API Integration Kit, 3) Data Migration Support, 4) Training Program, 5) Dedicated Support Channel.",
+      "ground_truth": "5 tasks: Dashboard Access, API Kit, Data Migration, Training, Support Channel.",
+      "grounding": [
+        "E1"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Correct count (5 tasks)",
+          "points": 1,
+          "keywords": [
+            "5",
+            "five"
+          ]
+        },
+        {
+          "criterion": "At least 3 tasks named correctly",
+          "points": 2,
+          "keywords": [
+            "dashboard",
+            "api",
+            "migration",
+            "training",
+            "support"
+          ]
+        },
+        {
+          "criterion": "Tasks associated with onboarding package",
+          "points": 2,
+          "keywords": [
+            "onboarding",
+            "meridian",
+            "package"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q15",
+      "type": "comprehensive_summary",
+      "channel": "telegram",
+      "question": "Give me a complete onboarding timeline for Meridian Group: what's been done, what's pending, key dates, and open questions.",
+      "answer": "Meridian Group Onboarding Timeline: Done — Welcome email sent (Feb 18), Client Kickoff completed (Feb 18 14:00), Anna's reply received with 4 questions (Feb 19), Q1 answered (Okta SAML + SCIM), Legal review requested (Feb 19). Pending — Legal Review meeting (Feb 19 15:30), Tech Setup Walkthrough (Feb 20 11:00), Q2-Q4 answers (migration scope, compliance, contract amendment). Key dates — Go-live target: March 10, 2026. Onboarding weeks 2-3: Feb 24 - Mar 7.",
+      "ground_truth": "Done: welcome email, kickoff, Q1 answered, legal request sent. Pending: legal review, tech setup, Q2-Q4. Go-live: March 10.",
+      "grounding": [
+        "E1",
+        "E2",
+        "E3",
+        "evt_client_kickoff",
+        "evt_legal_review",
+        "evt_tech_setup"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Completed items listed (kickoff, Q1 answered)",
+          "points": 2,
+          "keywords": [
+            "kickoff",
+            "q1",
+            "answered",
+            "welcome"
+          ]
+        },
+        {
+          "criterion": "Pending items listed (legal review, tech setup, Q2-Q4)",
+          "points": 2,
+          "keywords": [
+            "pending",
+            "legal",
+            "technical",
+            "q2",
+            "q3",
+            "q4"
+          ]
+        },
+        {
+          "criterion": "Go-live target (March 10)",
+          "points": 1,
+          "keywords": [
+            "march 10",
+            "go-live"
+          ]
+        },
+        {
+          "criterion": "Timeline structure clear",
+          "points": 1,
+          "keywords": [
+            "week",
+            "feb",
+            "mar"
+          ]
+        }
+      ],
+      "max_score": 6
+    }
+  ],
+  "event_summary_ground_truth": "Meridian Group is a new enterprise client (Contract BPS-MG-2026-0089, $24,500/month Enterprise Plus, 24-month term, 150 seats, 500 GB). Rachel sent welcome email Feb 18 with onboarding timeline (go-live March 10). Anna Mueller replied Feb 19 with 4 questions (Okta SSO/SCIM, data migration 2.3M+890K records, GDPR/SOC2/EU residency, contract amendment to 200 licenses/1TB). Rachel sent legal review request same day ($588K ARR account). 4 calendar events: Client Kickoff (Feb 18 14:00-15:00), Legal Review (Feb 19 15:30-16:30), Tech Setup (Feb 20 11:00-12:30), QBR (Feb 20 14:00-15:30).",
+  "user_preferences": [
+    "Client communication primarily via Telegram",
+    "Internal team coordination via Slack",
+    "Formal correspondence and archiving via Gmail",
+    "Tracks onboarding items via Google Tasks",
+    "Sends account status summaries to both Slack and Gmail"
+  ],
+  "construction_ref": "scenario_4_construction.json"
+}

@@ -1,0 +1,979 @@
+{
+  "scenario_id": "e2_s2",
+  "title": "Weekly Calendar Management Planning",
+  "user_persona": "Engineering Manager Marcus Johnson at Vertex Labs: Slack is the primary channel for team coordination and notifications; Telegram is used for personal reminders and deadline alerts; Gmail is used for client communication and self-archiving weekly summaries.",
+  "task_event_graph": {
+    "nodes": [
+      {
+        "id": "e1",
+        "event": "Sprint 24 Planning Meeting",
+        "day": 1,
+        "channel": "calendar"
+      },
+      {
+        "id": "e2",
+        "event": "Acme Corp Product Demo",
+        "day": 2,
+        "channel": "calendar"
+      },
+      {
+        "id": "e3",
+        "event": "1:1 with Alice Wong",
+        "day": 1,
+        "channel": "calendar"
+      },
+      {
+        "id": "e4",
+        "event": "Architecture Review",
+        "day": 3,
+        "channel": "calendar"
+      },
+      {
+        "id": "e5",
+        "event": "Daily Standup (Wed)",
+        "day": 1,
+        "channel": "calendar"
+      },
+      {
+        "id": "e6",
+        "event": "Daily Standup (Thu)",
+        "day": 2,
+        "channel": "calendar"
+      },
+      {
+        "id": "e7",
+        "event": "Daily Standup (Fri)",
+        "day": 3,
+        "channel": "calendar"
+      },
+      {
+        "id": "e8",
+        "event": "PRD Final Review Deadline",
+        "day": 3,
+        "channel": "calendar"
+      }
+    ],
+    "edges": [
+      {
+        "from": "e1",
+        "to": "e4",
+        "relation": "Architecture review conducted after Sprint planning"
+      },
+      {
+        "from": "e1",
+        "to": "e8",
+        "relation": "PRD must be completed within the Sprint week"
+      },
+      {
+        "from": "e5",
+        "to": "e7",
+        "relation": "Daily standup sequence"
+      }
+    ]
+  },
+  "injection_config": {
+    "signal_emails": [],
+    "signal_calendar_events": [
+      {
+        "id": "evt_sprint_planning",
+        "summary": "Sprint 24 Planning Meeting",
+        "start": "2026-02-18T10:00:00-05:00",
+        "end": "2026-02-18T11:30:00-05:00",
+        "description": "Sprint 24 Planning Session\n\nAgenda:\n1. Review and prioritize backlog items from Product team\n2. Assign user stories to team members based on capacity\n3. Estimate story points using planning poker\n4. Identify technical dependencies and blockers\n5. Define sprint goal and success metrics\n\nPre-read Requirements:\n- Project Phoenix PRD (latest version in Google Drive)\n- Technical debt backlog from Sprint 23 retrospective\n- QA regression test results from last release\n\nCapacity Notes:\n- Alice Wong: 80% capacity (1 day PTO on Thursday)\n- Bob Kumar: 100% capacity\n- Chen Mei: 60% capacity (supporting production incident)\n\nDefinition of Done:\n- Code reviewed and merged\n- Unit tests passing (>90% coverage)\n- Integration tests passing\n- Documentation updated\n- Demo-ready for sprint review",
+        "location": "Zoom - https://zoom.us/j/9876543210",
+        "attendees": [
+          "alice.wong@vertexlabs.example.com",
+          "bob.kumar@vertexlabs.example.com",
+          "chen.mei@vertexlabs.example.com"
+        ]
+      },
+      {
+        "id": "evt_client_demo",
+        "summary": "Acme Corp Product Demo",
+        "start": "2026-02-19T14:00:00-05:00",
+        "end": "2026-02-19T15:00:00-05:00",
+        "description": "Product Demo for Acme Corp Stakeholders\n\nObjective: Demonstrate v2.1 release features to Acme Corp executive team and gather feedback for Q2 roadmap alignment.\n\nDemo Agenda:\n1. (10 min) Overview of v2.1 new features\n2. (20 min) Live demo of dashboard analytics module\n3. (15 min) API integration capabilities walkthrough\n4. (15 min) Q&A and feedback collection\n\nRequired Preparation:\n- Slide deck: Use the Q1 product deck template, update with v2.1 screenshots\n- Live environment: Stage environment must be seeded with Acme Corp sample data\n- Backup recording setup: Start Zoom recording as backup in case client needs to share internally\n\nKey Stakeholders from Acme Corp:\n- James Taylor (VP Engineering) — primary decision maker\n- Priya Sharma (Technical Architect) — evaluating technical fit\n\nFollow-up: Send meeting notes within 24 hours, include action items and next steps.",
+        "location": "Google Meet",
+        "attendees": [
+          "james.taylor@acmecorp.example.com",
+          "priya.sharma@vertexlabs.example.com"
+        ]
+      },
+      {
+        "id": "evt_1on1_alice",
+        "summary": "1:1 with Alice Wong",
+        "start": "2026-02-18T15:00:00-05:00",
+        "end": "2026-02-18T15:30:00-05:00",
+        "description": "Bi-weekly 1:1 Meeting with Alice Wong\n\nAgenda:\n1. Career growth discussion — review progress on tech lead track\n2. Q1 OKR check-in — are we on track for the 3 key results?\n3. Feedback on recent code review process changes\n4. Any blockers or concerns?\n\nNotes from last 1:1:\n- Alice expressed interest in leading the microservices migration project\n- Discussed timeline for senior engineer promotion (target: Q3 2026)\n- Action item: Alice to prepare architecture proposal by end of month",
+        "location": "Office Room 4B"
+      },
+      {
+        "id": "evt_arch_review",
+        "summary": "Architecture Review - Microservices Migration",
+        "start": "2026-02-20T09:30:00-05:00",
+        "end": "2026-02-20T11:00:00-05:00",
+        "description": "Architecture Review: Monolith to Microservices Migration\n\nRFC Document: https://docs.google.com/document/d/abc123\n\nKey Decision Points:\n1. Service boundary definitions — where to split the monolith\n2. Data ownership model — which service owns which data?\n3. Inter-service communication pattern (REST vs gRPC vs event-driven)\n4. Migration strategy (strangler fig vs big bang)\n\nRequired Attendees:\n- Marcus Johnson (Engineering Manager) — decision authority\n- Alice Wong (Senior Engineer) — architecture proposal author\n- Bob Kumar (Backend Lead) — implementation lead\n- Chen Mei (DevOps) — infrastructure planning\n\nPre-read:\n- RFC document (link above)\n- Current monolith dependency graph\n- AWS cost projection for microservices architecture\n\nDecision: Service boundaries and data ownership MUST be finalized in this meeting to unblock Sprint 25 planning.",
+        "location": "Conference Room A",
+        "attendees": [
+          "alice.wong@vertexlabs.example.com",
+          "bob.kumar@vertexlabs.example.com",
+          "chen.mei@vertexlabs.example.com"
+        ]
+      },
+      {
+        "id": "evt_standup_mon",
+        "summary": "Daily Standup",
+        "start": "2026-02-18T09:00:00-05:00",
+        "end": "2026-02-18T09:15:00-05:00",
+        "description": "Daily team sync.\nFormat: Each person shares blockers, yesterday's progress, today's plan.\nKeep it under 15 minutes."
+      },
+      {
+        "id": "evt_standup_tue",
+        "summary": "Daily Standup",
+        "start": "2026-02-19T09:00:00-05:00",
+        "end": "2026-02-19T09:15:00-05:00",
+        "description": "Daily team sync.\nFormat: Each person shares blockers, yesterday's progress, today's plan.\nKeep it under 15 minutes."
+      },
+      {
+        "id": "evt_standup_wed",
+        "summary": "Daily Standup",
+        "start": "2026-02-20T09:00:00-05:00",
+        "end": "2026-02-20T09:15:00-05:00",
+        "description": "Daily team sync.\nFormat: Each person shares blockers, yesterday's progress, today's plan.\nKeep it under 15 minutes."
+      },
+      {
+        "id": "evt_deadline",
+        "summary": "DEADLINE: Project Phoenix PRD Final Review",
+        "start": "2026-02-20",
+        "end": "2026-02-21",
+        "all_day": true,
+        "description": "DEADLINE: The final PRD for Project Phoenix must be approved by end of day.\n\nRequired Actions:\n- All stakeholders must sign off on requirements\n- Engineering team confirms technical feasibility\n- Legal review of data handling section complete\n- Final version uploaded to Google Drive shared folder\n\nStakeholder sign-off needed from: VP Product, VP Engineering, Legal Counsel."
+      }
+    ],
+    "signal_tasks": [],
+    "noise_config": {
+      "emails": {
+        "count": 0,
+        "types": [],
+        "avg_body_words": 0
+      },
+      "calendar_events": {
+        "count": 0,
+        "types": [],
+        "avg_description_words": 0
+      }
+    }
+  },
+  "qa_annotations": [
+    {
+      "qa_id": "q1",
+      "type": "calendar_overview",
+      "channel": "slack",
+      "question": "What's on my calendar this week (Feb 18-20)? Give me a day-by-day overview.",
+      "answer": "8 calendar events total. Wednesday 2/18: Daily Standup 09:00-09:15, Sprint 24 Planning 10:00-11:30. Thursday 2/19: Daily Standup 09:00-09:15, Acme Corp Product Demo 14:00-15:00, 1:1 with Alice Wong 15:00-15:30. Friday 2/20: Daily Standup 09:00-09:15, Architecture Review 09:30-11:00, plus all-day DEADLINE: Project Phoenix PRD Final Review. Note: 1:1 with Alice was rescheduled from Wed to Thu earlier in the session.",
+      "ground_truth": "8 calendar events total. Wednesday 2/18: Daily Standup 09:00-09:15, Sprint 24 Planning 10:00-11:30. Thursday 2/19: Daily Standup 09:00-09:15, Acme Corp Product Demo 14:00-15:00, 1:1 with Alice Wong 15:00-15:30. Friday 2/20: Daily Standup 09:00-09:15, Architecture Review 09:30-11:00, plus all-day DEADLINE: Project Phoenix PRD Final Review. The 1:1 with Alice was rescheduled from Wed 2/18 to Thu 2/19 earlier in the conversation.",
+      "grounding": [
+        "evt_sprint_planning",
+        "evt_client_demo",
+        "evt_1on1_alice",
+        "evt_arch_review",
+        "evt_standup_mon",
+        "evt_standup_tue",
+        "evt_standup_wed",
+        "evt_deadline"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Total event count correct (8)",
+          "points": 2,
+          "keywords": [
+            "8",
+            "eight"
+          ]
+        },
+        {
+          "criterion": "Wed 2/18 events correct (Standup, Sprint Planning — 1:1 was rescheduled off Wed)",
+          "points": 2,
+          "keywords": [
+            "standup",
+            "sprint",
+            "planning"
+          ]
+        },
+        {
+          "criterion": "Thu 2/19 events correct (Standup, Acme Demo, 1:1 with Alice)",
+          "points": 2,
+          "keywords": [
+            "standup",
+            "acme",
+            "demo",
+            "14:00",
+            "alice",
+            "1:1"
+          ]
+        },
+        {
+          "criterion": "Fri 2/20 events correct (Standup, Arch Review, PRD deadline)",
+          "points": 2,
+          "keywords": [
+            "standup",
+            "architecture",
+            "review",
+            "deadline",
+            "prd"
+          ]
+        },
+        {
+          "criterion": "Events grouped by day",
+          "points": 2,
+          "keywords": [
+            "wednesday",
+            "thursday",
+            "friday",
+            "2/18",
+            "2/19",
+            "2/20"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q2",
+      "type": "detail_query_and_action",
+      "channel": "slack",
+      "question": "When is the client demo? Who's attending? Send a reminder email to all participants with the subject 'Demo Reminder: Acme Corp'.",
+      "answer": "Acme Corp Product Demo: Thursday 2/19, 14:00-15:00, location Google Meet. Attendees: james.taylor@acmecorp.example.com (VP Engineering, primary decision maker) and priya.sharma@vertexlabs.example.com (Technical Architect). Reminder email sent to both attendees (or acknowledged as already sent earlier in session).",
+      "ground_truth": "Acme Corp Product Demo: Thursday 2/19, 14:00-15:00, location Google Meet. Attendees: james.taylor@acmecorp.example.com and priya.sharma@vertexlabs.example.com. Reminder email sent (email was already sent earlier in the session; agent may acknowledge this rather than re-send).",
+      "grounding": [
+        "evt_client_demo"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Time correct (2/19 14:00-15:00)",
+          "points": 2,
+          "keywords": [
+            "14:00",
+            "15:00",
+            "2/19",
+            "thursday"
+          ]
+        },
+        {
+          "criterion": "All participants listed",
+          "points": 2,
+          "keywords": [
+            "james.taylor",
+            "priya.sharma"
+          ]
+        },
+        {
+          "criterion": "Location correct (Google Meet)",
+          "points": 1,
+          "keywords": [
+            "google meet"
+          ]
+        },
+        {
+          "criterion": "Reminder email sent or acknowledged as previously sent",
+          "points": 3,
+          "keywords": [
+            "sent",
+            "email",
+            "reminder",
+            "already"
+          ]
+        },
+        {
+          "criterion": "Email subject correct",
+          "points": 2,
+          "keywords": [
+            "demo reminder",
+            "acme corp"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q3",
+      "type": "content_extraction_and_action",
+      "channel": "telegram",
+      "question": "What materials do I need to prepare for the client demo? Add each item to my Google Tasks.",
+      "answer": "3 preparation items from the demo event description: 1) Slide deck (use Q1 product deck template, update with v2.1 screenshots), 2) Live demo environment (stage environment seeded with Acme Corp sample data), 3) Backup recording setup (start Zoom recording as backup). All 3 exist as Google Tasks (created earlier in session or created now).",
+      "ground_truth": "3 items: Slide deck, Live demo environment, Backup recording setup. All 3 should be in Google Tasks (tasks were created earlier in the session; agent may confirm they exist rather than re-create).",
+      "grounding": [
+        "evt_client_demo"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Identified slide deck preparation",
+          "points": 2,
+          "keywords": [
+            "slide",
+            "deck",
+            "template"
+          ]
+        },
+        {
+          "criterion": "Identified demo environment setup",
+          "points": 2,
+          "keywords": [
+            "demo",
+            "environment",
+            "stage",
+            "sample data"
+          ]
+        },
+        {
+          "criterion": "Identified backup recording",
+          "points": 2,
+          "keywords": [
+            "backup",
+            "recording",
+            "zoom"
+          ]
+        },
+        {
+          "criterion": "All 3 tasks in Google Tasks (created now or confirmed existing)",
+          "points": 4,
+          "keywords": [
+            "tasks",
+            "created",
+            "added",
+            "3",
+            "confirm",
+            "exist"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q4",
+      "type": "schedule_reasoning_and_action",
+      "channel": "slack",
+      "question": "What meeting comes right after the daily standup on Friday 2/20? Send the Architecture Review agenda to the team on Slack.",
+      "answer": "After the Friday standup (09:00-09:15), the next meeting is Architecture Review - Microservices Migration (09:30-11:00, Conference Room A). 15-minute buffer between them. Agenda: 1) Service boundary definitions, 2) Data ownership model, 3) Inter-service communication pattern (REST vs gRPC vs event-driven), 4) Migration strategy (strangler fig vs big bang). Sent to Slack.",
+      "ground_truth": "Architecture Review - Microservices Migration, 09:30-11:00. Agenda covers service boundaries, data ownership, communication patterns, migration strategy. Sent to Slack.",
+      "grounding": [
+        "evt_standup_wed",
+        "evt_arch_review"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Correctly identified Architecture Review as next meeting",
+          "points": 2,
+          "keywords": [
+            "architecture",
+            "review",
+            "microservices"
+          ]
+        },
+        {
+          "criterion": "Time correct (09:30-11:00)",
+          "points": 2,
+          "keywords": [
+            "09:30",
+            "11:00"
+          ]
+        },
+        {
+          "criterion": "Agenda content correct (service boundaries, data ownership)",
+          "points": 3,
+          "keywords": [
+            "service boundary",
+            "data ownership",
+            "communication",
+            "migration"
+          ]
+        },
+        {
+          "criterion": "Slack notification sent",
+          "points": 3,
+          "keywords": [
+            "slack",
+            "sent",
+            "team"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q5",
+      "type": "conflict_detection_and_action",
+      "channel": "telegram",
+      "question": "I want to move the 1:1 with Alice to Thursday 2/19 at 15:00-15:30. Any conflicts? If not, please reschedule it.",
+      "answer": "The 1:1 with Alice was already rescheduled to Thursday 2/19 15:00-15:30 earlier in the session. No conflict — Demo ends at 15:00, so the slot is free (0 overlap but no buffer). Agent correctly identifies the event is already at the target time.",
+      "ground_truth": "No conflict on 2/19 15:00-15:30. Demo ends at 15:00. The 1:1 was already moved to this slot earlier in the conversation; agent should recognize it is already there or confirm the update.",
+      "grounding": [
+        "evt_1on1_alice",
+        "evt_client_demo"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Checked target time slot correctly",
+          "points": 2,
+          "keywords": [
+            "15:00",
+            "15:30",
+            "2/19",
+            "thursday"
+          ]
+        },
+        {
+          "criterion": "Referenced Demo ending at 15:00",
+          "points": 2,
+          "keywords": [
+            "demo",
+            "15:00",
+            "ends"
+          ]
+        },
+        {
+          "criterion": "Correct conclusion (no conflict)",
+          "points": 3,
+          "keywords": [
+            "no conflict",
+            "free",
+            "available",
+            "no overlap",
+            "already"
+          ]
+        },
+        {
+          "criterion": "Calendar event at target (already moved or updated now)",
+          "points": 3,
+          "keywords": [
+            "updated",
+            "rescheduled",
+            "moved",
+            "already",
+            "no-op",
+            "no change"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q6",
+      "type": "deadline_identification_and_action",
+      "channel": "telegram",
+      "question": "Any deadlines this week? Remind me on Telegram.",
+      "answer": "Yes, one deadline: DEADLINE: Project Phoenix PRD Final Review on Friday 2/20 (all-day). Required actions: all stakeholders must sign off on requirements, engineering confirms technical feasibility, legal review of data handling section complete, final version uploaded to Google Drive shared folder. Sign-off needed from VP Product, VP Engineering, Legal Counsel. Reminder sent via Telegram.",
+      "ground_truth": "Project Phoenix PRD Final Review, 2/20 all-day deadline. Stakeholder sign-off required by EOD. Telegram reminder sent.",
+      "grounding": [
+        "evt_deadline"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Identified PRD Final Review deadline",
+          "points": 2,
+          "keywords": [
+            "prd",
+            "project phoenix",
+            "final review"
+          ]
+        },
+        {
+          "criterion": "Date correct (2/20 Friday)",
+          "points": 2,
+          "keywords": [
+            "2/20",
+            "friday"
+          ]
+        },
+        {
+          "criterion": "Stakeholder sign-off requirement mentioned",
+          "points": 2,
+          "keywords": [
+            "sign-off",
+            "stakeholder",
+            "vp",
+            "legal"
+          ]
+        },
+        {
+          "criterion": "Telegram reminder sent",
+          "points": 4,
+          "keywords": [
+            "telegram",
+            "sent",
+            "reminder"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q7",
+      "type": "time_calculation",
+      "channel": "slack",
+      "question": "How many total minutes of meetings do I have on Wednesday 2/18?",
+      "answer": "No, after rescheduling the 1:1 to Thursday, Wednesday 2/18 has only 2 meetings: Daily Standup 15 minutes (09:00-09:15), Sprint 24 Planning 90 minutes (10:00-11:30). Total: 105 minutes. The 1:1 with Alice (30 min) was moved to Thursday 2/19.",
+      "ground_truth": "After reschedule, Feb 18 has 2 meetings: Standup 15 min + Sprint Planning 90 min = 105 minutes. 1:1 moved to Feb 19.",
+      "grounding": [
+        "evt_standup_mon",
+        "evt_sprint_planning",
+        "evt_1on1_alice"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Correctly identifies only 2 meetings on Feb 18 after reschedule",
+          "points": 3,
+          "keywords": [
+            "2",
+            "standup",
+            "sprint",
+            "planning"
+          ]
+        },
+        {
+          "criterion": "Notes 1:1 was rescheduled to Feb 19",
+          "points": 3,
+          "keywords": [
+            "rescheduled",
+            "moved",
+            "1:1",
+            "feb 19",
+            "thursday"
+          ]
+        },
+        {
+          "criterion": "Total correct (105 minutes)",
+          "points": 4,
+          "keywords": [
+            "105"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q8",
+      "type": "comprehensive_summary_and_action",
+      "channel": "slack",
+      "question": "Generate a weekly work summary by day: all meetings, deadlines, and task completion status. Then send it to Slack and email it to myself for archiving.",
+      "answer": "Weekly summary: Wed 2/18 — Standup, Sprint 24 Planning, 1:1 Alice Wong. Thu 2/19 — Standup, Acme Corp Demo. Fri 2/20 — Standup, Architecture Review, PRD Final Review deadline. Google Tasks: 3 demo prep items (slide deck, demo environment, backup recording). Summary sent to Slack and archived via Gmail to zihangzhou26@gmail.com.",
+      "ground_truth": "8 events grouped by day, PRD deadline, 3 Tasks listed. Sent to both Slack and Gmail.",
+      "grounding": [
+        "evt_sprint_planning",
+        "evt_client_demo",
+        "evt_1on1_alice",
+        "evt_arch_review",
+        "evt_standup_mon",
+        "evt_standup_tue",
+        "evt_standup_wed",
+        "evt_deadline"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Meeting summary complete (8 events by day)",
+          "points": 2,
+          "keywords": [
+            "wednesday",
+            "thursday",
+            "friday"
+          ]
+        },
+        {
+          "criterion": "Deadline included",
+          "points": 1,
+          "keywords": [
+            "deadline",
+            "prd"
+          ]
+        },
+        {
+          "criterion": "Tasks status included",
+          "points": 2,
+          "keywords": [
+            "tasks",
+            "slide",
+            "demo",
+            "recording"
+          ]
+        },
+        {
+          "criterion": "Slack sent or acknowledged as already sent",
+          "points": 2,
+          "keywords": [
+            "slack",
+            "sent",
+            "already"
+          ]
+        },
+        {
+          "criterion": "Gmail archive sent or acknowledged as already sent",
+          "points": 2,
+          "keywords": [
+            "gmail",
+            "email",
+            "archive",
+            "zihangzhou26",
+            "already"
+          ]
+        },
+        {
+          "criterion": "Cross-platform integration",
+          "points": 1,
+          "keywords": [
+            "calendar",
+            "tasks",
+            "slack",
+            "gmail"
+          ]
+        }
+      ],
+      "max_score": 10
+    },
+    {
+      "qa_id": "q9",
+      "type": "detail_recall",
+      "channel": "slack",
+      "question": "Who on the team has reduced capacity this sprint? What are the specifics?",
+      "answer": "Two team members have reduced capacity: 1) Alice Wong at 80% capacity — 1 day PTO on Thursday. 2) Chen Mei at 60% capacity — supporting a production incident. Bob Kumar is at 100% capacity.",
+      "ground_truth": "Alice Wong 80% (1 day PTO Thursday), Chen Mei 60% (production incident), Bob Kumar 100%.",
+      "grounding": [
+        "evt_sprint_planning"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Alice Wong 80% capacity identified",
+          "points": 2,
+          "keywords": [
+            "alice",
+            "80%",
+            "pto",
+            "thursday"
+          ]
+        },
+        {
+          "criterion": "Chen Mei 60% capacity identified",
+          "points": 2,
+          "keywords": [
+            "chen mei",
+            "60%",
+            "production incident"
+          ]
+        },
+        {
+          "criterion": "Bob Kumar 100% capacity mentioned",
+          "points": 1,
+          "keywords": [
+            "bob",
+            "100%"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q10",
+      "type": "detail_recall",
+      "channel": "telegram",
+      "question": "What are the 4 key decision points for the Architecture Review meeting?",
+      "answer": "The 4 key decision points: 1) Service boundary definitions — where to split the monolith, 2) Data ownership model — which service owns which data, 3) Inter-service communication pattern (REST vs gRPC vs event-driven), 4) Migration strategy (strangler fig vs big bang). Service boundaries and data ownership MUST be finalized to unblock Sprint 25 planning.",
+      "ground_truth": "1) Service boundary definitions, 2) Data ownership model, 3) Inter-service communication (REST/gRPC/event-driven), 4) Migration strategy (strangler fig/big bang).",
+      "grounding": [
+        "evt_arch_review"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Service boundary definitions",
+          "points": 1,
+          "keywords": [
+            "service boundary",
+            "split",
+            "monolith"
+          ]
+        },
+        {
+          "criterion": "Data ownership model",
+          "points": 1,
+          "keywords": [
+            "data ownership",
+            "which service"
+          ]
+        },
+        {
+          "criterion": "Communication pattern (REST/gRPC/event-driven)",
+          "points": 1,
+          "keywords": [
+            "rest",
+            "grpc",
+            "event-driven",
+            "communication"
+          ]
+        },
+        {
+          "criterion": "Migration strategy (strangler fig/big bang)",
+          "points": 1,
+          "keywords": [
+            "strangler",
+            "big bang",
+            "migration strategy"
+          ]
+        },
+        {
+          "criterion": "Must finalize to unblock Sprint 25",
+          "points": 1,
+          "keywords": [
+            "finalized",
+            "unblock",
+            "sprint 25"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q11",
+      "type": "cross_round_memory",
+      "channel": "telegram",
+      "question": "After I rescheduled the 1:1 with Alice, what day is it on now? Is there enough buffer between it and the previous meeting?",
+      "answer": "The 1:1 with Alice was rescheduled to Thursday 2/19, 15:00-15:30. The previous meeting on Thursday is the Acme Corp Demo ending at 15:00. There is 0-minute gap (demo ends exactly when 1:1 starts), which does NOT meet the preferred 15-minute buffer between meetings.",
+      "ground_truth": "1:1 is now on Thursday 2/19 15:00-15:30. Acme Demo ends at 15:00. No buffer (0 minutes), does not meet 15-minute buffer preference.",
+      "grounding": [
+        "evt_1on1_alice",
+        "evt_client_demo"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Correctly recalls 1:1 is now on Thursday 2/19",
+          "points": 2,
+          "keywords": [
+            "thursday",
+            "2/19",
+            "15:00"
+          ]
+        },
+        {
+          "criterion": "References Demo ending at 15:00",
+          "points": 1,
+          "keywords": [
+            "demo",
+            "15:00",
+            "ends"
+          ]
+        },
+        {
+          "criterion": "Identifies no buffer / insufficient buffer",
+          "points": 2,
+          "keywords": [
+            "no buffer",
+            "0 minute",
+            "no gap",
+            "15-minute",
+            "buffer"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q12",
+      "type": "time_calculation",
+      "channel": "slack",
+      "question": "On Wednesday 2/18, how much free time do I have between Sprint Planning ending and the 1:1 with Alice starting?",
+      "answer": "The 1:1 with Alice was rescheduled to Thursday 2/19, so it is no longer on Wednesday 2/18. After Sprint Planning ends at 11:30, there are no more meetings on Feb 18.",
+      "ground_truth": "1:1 was rescheduled to Feb 19. Sprint Planning ends 11:30. No 1:1 on Feb 18 anymore.",
+      "grounding": [
+        "evt_sprint_planning",
+        "evt_1on1_alice"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Notes 1:1 was rescheduled off Feb 18",
+          "points": 2,
+          "keywords": [
+            "rescheduled",
+            "moved",
+            "thursday",
+            "feb 19"
+          ]
+        },
+        {
+          "criterion": "Sprint Planning end time correct (11:30)",
+          "points": 1,
+          "keywords": [
+            "11:30"
+          ]
+        },
+        {
+          "criterion": "Correctly identifies no more meetings on Feb 18 after Sprint Planning",
+          "points": 2,
+          "keywords": [
+            "no more",
+            "no 1:1",
+            "rest of day",
+            "free"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q13",
+      "type": "adversarial",
+      "channel": "telegram",
+      "question": "Wasn't the Architecture Review scheduled for Thursday? I thought it was right after the client demo.",
+      "answer": "No, the Architecture Review is on Friday 2/20 (09:30-11:00), not Thursday. Thursday 2/19 has the Daily Standup (09:00-09:15) and the Acme Corp Product Demo (14:00-15:00). The Architecture Review is in Conference Room A on Friday morning, right after the Friday standup.",
+      "ground_truth": "No, Architecture Review is on Friday 2/20, not Thursday. Thursday has Standup + Acme Demo only.",
+      "grounding": [
+        "evt_arch_review",
+        "evt_client_demo"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Correctly rejects false premise (not Thursday)",
+          "points": 3,
+          "keywords": [
+            "no",
+            "not thursday",
+            "friday"
+          ]
+        },
+        {
+          "criterion": "Correct day stated (Friday 2/20)",
+          "points": 1,
+          "keywords": [
+            "friday",
+            "2/20"
+          ]
+        },
+        {
+          "criterion": "Correct time stated (09:30-11:00)",
+          "points": 1,
+          "keywords": [
+            "09:30",
+            "11:00"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q14",
+      "type": "cross_service_memory",
+      "channel": "slack",
+      "question": "What tasks are currently in my Google Tasks? List them all.",
+      "answer": "3 demo preparation tasks created earlier: 1) Prepare slide deck (use Q1 product deck template), 2) Set up demo environment (seed with Acme Corp sample data), 3) Set up backup recording. All related to the Acme Corp Product Demo on Thursday.",
+      "ground_truth": "3 tasks: slide deck, demo environment, backup recording — all for Acme Corp Demo prep.",
+      "grounding": [
+        "evt_client_demo"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Correct task count (3)",
+          "points": 1,
+          "keywords": [
+            "3",
+            "three"
+          ]
+        },
+        {
+          "criterion": "Slide deck task listed",
+          "points": 1,
+          "keywords": [
+            "slide",
+            "deck"
+          ]
+        },
+        {
+          "criterion": "Demo environment task listed",
+          "points": 1,
+          "keywords": [
+            "demo",
+            "environment"
+          ]
+        },
+        {
+          "criterion": "Backup recording task listed",
+          "points": 1,
+          "keywords": [
+            "backup",
+            "recording"
+          ]
+        },
+        {
+          "criterion": "Correctly associated with Acme Demo",
+          "points": 1,
+          "keywords": [
+            "acme",
+            "demo",
+            "thursday"
+          ]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q15",
+      "type": "detail_recall",
+      "channel": "telegram",
+      "question": "What's the Definition of Done for Sprint 24? And who needs to sign off on the PRD deadline?",
+      "answer": "Definition of Done: 1) Code reviewed and merged, 2) Unit tests passing (>90% coverage), 3) Integration tests passing, 4) Documentation updated, 5) Demo-ready for sprint review. PRD sign-off needed from: VP Product, VP Engineering, and Legal Counsel.",
+      "ground_truth": "DoD: code reviewed+merged, unit tests >90%, integration tests, docs updated, demo-ready. PRD sign-off: VP Product, VP Engineering, Legal Counsel.",
+      "grounding": [
+        "evt_sprint_planning",
+        "evt_deadline"
+      ],
+      "scoring_rubric": [
+        {
+          "criterion": "Code reviewed and merged",
+          "points": 1,
+          "keywords": [
+            "code review",
+            "merged"
+          ]
+        },
+        {
+          "criterion": "Unit tests >90% coverage",
+          "points": 1,
+          "keywords": [
+            "unit test",
+            "90%",
+            "coverage"
+          ]
+        },
+        {
+          "criterion": "Integration tests passing",
+          "points": 1,
+          "keywords": [
+            "integration test"
+          ]
+        },
+        {
+          "criterion": "Documentation updated",
+          "points": 1,
+          "keywords": [
+            "documentation",
+            "updated"
+          ]
+        },
+        {
+          "criterion": "PRD stakeholders correct (VP Product, VP Eng, Legal)",
+          "points": 2,
+          "keywords": [
+            "vp product",
+            "vp engineering",
+            "legal counsel"
+          ]
+        }
+      ],
+      "max_score": 6
+    }
+  ],
+  "event_summary_ground_truth": "There are 8 calendar events for 2/18-2/20. After rescheduling the 1:1 with Alice from Wed to Thu, Wednesday 2/18 has 2 meetings (Standup 15 min, Sprint Planning 90 min, totaling 105 minutes). Thursday 2/19 has a standup, Acme Corp Product Demo (14:00-15:00, Google Meet, attendees james.taylor and priya.sharma, needs preparation of slide deck, demo environment, and backup recording), and the rescheduled 1:1 with Alice Wong (15:00-15:30, 0 buffer after demo). Friday 2/20 has a standup and Architecture Review (09:30-11:00, agenda is service boundary and data ownership decisions for microservices migration), as well as the PRD Final Review all-day deadline (requires stakeholder sign-off before EOD).",
+  "user_preferences": [
+    "Calendar overview preferred to be displayed grouped by day",
+    "Keep at least a 15-minute buffer between meetings",
+    "Deadline reminders sent via Telegram",
+    "Team notifications sent via Slack",
+    "Work summary simultaneously archived to Gmail"
+  ],
+  "construction_ref": "scenario_2_construction.json"
+}

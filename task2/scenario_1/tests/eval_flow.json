@@ -1,0 +1,601 @@
+{
+  "scenario_id": "e2_s1",
+  "title": "Product Project Email Thread Tracking",
+  "construction_ref": "scenario_1_construction.json",
+  "user_persona": "Product Manager Li Wei at CloudNova Inc.: Telegram is the primary channel for task management and communication; Slack is used for team notifications and backend coordination; Gmail is used for external email communication with clients and billing.",
+  "task_event_graph": {
+    "nodes": [
+      {
+        "id": "e1",
+        "event": "Li Wei sends Orion requirements email to Sarah",
+        "day": 1,
+        "channel": "gmail"
+      },
+      {
+        "id": "e2",
+        "event": "Sarah replies with 4 technical questions",
+        "day": 2,
+        "channel": "gmail"
+      },
+      {
+        "id": "e3",
+        "event": "Li Wei replies to Q1 and Q2",
+        "day": 2,
+        "channel": "gmail"
+      },
+      {
+        "id": "e4",
+        "event": "Li Wei sends Phase 1 invoice",
+        "day": 3,
+        "channel": "gmail"
+      }
+    ],
+    "edges": [
+      {
+        "from": "e1",
+        "to": "e2",
+        "relation": "Triggers reply"
+      },
+      {
+        "from": "e2",
+        "to": "e3",
+        "relation": "Partial reply"
+      },
+      {
+        "from": "e1",
+        "to": "e4",
+        "relation": "Parallel billing workflow"
+      }
+    ]
+  },
+  "injection_config": {
+    "signal_emails": [
+      {
+        "id": "E1",
+        "direction": "outbound",
+        "from_email": "zihangzhou26@gmail.com",
+        "to_email": "sarah.chen.delta@gmail.com",
+        "subject": "Orion Product Launch - Requirements Discussion",
+        "date": "2026-02-17T10:30:00-08:00",
+        "body": "Hi Sarah,\n\nFollowing our kickoff meeting last Thursday, I wanted to formalize the key requirements for the Orion product launch. Our team has been working on the product roadmap and we've identified the following critical deliverables that Delta Solutions will be handling:\n\n1. **Bilingual Landing Page (English/Mandarin)**: The landing page must support both English and Mandarin Chinese. We're targeting both North American and Greater China markets simultaneously. The page should include dynamic content switching, proper CJK typography support, and culturally adapted imagery for each locale. SEO optimization for both Baidu and Google is essential. We have partial translation files in our shared Google Drive folder that can serve as a starting point.\n\n2. **Payment Integration (Stripe + Alipay)**: We need seamless payment processing through both Stripe (for international cards) and Alipay (for Chinese market). The integration should handle multi-currency transactions (USD, CNY, EUR), automatic exchange rate calculation, and comply with both PCI-DSS and Chinese financial regulations. We expect roughly 60% of transactions to come through Alipay based on our market research.\n\n3. **3-Step Onboarding Flow**: The user onboarding process must be streamlined to exactly 3 steps: (a) account creation with social login support (Google, WeChat, Apple), (b) preference configuration wizard, and (c) first-action tutorial. Each step should have a completion rate target of >90%. The entire onboarding should take under 2 minutes.\n\n4. **Real-time Conversion Analytics Dashboard**: We need a live dashboard showing conversion funnel metrics, A/B test results, user engagement heatmaps, and revenue tracking. The dashboard should update in real-time (sub-second latency) and support custom date range filtering. Export to PDF/CSV is required for monthly board reports.\n\n5. **Mobile Responsiveness (iOS/Android)**: The entire product must be fully responsive across iOS Safari, Android Chrome, and major tablet form factors. We need to support iOS 15+ and Android 11+. Touch interactions, gesture navigation, and mobile-specific UI patterns (bottom navigation, swipe actions) are mandatory.\n\nTimeline-wise, we're looking at a Phase 1 delivery by end of Q1 2026. I'll send a separate email regarding the budget and payment milestones.\n\nLooking forward to your team's proposal and timeline estimate.\n\nBest regards,\nLi Wei\nProduct Manager, CloudNova Inc.\nli.wei@cloudnova.example.com | +1-650-555-0198"
+      },
+      {
+        "id": "E2",
+        "direction": "inbound",
+        "from_email": "sarah.chen.delta@gmail.com",
+        "to_email": "zihangzhou26@gmail.com",
+        "subject": "Re: Orion Product Launch - Requirements Discussion",
+        "date": "2026-02-18T09:15:00-08:00",
+        "body": "Hi Li Wei,\n\nThank you for the comprehensive requirements document. Our team has reviewed all 5 deliverables and we're excited about the Orion launch project. Before we can provide an accurate timeline and resource allocation plan, we have several technical questions that need clarification:\n\n**Q1 - Bilingual Landing Page Architecture:**\nFor the bilingual support, should we implement a proper i18n framework (like next-intl or react-i18next) with JSON locale files, or would you prefer separate page templates for each language? Also, do you already have professional translation resources, or will Delta Solutions need to coordinate with a translation agency? The choice here significantly impacts both development time and ongoing maintenance cost. An i18n framework adds ~2 weeks to initial development but saves substantial effort for future language additions.\n\n**Q2 - Payment Gateway Configuration:**\nRegarding Alipay integration — does CloudNova already have an Alipay merchant account, or should we plan to go through Stripe Connect which provides Alipay as a payment method? The direct Alipay merchant route gives better rates (0.6% vs 1.2%) but requires Chinese business entity registration. Also, what's the scope of API credentials we'll need? Just charges and refunds, or do you also need payouts and balance management?\n\n**Q3 - Real-time Architecture Decision:**\nFor the real-time conversion analytics dashboard, are you envisioning WebSocket-based live streaming updates or periodic polling? What's the acceptable latency threshold — true real-time (<100ms), near-real-time (<1s), or soft-real-time (<5s)? This decision affects our infrastructure costs significantly. WebSocket with sub-second latency requires dedicated connection management infrastructure.\n\n**Q4 - Design System Availability:**\nDoes CloudNova have an existing design system or component library (e.g., Storybook, Figma component library) that we should build upon? Or will we be designing the UI from scratch? If from scratch, do you have brand guidelines, color palette, and typography specifications? Having a design system in place could save us 3-4 weeks of UI development.\n\nPlease advise on these questions so we can prepare a detailed project plan with sprint breakdowns.\n\nBest,\nSarah Chen\nProject Lead, Delta Solutions\nsarah.chen@delta-solutions.example.com"
+      },
+      {
+        "id": "E3",
+        "direction": "outbound",
+        "from_email": "zihangzhou26@gmail.com",
+        "to_email": "sarah.chen.delta@gmail.com",
+        "subject": "Re: Re: Orion Product Launch - Requirements Discussion",
+        "date": "2026-02-18T14:45:00-08:00",
+        "body": "Hi Sarah,\n\nGreat questions. Here are answers to the first two:\n\n**Re Q1 (i18n Framework):** Please use an i18n framework — we prefer next-intl since our frontend is Next.js based. We have partial translation files in our shared Google Drive folder (about 60% coverage for core UI strings). I'll share access to the Drive folder with your team by end of today. For the remaining translations, we have an in-house localization team that can provide the Chinese translations within 1 week of receiving the English source strings. No need for external translation agency.\n\n**Re Q2 (Payment):** We'll go with Stripe Connect for Alipay — our finance team confirmed we don't want to deal with Chinese business entity registration at this stage. API credential scope should include: charges, refunds, and payouts. We'll handle balance management internally through our existing finance dashboard. Please use test mode credentials during development; I'll coordinate production credentials through our security team before launch.\n\nI need to check with our design team on Q3 and Q4 — will follow up on those soon.\n\nBest,\nLi Wei"
+      },
+      {
+        "id": "E4",
+        "direction": "outbound",
+        "from_email": "zihangzhou26@gmail.com",
+        "to_email": "billing@delta-solutions.example.com",
+        "subject": "Invoice #INV-2024-0891 for Phase 1 Milestone",
+        "date": "2026-02-19T11:00:00-08:00",
+        "body": "Hi Billing Team,\n\nPlease find the details for the approved invoice for Phase 1 milestone payment:\n\nInvoice Number: INV-2024-0891\nProject: Orion Product Launch\nMilestone: Phase 1 - Requirements & Architecture\nAmount: $45,000.00 USD\nPayment Terms: Net-30 from invoice date\nPO Reference: PO-CN-2024-156\n\nBank Transfer Details:\nBank: Silicon Valley Bank\nAccount Name: CloudNova Inc.\nRouting Number: 121140399\nAccount Number: XXXX-XXXX-4521\n\nPlease confirm receipt of this invoice and expected payment processing date.\n\nRegards,\nLi Wei\nProduct Manager, CloudNova Inc.\nli.wei@cloudnova.example.com"
+      },
+      {
+        "id": "E5",
+        "direction": "inbound",
+        "from_email": "charlie.wang@cloudnova.example.com",
+        "to_email": "zihangzhou26@gmail.com",
+        "subject": "CloudNova Weekly Team Meeting Notes - Week of Feb 17",
+        "date": "2026-02-17T17:00:00-08:00",
+        "body": "Hi team,\n\nHere are the key highlights from today's CloudNova weekly team meeting:\n\n**Engineering Progress (Charlie Wang):**\n- Production database migration to Aurora is scheduled for next Tuesday at 2:00 AM PST. The DBA team will handle the cutover. Estimated downtime: 45 minutes. Rollback plan is in place.\n- Test code coverage improved to 79% (up from 67% last sprint). We're targeting 85% by end of Q1 2026.\n- CI/CD pipeline optimizations reduced average build time from 12 minutes to 7 minutes.\n\n**Product Updates (Li Wei):**\n- Orion product launch requirements sent to Delta Solutions (Sarah Chen). Awaiting proposal and timeline estimate.\n- Phase 1 invoice ($45,000) submitted to Delta Solutions billing.\n\n**Design (Amy Liu):**\n- New brand guidelines finalized. Color palette and typography specs shared in Figma.\n- Mobile wireframes for Orion onboarding flow in progress.\n\n**QA (Jordan Kim):**\n- Regression test suite expanded by 23 new test cases.\n- Performance benchmarks scheduled for next Thursday.\n\nNext meeting: Monday, Feb 24 at 10:00 AM PST.\n\nBest,\nCharlie Wang\nEngineering Lead, CloudNova Inc."
+      }
+    ],
+    "signal_calendar_events": [],
+    "signal_tasks": [],
+    "noise_config": {
+      "emails": {
+        "count": 30,
+        "types": [
+          "newsletter",
+          "system_alert",
+          "ooo_reply",
+          "marketing",
+          "hr_announcement",
+          "team_status"
+        ],
+        "avg_body_words": 650
+      },
+      "calendar_events": {
+        "count": 0,
+        "types": [],
+        "avg_description_words": 0
+      }
+    }
+  },
+  "qa_annotations": [
+    {
+      "qa_id": "q1",
+      "type": "email_retrieval",
+      "channel": "telegram",
+      "question": "I sent an email to Sarah at Delta Solutions about Orion product launch requirements. Find it in my Gmail sent folder and list all the requirements mentioned in the email.",
+      "answer": "The email was sent to sarah.chen.delta@gmail.com with subject 'Orion Product Launch - Requirements Discussion'. It contains 5 requirements: 1) Bilingual landing page (English/Mandarin), 2) Payment integration (Stripe + Alipay), 3) 3-step onboarding flow, 4) Real-time conversion analytics dashboard, 5) Mobile responsiveness (iOS/Android).",
+      "ground_truth": "The email was sent to sarah.chen.delta@gmail.com with subject 'Orion Product Launch - Requirements Discussion'. It contains 5 requirements: 1) Bilingual landing page (English/Mandarin), 2) Payment integration (Stripe + Alipay), 3) 3-step onboarding flow, 4) Real-time conversion analytics dashboard, 5) Mobile responsiveness (iOS/Android).",
+      "grounding": ["E1"],
+      "scoring_rubric": [
+        {
+          "criterion": "Confirmed email was sent and found in sent folder",
+          "points": 2,
+          "keywords": ["sent", "sarah.chen.delta", "orion"]
+        },
+        {
+          "criterion": "Identified bilingual landing page requirement",
+          "points": 1,
+          "keywords": ["bilingual", "landing page", "english", "mandarin"]
+        },
+        {
+          "criterion": "Identified payment integration requirement",
+          "points": 1,
+          "keywords": ["stripe", "alipay", "payment"]
+        },
+        {
+          "criterion": "Identified 3-step onboarding requirement",
+          "points": 1,
+          "keywords": ["onboarding", "3-step", "3 steps"]
+        },
+        {
+          "criterion": "Identified real-time analytics dashboard requirement",
+          "points": 1,
+          "keywords": ["real-time", "analytics", "dashboard", "conversion"]
+        },
+        {
+          "criterion": "Identified mobile responsiveness requirement",
+          "points": 1,
+          "keywords": ["mobile", "responsive", "ios", "android"]
+        }
+      ],
+      "max_score": 7
+    },
+    {
+      "qa_id": "q2",
+      "type": "email_retrieval",
+      "channel": "telegram",
+      "question": "Sarah replied to that email. Find her reply in my Gmail inbox and list all the questions she asked.",
+      "answer": "Sarah asked 4 technical questions: Q1 - Bilingual Landing Page Architecture (i18n framework vs separate templates? existing translation resources?), Q2 - Payment Gateway Configuration (direct Alipay merchant vs Stripe Connect? API credential scope?), Q3 - Real-time Architecture Decision (WebSocket vs polling? acceptable latency?), Q4 - Design System Availability (existing design system/component library or build from scratch?).",
+      "ground_truth": "Sarah asked 4 technical questions: Q1 - Bilingual Landing Page Architecture (i18n framework vs separate templates? existing translation resources?), Q2 - Payment Gateway Configuration (direct Alipay merchant vs Stripe Connect? API credential scope?), Q3 - Real-time Architecture Decision (WebSocket vs polling? acceptable latency?), Q4 - Design System Availability (existing design system/component library or build from scratch?).",
+      "grounding": ["E2"],
+      "scoring_rubric": [
+        {
+          "criterion": "Correctly stated total of 4 questions",
+          "points": 1,
+          "keywords": ["4", "four"]
+        },
+        {
+          "criterion": "Identified Q1 about i18n / bilingual architecture",
+          "points": 1,
+          "keywords": ["i18n", "framework", "bilingual", "template"]
+        },
+        {
+          "criterion": "Identified Q2 about Alipay / payment gateway",
+          "points": 1,
+          "keywords": ["alipay", "stripe connect", "payment", "merchant"]
+        },
+        {
+          "criterion": "Identified Q3 about real-time / WebSocket",
+          "points": 1,
+          "keywords": ["websocket", "real-time", "polling", "latency"]
+        },
+        {
+          "criterion": "Identified Q4 about design system",
+          "points": 1,
+          "keywords": ["design system", "component library", "storybook", "figma"]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q3",
+      "type": "cross_email_reasoning",
+      "channel": "telegram",
+      "question": "I've already replied to some of Sarah's questions. Check the email thread and tell me which questions I've answered and which are still pending.",
+      "answer": "Answered: Q1 (recommended next-intl i18n framework, shared Drive translation files, in-house localization team) and Q2 (use Stripe Connect for Alipay, API scope: charges + refunds + payouts, balance management internal). Pending: Q3 (real-time architecture / WebSocket vs polling) and Q4 (design system availability).",
+      "ground_truth": "Answered: Q1 (recommended next-intl i18n framework, shared Drive translation files, in-house localization team) and Q2 (use Stripe Connect for Alipay, API scope: charges + refunds + payouts, balance management internal). Pending: Q3 (real-time architecture / WebSocket vs polling) and Q4 (design system availability).",
+      "grounding": ["E2", "E3"],
+      "scoring_rubric": [
+        {
+          "criterion": "Correctly identified Q1 as answered with next-intl",
+          "points": 1,
+          "keywords": ["q1", "answered", "next-intl"]
+        },
+        {
+          "criterion": "Correctly identified Q2 as answered with Stripe Connect",
+          "points": 1,
+          "keywords": ["q2", "answered", "stripe connect"]
+        },
+        {
+          "criterion": "Correctly identified Q3 as pending/unanswered",
+          "points": 1,
+          "keywords": ["q3", "pending", "unanswered", "not replied"]
+        },
+        {
+          "criterion": "Correctly identified Q4 as pending/unanswered",
+          "points": 1,
+          "keywords": ["q4", "pending", "unanswered", "not replied"]
+        },
+        {
+          "criterion": "Cross-email thread reasoning (linked E2 questions to E3 answers)",
+          "points": 1,
+          "keywords": ["thread", "reply", "email"]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q4",
+      "type": "action_execution",
+      "channel": "telegram",
+      "question": "Help me draft a reply to Sarah's Q3 — tell her we're going with WebSocket-based real-time updates with sub-second latency. Send it to zihangzhou26+sarah.chen.delta@gmail.com now.",
+      "answer": "Drafted and sent email to zihangzhou26+sarah.chen.delta@gmail.com addressing Q3: WebSocket-based real-time updates with sub-second latency for the analytics dashboard.",
+      "ground_truth": "Drafted and sent email to zihangzhou26+sarah.chen.delta@gmail.com addressing Q3: WebSocket-based real-time updates with sub-second latency for the analytics dashboard.",
+      "grounding": ["E2", "E3"],
+      "scoring_rubric": [
+        {
+          "criterion": "Draft correctly addresses Q3 (real-time architecture)",
+          "points": 1,
+          "keywords": ["q3", "real-time", "analytics"]
+        },
+        {
+          "criterion": "Mentions WebSocket-based approach",
+          "points": 1,
+          "keywords": ["websocket"]
+        },
+        {
+          "criterion": "Mentions sub-second latency",
+          "points": 1,
+          "keywords": ["sub-second", "latency"]
+        },
+        {
+          "criterion": "Email sent successfully via Gmail",
+          "points": 2,
+          "keywords": ["sent", "sarah", "gmail"]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q5",
+      "type": "cross_service_memory",
+      "channel": "telegram",
+      "question": "What about Q4? Have I replied to that one? Also check Google Tasks — what's the status of Q3 and Q4?",
+      "answer": "Q4 (design system/component library) has NOT been replied to yet. Google Tasks should show Q3-related task as pending or complete (since reply was just sent), and Q4-related task still pending.",
+      "ground_truth": "Q4 (design system/component library) has NOT been replied to yet. Google Tasks should show Q3-related task as pending or complete (since reply was just sent), and Q4-related task still pending.",
+      "grounding": ["E2", "E3"],
+      "scoring_rubric": [
+        {
+          "criterion": "Correctly states Q4 has not been replied to",
+          "points": 2,
+          "keywords": ["not replied", "pending", "no", "hasn't"]
+        },
+        {
+          "criterion": "Correctly recalls Q4 is about design system",
+          "points": 1,
+          "keywords": ["design system", "component library"]
+        },
+        {
+          "criterion": "Checked Google Tasks and reported status",
+          "points": 2,
+          "keywords": ["tasks", "status", "needsaction", "pending"]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q6",
+      "type": "cross_thread_retrieval",
+      "channel": "telegram",
+      "question": "Have we discussed payment or billing with Delta Solutions in any other email threads?",
+      "answer": "Yes, there is a separate billing email thread. Invoice #INV-2024-0891 was sent to billing@delta-solutions.example.com for Phase 1 Milestone. Amount: $45,000.00 USD, Payment Terms: Net-30, PO Reference: PO-CN-2024-156.",
+      "ground_truth": "Yes, there is a separate billing email thread. Invoice #INV-2024-0891 was sent to billing@delta-solutions.example.com for Phase 1 Milestone. Amount: $45,000.00 USD, Payment Terms: Net-30, PO Reference: PO-CN-2024-156.",
+      "grounding": ["E4"],
+      "scoring_rubric": [
+        {
+          "criterion": "Found the separate billing email thread",
+          "points": 1,
+          "keywords": ["billing", "invoice", "separate"]
+        },
+        {
+          "criterion": "Correct invoice amount ($45,000)",
+          "points": 1,
+          "keywords": ["45,000", "45000"]
+        },
+        {
+          "criterion": "Correct payment terms (Net-30)",
+          "points": 1,
+          "keywords": ["net-30", "net 30"]
+        },
+        {
+          "criterion": "Correct PO reference (PO-CN-2024-156)",
+          "points": 1,
+          "keywords": ["po-cn-2024-156"]
+        },
+        {
+          "criterion": "Correct recipient (billing address)",
+          "points": 1,
+          "keywords": ["billing", "delta"]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q7",
+      "type": "comprehensive_summary",
+      "channel": "telegram",
+      "question": "Give me a complete status report of all Orion project action items based on Gmail email threads and Google Tasks.",
+      "answer": "Q1: Answered (next-intl framework + translation files in Drive). Q2: Answered (Stripe Connect, API scope: charges/refunds/payouts). Q3: Reply drafted and sent (WebSocket + sub-second latency). Q4: Not replied (design system/component library) — still pending in Tasks. Billing: Invoice #INV-2024-0891 sent ($45,000, Net-30), awaiting confirmation.",
+      "ground_truth": "Q1: Answered (next-intl framework + translation files in Drive). Q2: Answered (Stripe Connect, API scope: charges/refunds/payouts). Q3: Reply drafted and sent (WebSocket + sub-second latency). Q4: Not replied (design system/component library) — still pending in Tasks. Billing: Invoice #INV-2024-0891 sent ($45,000, Net-30), awaiting confirmation.",
+      "grounding": ["E1", "E2", "E3", "E4"],
+      "scoring_rubric": [
+        {
+          "criterion": "Q1 status correct (answered, next-intl)",
+          "points": 1,
+          "keywords": ["q1", "answered", "next-intl"]
+        },
+        {
+          "criterion": "Q2 status correct (answered, Stripe Connect)",
+          "points": 1,
+          "keywords": ["q2", "answered", "stripe connect"]
+        },
+        {
+          "criterion": "Q3 status correct (replied/sent, WebSocket)",
+          "points": 1,
+          "keywords": ["q3", "sent", "websocket"]
+        },
+        {
+          "criterion": "Q4 status correct (not replied, pending)",
+          "points": 1,
+          "keywords": ["q4", "not replied", "pending"]
+        },
+        {
+          "criterion": "Billing thread status included",
+          "points": 1,
+          "keywords": ["invoice", "billing", "45,000"]
+        },
+        {
+          "criterion": "Cross-service integration (Gmail + Tasks combined)",
+          "points": 1,
+          "keywords": ["tasks", "gmail"]
+        }
+      ],
+      "max_score": 6
+    },
+    {
+      "qa_id": "q8",
+      "type": "precise_query",
+      "channel": "telegram",
+      "question": "How many emails are in the Orion thread with Sarah total? Who sent the most recent one? Also create a 30-minute meeting tomorrow at 3 PM called 'Orion Q4 Discussion' on my calendar.",
+      "answer": "The main Orion requirements thread has 3 emails (E1: Li Wei to Sarah, E2: Sarah to Li Wei, E3: Li Wei to Sarah). Plus 1 separate billing email (E4). Total 4 Delta Solutions-related emails. Most recent in the main thread was sent by Li Wei (E3). Calendar event 'Orion Q4 Discussion' created for tomorrow 15:00-15:30.",
+      "ground_truth": "The main Orion requirements thread has 3 emails (E1: Li Wei to Sarah, E2: Sarah to Li Wei, E3: Li Wei to Sarah). Plus 1 separate billing email (E4). Total 4 Delta Solutions-related emails. Most recent in the main thread was sent by Li Wei (E3). Calendar event 'Orion Q4 Discussion' created for tomorrow 15:00-15:30.",
+      "grounding": ["E1", "E2", "E3", "E4"],
+      "scoring_rubric": [
+        {
+          "criterion": "Correct main thread email count (3)",
+          "points": 1,
+          "keywords": ["3", "three"]
+        },
+        {
+          "criterion": "Most recent sender correct (Li Wei)",
+          "points": 1,
+          "keywords": ["li wei", "you", "zihangzhou26"]
+        },
+        {
+          "criterion": "Mentions the separate billing email",
+          "points": 1,
+          "keywords": ["billing", "invoice", "4", "separate"]
+        },
+        {
+          "criterion": "Calendar event created successfully",
+          "points": 2,
+          "keywords": ["created", "orion q4", "calendar"]
+        }
+      ],
+      "max_score": 5
+    },
+    {
+      "qa_id": "q9",
+      "type": "detail_recall",
+      "channel": "telegram",
+      "question": "What was the exact invoice amount and payment terms in the billing email to Delta Solutions?",
+      "answer": "$45,000.00 USD, payment terms Net-30 from invoice date, PO Reference PO-CN-2024-156.",
+      "ground_truth": "$45,000.00 USD, payment terms Net-30 from invoice date, PO Reference PO-CN-2024-156.",
+      "grounding": ["E4"],
+      "scoring_rubric": [
+        {
+          "criterion": "Correct amount ($45,000)",
+          "points": 1,
+          "keywords": ["45,000", "45000"]
+        },
+        {
+          "criterion": "Correct payment terms (Net-30)",
+          "points": 1,
+          "keywords": ["net-30", "net 30"]
+        },
+        {
+          "criterion": "Correct PO reference",
+          "points": 1,
+          "keywords": ["po-cn-2024-156"]
+        }
+      ],
+      "max_score": 3
+    },
+    {
+      "qa_id": "q10",
+      "type": "tech_decision_recall",
+      "channel": "telegram",
+      "question": "Which of Sarah's questions did I answer with specific technical decisions? What were those decisions?",
+      "answer": "Q1: Decided on next-intl i18n framework (Next.js based), with in-house localization team for translations. Q2: Decided on Stripe Connect for Alipay (no Chinese business entity registration), API scope: charges, refunds, and payouts.",
+      "ground_truth": "Q1: Decided on next-intl i18n framework (Next.js based), with in-house localization team for translations. Q2: Decided on Stripe Connect for Alipay (no Chinese business entity registration), API scope: charges, refunds, and payouts.",
+      "grounding": ["E3"],
+      "scoring_rubric": [
+        {
+          "criterion": "Q1 decision: next-intl framework",
+          "points": 1,
+          "keywords": ["next-intl"]
+        },
+        {
+          "criterion": "Q1 detail: in-house translation team",
+          "points": 1,
+          "keywords": ["in-house", "localization", "translation"]
+        },
+        {
+          "criterion": "Q2 decision: Stripe Connect",
+          "points": 1,
+          "keywords": ["stripe connect"]
+        },
+        {
+          "criterion": "Q2 detail: API scope (charges, refunds, payouts)",
+          "points": 1,
+          "keywords": ["charges", "refunds", "payouts"]
+        }
+      ],
+      "max_score": 4
+    },
+    {
+      "qa_id": "q11",
+      "type": "cross_context_memory",
+      "channel": "telegram",
+      "question": "When is the production database migration scheduled? Where did that information come from?",
+      "answer": "Next Tuesday at 2:00 AM PST. This was mentioned in the CloudNova weekly meeting notes email (E5), Engineering Progress section (Charlie Wang).",
+      "ground_truth": "Next Tuesday at 2:00 AM PST. This was mentioned in the CloudNova weekly meeting notes email (E5), Engineering Progress section (Charlie Wang).",
+      "grounding": ["E5"],
+      "scoring_rubric": [
+        {
+          "criterion": "Correct time (next Tuesday at 2 AM)",
+          "points": 1,
+          "keywords": ["tuesday", "2 am", "2:00"]
+        },
+        {
+          "criterion": "Correct source (meeting notes / engineering progress)",
+          "points": 1,
+          "keywords": ["meeting", "engineering", "charlie"]
+        }
+      ],
+      "max_score": 2
+    },
+    {
+      "qa_id": "q12",
+      "type": "cross_context_memory",
+      "channel": "telegram",
+      "question": "What's our current code coverage percentage, and what was it before?",
+      "answer": "Current: 79%. Previous: 67%. Source: CloudNova weekly meeting notes email (E5), Engineering Progress section.",
+      "ground_truth": "Current: 79%. Previous: 67%. Source: CloudNova weekly meeting notes email (E5), Engineering Progress section.",
+      "grounding": ["E5"],
+      "scoring_rubric": [
+        {
+          "criterion": "Current coverage correct (79%)",
+          "points": 1,
+          "keywords": ["79"]
+        },
+        {
+          "criterion": "Previous coverage correct (67%)",
+          "points": 1,
+          "keywords": ["67"]
+        }
+      ],
+      "max_score": 2
+    },
+    {
+      "qa_id": "q13",
+      "type": "adversarial",
+      "channel": "telegram",
+      "question": "Didn't Sarah ask about our CI/CD pipeline in her reply? I remember she had questions about deployment.",
+      "answer": "No, Sarah did not ask about CI/CD or deployment. Her 4 questions were: Q1 (i18n framework), Q2 (payment gateway / Alipay), Q3 (real-time architecture / WebSocket), Q4 (design system). CI/CD was discussed in the internal weekly meeting notes, not in the email thread with Sarah.",
+      "ground_truth": "No, Sarah did not ask about CI/CD or deployment. Her 4 questions were: Q1 (i18n framework), Q2 (payment gateway / Alipay), Q3 (real-time architecture / WebSocket), Q4 (design system). CI/CD was discussed in the internal weekly meeting notes, not in the email thread with Sarah.",
+      "grounding": ["E2"],
+      "scoring_rubric": [
+        {
+          "criterion": "Correctly rejects false premise (Sarah did NOT ask about CI/CD)",
+          "points": 2,
+          "keywords": ["no", "did not", "didn't"]
+        },
+        {
+          "criterion": "Lists Sarah's actual questions correctly",
+          "points": 1,
+          "keywords": ["i18n", "payment", "websocket", "design"]
+        },
+        {
+          "criterion": "Correctly attributes CI/CD to meeting notes, not email",
+          "points": 1,
+          "keywords": ["meeting", "internal", "not"]
+        }
+      ],
+      "max_score": 4
+    },
+    {
+      "qa_id": "q14",
+      "type": "task_listing",
+      "channel": "telegram",
+      "question": "What Google Tasks do I currently have? List them all.",
+      "answer": "Two tasks: 1) Reply to Sarah Q3 — WebSocket real-time architecture decision (needsAction), 2) Reply to Sarah Q4 — design system / component library decision (needsAction).",
+      "ground_truth": "Two tasks: 1) Reply to Sarah Q3 — WebSocket real-time architecture decision, 2) Reply to Sarah Q4 — design system / component library decision.",
+      "grounding": [],
+      "scoring_rubric": [
+        {
+          "criterion": "Lists Q3-related task (WebSocket / real-time)",
+          "points": 1,
+          "keywords": ["q3", "websocket", "real-time"]
+        },
+        {
+          "criterion": "Lists Q4-related task (design system)",
+          "points": 1,
+          "keywords": ["q4", "design system", "component"]
+        },
+        {
+          "criterion": "Correct task count and status",
+          "points": 1,
+          "keywords": ["2", "two", "needsaction", "pending"]
+        }
+      ],
+      "max_score": 3
+    },
+    {
+      "qa_id": "q15",
+      "type": "cross_platform_memory",
+      "channel": "telegram",
+      "question": "What's the Orion Q4 Discussion meeting about and what should I prepare for it?",
+      "answer": "The Orion Q4 Discussion meeting (created on calendar, 30 min at 3 PM tomorrow) is about Sarah's Q4 — the design system / component library question. To prepare: review Sarah's Q4 (does CloudNova have an existing design system, Storybook, or Figma component library?), check with Amy Liu on brand guidelines and wireframe progress, and formulate a response for Delta Solutions.",
+      "ground_truth": "Meeting about Sarah's Q4 (design system question). Prepare by: reviewing Q4 details, checking with design team (Amy Liu), deciding on existing vs new design system.",
+      "grounding": ["E2"],
+      "scoring_rubric": [
+        {
+          "criterion": "Correctly identifies meeting is about Q4 / design system",
+          "points": 2,
+          "keywords": ["q4", "design system", "component library"]
+        },
+        {
+          "criterion": "References Sarah's original question",
+          "points": 1,
+          "keywords": ["sarah", "storybook", "figma", "existing"]
+        },
+        {
+          "criterion": "Suggests preparation steps",
+          "points": 1,
+          "keywords": ["prepare", "review", "amy", "design team"]
+        }
+      ],
+      "max_score": 4
+    }
+  ],
+  "event_summary_ground_truth": "Li Wei sent an Orion product launch requirements email to Sarah at Delta Solutions on Feb 17, containing 5 core requirements (bilingual landing page, Stripe+Alipay payment, 3-step onboarding, real-time analytics dashboard, mobile responsiveness). Sarah replied on Feb 18 with 4 technical questions (i18n approach, payment gateway config, real-time architecture, design system). Li Wei replied the same day answering Q1 (recommended next-intl) and Q2 (use Stripe Connect), with Q3 and Q4 still pending. Additionally, Li Wei sent a Phase 1 milestone invoice to Delta Solutions billing on Feb 19, amount $45,000 USD, payment terms Net-30, PO# PO-CN-2024-156.",
+  "user_preferences": [
+    "Prefers next-intl as i18n framework",
+    "Payment integration prioritizes Stripe Connect over direct Alipay merchant",
+    "Email reply style: concise and professional, uses bullet points",
+    "Uses Google Tasks for tracking to-do items",
+    "Notifies team via Slack immediately after technical decisions"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "sessions": [
+    {
+      "id": "scenario1-20260226-170309",
+      "name": "main",
+      "cwd": "/home/user/.openclaw/workspace",
+      "createdAt": "2026-02-26T17:03:00.000Z",
+      "updatedAt": "2026-02-26T20:17:00.000Z",
+      "model": "gpt-5.2",
+      "provider": "iflow"
+    }
+  ]
+}
